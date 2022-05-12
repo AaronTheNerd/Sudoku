@@ -30,9 +30,7 @@ struct Cell {
   static bool compare_options(const Cell<T>&, const Cell<T>&);
 };
 
-enum DIFFICULTY {
-  EASY, MEDIUM, HARD
-};
+enum DIFFICULTY { SOLUTION, VERY_EASY, EASY, MEDIUM, HARD, KILLER };
 
 template<size_t T>
 class Sudoku {
@@ -52,6 +50,7 @@ class Sudoku {
   bool set_cell(Pos, uint8_t);
   std::vector<Cell<T>> get_empty_cells();
   bool validate() const;
+  void fix_options();
   std::string to_str() const;
 };
 
