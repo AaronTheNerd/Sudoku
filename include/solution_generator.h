@@ -1,8 +1,8 @@
 // Written by Aaron Barge
 // Copyright 2022
 
-#ifndef _INCLUDE_GENERATOR_H_
-#define _INCLUDE_GENERATOR_H_
+#ifndef _INCLUDE_SOLUTION_GENERATOR_H_
+#define _INCLUDE_SOLUTION_GENERATOR_H_
 
 #include <cstddef> // size_t
 #include <random> // std::default_random_engine, std::uniform_int_distribution
@@ -36,4 +36,4 @@ class SudokuGenerator {
 
 #include "../src/solution_generator.cpp"
 
-#endif // _INCLUDE_GENERATOR_H_
+#endif // _INCLUDE_SOLUTION_GENERATOR_H_

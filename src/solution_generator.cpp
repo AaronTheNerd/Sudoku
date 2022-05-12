@@ -1,8 +1,8 @@
 // Written by Aaron Barge
 // Copyright 2022
 
-#ifndef _SRC_GENERATOR_CPP_
-#define _SRC_GENERATOR_CPP_
+#ifndef _SRC_SOLUTION_GENERATOR_CPP_
+#define _SRC_SOLUTION_GENERATOR_CPP_
 
 #include <algorithm> // std::shuffle, std::sort
 #include <iostream> // std::cout, std::endl
@@ -134,4 +134,4 @@ atn::Sudoku<T> atn::SudokuGenerator<T>::get_solution() const {
   return this->solution;
 }
 
-#endif // _SRC_GENERATOR_CPP_
+#endif // _SRC_SOLUTION_GENERATOR_CPP_
