@@ -7,7 +7,7 @@
 #include <algorithm> // std::shuffle, std::sort
 #include <iostream> // std::cout, std::endl
 #include <chrono> // std::chrono
-#include "generator.h"
+#include "solution_generator.h"
 
 template<size_t T>
 void atn::SudokuGenerator<T>::init() {

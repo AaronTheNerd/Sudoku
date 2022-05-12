@@ -5,7 +5,7 @@
 
 #include <chrono> // std::chrono
 #include <iostream> // std::cout, std::endl
-#include "generator.h"
+#include "solution_generator.h"
 //#include "puzzle_generator.h"
 #include "sudoku.h"
 

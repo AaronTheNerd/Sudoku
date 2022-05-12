@@ -34,6 +34,6 @@ class SudokuGenerator {
 
 } // namespace atn
 
-#include "../src/generator.cpp"
+#include "../src/solution_generator.cpp"
 
 #endif // _INCLUDE_GENERATOR_H_
