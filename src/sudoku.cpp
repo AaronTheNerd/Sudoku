@@ -148,8 +148,6 @@ atn::Cell<T> atn::Sudoku<T>::get_cell(atn::Pos pos) const {
 
 template<size_t T>
 bool atn::Sudoku<T>::set_cell(atn::Pos pos, uint8_t val) {
-  if (val == atn::UNSET)
-    return false;
   this->board[pos.x][pos.y].value = val;
   this->board[pos.x][pos.y].options.reset();
   return this->propogate(pos, val);
