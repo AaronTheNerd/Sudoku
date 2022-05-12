@@ -5,6 +5,7 @@
 #define _INCLUDE_PUZZLE_GENERATOR_H_
 
 #include <cstddef> // size_t
+#include <random> // std::default_random_engine
 #include "sudoku.h"
 
 namespace atn {
@@ -13,9 +14,12 @@ template<size_t T>
 class SudokuPuzzleGenerator {
  private:
   DIFFICULTY difficulty;
+  unsigned seed;
+  std::default_random_engine rng;
   Sudoku<T> puzzle;
+  void init();
  public:
-  SudokuGenerator(DIFFICULTY, Sudoku<T>);
+  SudokuPuzzleGenerator(DIFFICULTY, unsigned, Sudoku<T>);
   Sudoku<T> get_puzzle() const;
 };
 
