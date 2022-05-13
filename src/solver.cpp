@@ -8,7 +8,9 @@
 #include "solver.h"
 
 template<size_t T>
-bool atn::fill_known(atn::Sudoku<T>& board, std::vector<atn::Cell<T>>& empty_cells) {
+bool atn::fill_known(
+    atn::Sudoku<T>& board,
+    std::vector<atn::Cell<T>>& empty_cells) {
   while (empty_cells.size() != 0
       && empty_cells[0].options.count() == 1
       && board.validate()) {
