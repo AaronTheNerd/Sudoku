@@ -18,7 +18,7 @@ struct GeneratorResults {
 };
 
 template<size_t T>
-class SudokuGenerator {
+class SudokuSolutionGenerator {
  private:
   unsigned seed;
   std::default_random_engine rng;
@@ -26,8 +26,8 @@ class SudokuGenerator {
   void init();
   GeneratorResults<T> fill(Sudoku<T>);
  public:
-  SudokuGenerator();
-  SudokuGenerator(unsigned);
+  SudokuSolutionGenerator();
+  SudokuSolutionGenerator(unsigned);
   unsigned get_seed() const;
   Sudoku<T> get_solution() const;
 };

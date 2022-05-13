@@ -11,7 +11,7 @@
 #include "solver.h"
 
 template<size_t T>
-void atn::SudokuGenerator<T>::init() {
+void atn::SudokuSolutionGenerator<T>::init() {
 
   // Generate a list of cell values
   std::array<uint8_t, T * T> possible_values;
@@ -40,7 +40,7 @@ void atn::SudokuGenerator<T>::init() {
 }
 
 template<size_t T>
-atn::GeneratorResults<T> atn::SudokuGenerator<T>::fill(
+atn::GeneratorResults<T> atn::SudokuSolutionGenerator<T>::fill(
     atn::Sudoku<T> curr_board) {
 
   // Reject invalid Sudoku boards
@@ -95,7 +95,7 @@ atn::GeneratorResults<T> atn::SudokuGenerator<T>::fill(
 }
 
 template<size_t T>
-atn::SudokuGenerator<T>::SudokuGenerator(): 
+atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator(): 
     seed(std::chrono::system_clock::now().time_since_epoch().count()),
     rng(this->seed),
     solution() {
@@ -103,7 +103,7 @@ atn::SudokuGenerator<T>::SudokuGenerator():
 }
 
 template<size_t T>
-atn::SudokuGenerator<T>::SudokuGenerator(unsigned seed):
+atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator(unsigned seed):
     seed(seed),
     rng(this->seed),
     solution() {
@@ -111,12 +111,12 @@ atn::SudokuGenerator<T>::SudokuGenerator(unsigned seed):
 }
 
 template<size_t T>
-unsigned atn::SudokuGenerator<T>::get_seed() const {
+unsigned atn::SudokuSolutionGenerator<T>::get_seed() const {
   return this->seed;
 }
 
 template<size_t T>
-atn::Sudoku<T> atn::SudokuGenerator<T>::get_solution() const {
+atn::Sudoku<T> atn::SudokuSolutionGenerator<T>::get_solution() const {
   return this->solution;
 }
 
