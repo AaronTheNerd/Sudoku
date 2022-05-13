@@ -8,6 +8,7 @@
 #include <iostream> // std::cout, std::endl
 #include <chrono> // std::chrono
 #include "solution_generator.h"
+#include "solver.h"
 
 template<size_t T>
 void atn::SudokuGenerator<T>::init() {
@@ -58,25 +59,10 @@ atn::GeneratorResults<T> atn::SudokuGenerator<T>::fill(
   // Place cells which only have one option
   if (empty_cells[0].options.count() == 1) {
 
-    while (empty_cells.size() != 0
-        && empty_cells[0].options.count() == 1
-        && curr_board.validate()) {
-      for (size_t i = 0; i < T * T; ++i) {
-        if (empty_cells[0].options[i]) {
-          bool valid = curr_board.set_cell(empty_cells[0].pos, i + 1);
-          if (valid) break;
-          else return {true, curr_board};
-        }
-      }
-      empty_cells = curr_board.get_empty_cells();
-      std::sort(
-          empty_cells.begin(),
-          empty_cells.end(),
-          atn::Cell<T>::compare_options);
-    }
+    bool failed = atn::fill_known(curr_board, empty_cells);
 
     // Reject invalid Sudoku boards
-    if (!curr_board.validate()) return {true, curr_board};
+    if (failed || !curr_board.validate()) return {true, curr_board};
 
     // Approve Sudoku boards which have no empty cells
     if (empty_cells.size() == 0) return {false, curr_board};
