@@ -4,6 +4,7 @@
 #ifndef _SRC_PUZZLE_GENERATOR_CPP_
 #define _SRC_PUZZLE_GENERATOR_CPP_
 
+#include <functional> // std::bind
 #include "puzzle_generator.h"
 
 template<size_t T>
