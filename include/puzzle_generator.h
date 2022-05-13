@@ -25,6 +25,6 @@ class SudokuPuzzleGenerator {
 
 } // namespace atn
 
-#include "../src/generator.cpp"
+#include "../src/puzzle_generator.cpp"
 
 #endif // _INCLUDE_PUZZLE_GENERATOR_H_
