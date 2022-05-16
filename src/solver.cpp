@@ -1,8 +1,8 @@
 // Written by Aaron Barge
 // Copyright 2022
 
-#ifndef _INCLUDE_SOLVER_CPP_
-#define _INCLUDE_SOLVER_CPP_
+#ifndef _SRC_SOLVER_CPP_
+#define _SRC_SOLVER_CPP_
 
 #include <algorithm> // std::sort
 #include "solver.h"
@@ -32,7 +32,7 @@ bool atn::fill_known(
 
 template<uint8_t T>
 bool atn::solve(atn::Sudoku<T>& puzzle) {
-
+  
 }
 
-#endif // _INCLUDE_SOLVER_CPP_
+#endif // _SRC_SOLVER_CPP_
