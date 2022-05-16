@@ -21,32 +21,30 @@ void atn::SudokuPuzzleGenerator<T>::init() {
     do {
       x = random_pos();
       y = random_pos();
-      val = this->puzzle.get_cell({x, y}).value;
+      val = this->puzzle.get({x, y}).value;
     } while (val == atn::UNSET);
 
     // Prepare backups
     backup_board = solve_board = this->puzzle;
 
     // Unset cell
-    this->puzzle.set_cell({x, y}, atn::UNSET);
-    this->puzzle.fix_options();
+    this->puzzle.set({x, y}, atn::UNSET);
 
     // Check that the puzzle does not have multiple soltutions
     for (uint8_t i = 1; i <= T * T; ++i) {
       if (i != val) {
-        bool valid = this->puzzle.set_cell({x, y}, i);
+        bool valid = this->puzzle.set({x, y}, i);
         if (!valid) continue;
         // Solve
         bool solved = false;
         if (solved) {
           this->puzzle = backup_board;
         } else {
-          this->puzzle.set_cell({x, y}, atn::UNSET);
-          this->puzzle.fix_options();
+          this->puzzle.set({x, y}, atn::UNSET);
         }
       }
     }
-
+    attempts += 1;
   }
 }
 
@@ -59,7 +57,7 @@ atn::SudokuPuzzleGenerator<T>::SudokuPuzzleGenerator(
 
 template<size_t T>
 atn::Sudoku<T> atn::SudokuPuzzleGenerator<T>::get_puzzle() const {
-  return this->solution;
+  return this->puzzle;
 }
 
 #endif // _SRC_PUZZLE_GENERATOR_CPP_

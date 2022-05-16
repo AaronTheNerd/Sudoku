@@ -16,7 +16,7 @@ bool atn::fill_known(
       && board.validate()) {
     for (size_t i = 0; i < T * T; ++i) {
       if (empty_cells[0].options[i]) {
-        bool valid = board.set_cell(empty_cells[0].pos, i + 1);
+        bool valid = board.set(empty_cells[0].pos, i + 1);
         if (valid) break;
         else return true;
       }

@@ -22,7 +22,7 @@ void atn::SudokuSolutionGenerator<T>::init() {
   for (size_t i = 0; i < T; ++i) {
     std::shuffle(possible_values.begin(), possible_values.end(), this->rng);
     for (size_t j = 0; j < T * T; ++j) {
-      this->solution.set_cell(
+      this->solution.set(
           {i * T + j / T, i * T + (j % T)},
           possible_values[j]);
     }
@@ -80,7 +80,7 @@ atn::GeneratorResults<T> atn::SudokuSolutionGenerator<T>::fill(
   // Recursive Step
   for (size_t j = 0; j < T * T; ++j) {
     if (empty_cells[0].options[j]) {
-      bool valid = curr_board.set_cell(empty_cells[0].pos, j + 1);
+      bool valid = curr_board.set(empty_cells[0].pos, j + 1);
       //std::cout << curr_board.to_str() << std::endl;
       if (!valid) {
         curr_board = original_board;

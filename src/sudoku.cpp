@@ -136,21 +136,77 @@ bool atn::Sudoku<T>::validate_block() const {
 }
 
 template<size_t T>
+void atn::Sudoku<T>::fix_options() {
+  for (size_t x = 0; x < T * T; ++x) {
+    for (size_t y = 0; y < T * T; ++y) {
+      atn::Cell<T>& cell = this->at({x, y});
+      cell.options.reset();
+      if (cell.value == atn::UNSET) {
+        cell.options |= this->contains_row_column(cell.pos).flip();
+        cell.options |= this->contains_block(x / T, y / T).flip();
+      }
+    }
+  }
+}
+
+template<size_t T>
+std::bitset<T * T> atn::Sudoku<T>::contains_row_column(atn::Pos pos) {
+  std::bitset<T * T> contains;
+  uint8_t value;
+  for (size_t i = 0; i < T * T; ++i) {
+    value = this->get({pos.x, i}).value;
+    if (value != atn::UNSET) {
+      contains.set(value - 1);
+    }
+    value = this->get({i, pos.y}).value;
+    if (value != atn::UNSET) {
+      contains.set(value - 1);
+    }
+  }
+  return contains;
+}
+
+template<size_t T>
+std::bitset<T * T> atn::Sudoku<T>::contains_block(size_t x_block, size_t y_block) {
+  std::bitset<T * T> contains_block;
+  uint8_t value;
+  for (size_t x = 0; x < T; ++x) {
+    for (size_t y = 0; y < T; ++y) {
+      value = this->get({x_block * T + x, y_block * T + y}).value;
+      if (value != atn::UNSET) {
+        contains_block.set(value - 1);
+      }
+    }
+  }
+  return contains_block;
+}
+
+template<size_t T>
 atn::Sudoku<T>::Sudoku(): cell_width(0), board() {
   this->initialize_cell_width();
   this->initialize_blank_board();
 }
 
 template<size_t T>
-atn::Cell<T> atn::Sudoku<T>::get_cell(atn::Pos pos) const {
+atn::Cell<T>& atn::Sudoku<T>::at(atn::Pos pos) {
   return this->board[pos.x][pos.y];
 }
 
 template<size_t T>
-bool atn::Sudoku<T>::set_cell(atn::Pos pos, uint8_t val) {
+atn::Cell<T> atn::Sudoku<T>::get(atn::Pos pos) const {
+  return this->board[pos.x][pos.y];
+}
+
+template<size_t T>
+bool atn::Sudoku<T>::set(atn::Pos pos, uint8_t val) {
   this->board[pos.x][pos.y].value = val;
-  this->board[pos.x][pos.y].options.reset();
-  return this->propogate(pos, val);
+  if (val != atn::UNSET) {
+    this->board[pos.x][pos.y].options.reset();
+    return this->propogate(pos, val);
+  } else {
+    this->fix_options();
+    return true;
+  }
 }
 
 template<size_t T>
@@ -158,8 +214,8 @@ std::vector<atn::Cell<T>> atn::Sudoku<T>::get_empty_cells() {
   std::vector<atn::Cell<T>> empty_cells;
   for (size_t x = 0; x < T * T; ++x) {
     for (size_t y = 0; y < T * T; ++y) {
-      atn::Cell<T> cell = this->get_cell({x, y});
-      if (cell.value == atn::UNSET) empty_cells.push_back(cell);
+      atn::Cell<T> cell = this->at({x, y});
+      if (cell.value == atn::UNSET) empty_cells.emplace_back(cell);
     }
   }
   return empty_cells;
@@ -188,7 +244,7 @@ std::string atn::Sudoku<T>::to_str() const {
     ss << row_indicator
         << std::string(this->cell_width - row_indicator.size() + 1, ' ');
     for (size_t x = 0; x < T * T; ++x) {
-      uint8_t cell_val = this->get_cell({x, y}).value;
+      uint8_t cell_val = this->get({x, y}).value;
       std::string cell_str = std::to_string(cell_val);
       if (cell_val == atn::UNSET)
         ss << std::string(this->cell_width - 1, ' ');
