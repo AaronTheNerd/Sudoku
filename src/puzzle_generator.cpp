@@ -6,6 +6,7 @@
 
 #include <functional> // std::bind
 #include "puzzle_generator.h"
+#include "solver.h"
 
 template<uint8_t T>
 void atn::SudokuPuzzleGenerator<T>::init() {
