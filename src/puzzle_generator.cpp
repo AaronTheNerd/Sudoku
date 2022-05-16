@@ -7,16 +7,16 @@
 #include <functional> // std::bind
 #include "puzzle_generator.h"
 
-template<size_t T>
+template<uint8_t T>
 void atn::SudokuPuzzleGenerator<T>::init() {
-  size_t attempts = this->difficulty;
-  std::uniform_int_distribution<size_t> distribution(0, T * T - 1);
+  uint8_t attempts = this->difficulty;
+  std::uniform_int_distribution<uint8_t> distribution(0, T * T - 1);
   auto random_pos = std::bind(distribution, this->rng);
   atn::Sudoku<T> backup_board, solve_board;
   while (attempts > 0) {
 
     // Get random cell which is not set
-    size_t x, y;
+    uint8_t x, y;
     uint8_t val;
     do {
       x = random_pos();
@@ -48,14 +48,14 @@ void atn::SudokuPuzzleGenerator<T>::init() {
   }
 }
 
-template<size_t T>
+template<uint8_t T>
 atn::SudokuPuzzleGenerator<T>::SudokuPuzzleGenerator(
     atn::DIFFICULTY difficulty, unsigned seed, atn::Sudoku<T> solution):
   difficulty(difficulty), seed(seed), rng(this->seed), puzzle(solution) {
   this->init();
 }
 
-template<size_t T>
+template<uint8_t T>
 atn::Sudoku<T> atn::SudokuPuzzleGenerator<T>::get_puzzle() const {
   return this->puzzle;
 }

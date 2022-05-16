@@ -1,7 +1,7 @@
 // Written by Aaron Barge
 // Copyright 2022
 
-#define GAME_SIZE 3
+#define GAME_SIZE 5
 
 #include <chrono> // std::chrono
 #include <iostream> // std::cout, std::endl

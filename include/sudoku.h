@@ -6,7 +6,7 @@
 
 #include <array> // std::array
 #include <bitset> // std::bitset
-#include <cstddef> // size_t
+#include <cstddef> // uint8_t
 #include <string> // std::string
 #include <vector> // std::vector
 
@@ -15,11 +15,11 @@ namespace atn {
 static const uint8_t UNSET = 0;
 
 struct Pos {
-  size_t x = 0;
-  size_t y = 0;
+  uint8_t x = 0;
+  uint8_t y = 0;
 };
 
-template<size_t T>
+template<uint8_t T>
 struct Cell {
   uint8_t value;
   Pos pos;
@@ -32,10 +32,10 @@ struct Cell {
 
 enum DIFFICULTY { SOLUTION, VERY_EASY, EASY, MEDIUM, HARD, KILLER };
 
-template<size_t T>
+template<uint8_t T>
 class Sudoku {
  private:
-  size_t cell_width;
+  uint8_t cell_width;
   std::array<std::array<Cell<T>, T * T>, T * T> board;
   void initialize_cell_width();
   void initialize_blank_board();
@@ -47,7 +47,7 @@ class Sudoku {
   void fix_options();
   void fix_options(Pos);
   std::bitset<T * T> contains_row_column(Pos);
-  std::bitset<T * T> contains_block(size_t, size_t);
+  std::bitset<T * T> contains_block(uint8_t, uint8_t);
  public:
   Sudoku();
   Cell<T>& at(Pos);

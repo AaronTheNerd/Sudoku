@@ -7,14 +7,14 @@
 #include <algorithm> // std::sort
 #include "solver.h"
 
-template<size_t T>
+template<uint8_t T>
 bool atn::fill_known(
     atn::Sudoku<T>& board,
     std::vector<atn::Cell<T>>& empty_cells) {
   while (empty_cells.size() != 0
       && empty_cells[0].options.count() == 1
       && board.validate()) {
-    for (size_t i = 0; i < T * T; ++i) {
+    for (uint8_t i = 0; i < T * T; ++i) {
       if (empty_cells[0].options[i]) {
         bool valid = board.set(empty_cells[0].pos, i + 1);
         if (valid) break;
@@ -28,6 +28,11 @@ bool atn::fill_known(
         atn::Cell<T>::compare_options);
   }
   return false;
+}
+
+template<uint8_t T>
+bool atn::solve(atn::Sudoku<T>& puzzle) {
+
 }
 
 #endif // _INCLUDE_SOLVER_CPP_

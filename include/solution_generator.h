@@ -4,20 +4,20 @@
 #ifndef _INCLUDE_SOLUTION_GENERATOR_H_
 #define _INCLUDE_SOLUTION_GENERATOR_H_
 
-#include <cstddef> // size_t
+#include <cstddef> // uint8_t
 #include <random> // std::default_random_engine, std::uniform_int_distribution
 #include <vector> // std::vector
 #include "sudoku.h"
 
 namespace atn {
 
-template<size_t T>
+template<uint8_t T>
 struct GeneratorResults {
   bool failed;
   Sudoku<T> result;
 };
 
-template<size_t T>
+template<uint8_t T>
 class SudokuSolutionGenerator {
  private:
   unsigned seed;

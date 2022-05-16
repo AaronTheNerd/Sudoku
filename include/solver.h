@@ -4,14 +4,17 @@
 #ifndef _INCLUDE_SOLVER_H_
 #define _INCLUDE_SOLVER_H_
 
-#include <cstddef> // size_t
+#include <cstddef> // uint8_t
 #include <vector> // std::vector
 #include "sudoku.h"
 
 namespace atn {
 
-template<size_t T>
+template<uint8_t T>
 bool fill_known(atn::Sudoku<T>&, std::vector<atn::Cell<T>>&);
+
+template<uint8_t T>
+bool solve(atn::Sudoku<T>&);
 
 } // namespace atn
 

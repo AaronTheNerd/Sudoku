@@ -4,13 +4,13 @@
 #ifndef _INCLUDE_PUZZLE_GENERATOR_H_
 #define _INCLUDE_PUZZLE_GENERATOR_H_
 
-#include <cstddef> // size_t
+#include <cstddef> // uint8_t
 #include <random> // std::default_random_engine
 #include "sudoku.h"
 
 namespace atn {
 
-template<size_t T>
+template<uint8_t T>
 class SudokuPuzzleGenerator {
  private:
   DIFFICULTY difficulty;

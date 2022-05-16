@@ -10,18 +10,18 @@
 #include "solution_generator.h"
 #include "solver.h"
 
-template<size_t T>
+template<uint8_t T>
 void atn::SudokuSolutionGenerator<T>::init() {
 
   // Generate a list of cell values
   std::array<uint8_t, T * T> possible_values;
-  for (size_t i = 0; i < T * T; ++i)
+  for (uint8_t i = 0; i < T * T; ++i)
     possible_values[i] = i + 1;
 
   // Place permutations of list on diagonal of Sudoku board
-  for (size_t i = 0; i < T; ++i) {
+  for (uint8_t i = 0; i < T; ++i) {
     std::shuffle(possible_values.begin(), possible_values.end(), this->rng);
-    for (size_t j = 0; j < T * T; ++j) {
+    for (uint8_t j = 0; j < T * T; ++j) {
       this->solution.set(
           {i * T + j / T, i * T + (j % T)},
           possible_values[j]);
@@ -39,7 +39,7 @@ void atn::SudokuSolutionGenerator<T>::init() {
   this->solution = result.result;
 }
 
-template<size_t T>
+template<uint8_t T>
 atn::GeneratorResults<T> atn::SudokuSolutionGenerator<T>::fill(
     atn::Sudoku<T> curr_board) {
 
@@ -78,7 +78,7 @@ atn::GeneratorResults<T> atn::SudokuSolutionGenerator<T>::fill(
       atn::Cell<T>::compare_options);
 
   // Recursive Step
-  for (size_t j = 0; j < T * T; ++j) {
+  for (uint8_t j = 0; j < T * T; ++j) {
     if (empty_cells[0].options[j]) {
       bool valid = curr_board.set(empty_cells[0].pos, j + 1);
       //std::cout << curr_board.to_str() << std::endl;
@@ -94,7 +94,7 @@ atn::GeneratorResults<T> atn::SudokuSolutionGenerator<T>::fill(
   return {true, original_board};
 }
 
-template<size_t T>
+template<uint8_t T>
 atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator(): 
     seed(std::chrono::system_clock::now().time_since_epoch().count()),
     rng(this->seed),
@@ -102,7 +102,7 @@ atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator():
   this->init();
 }
 
-template<size_t T>
+template<uint8_t T>
 atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator(unsigned seed):
     seed(seed),
     rng(this->seed),
@@ -110,12 +110,12 @@ atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator(unsigned seed):
   this->init();
 }
 
-template<size_t T>
+template<uint8_t T>
 unsigned atn::SudokuSolutionGenerator<T>::get_seed() const {
   return this->seed;
 }
 
-template<size_t T>
+template<uint8_t T>
 atn::Sudoku<T> atn::SudokuSolutionGenerator<T>::get_solution() const {
   return this->solution;
 }
