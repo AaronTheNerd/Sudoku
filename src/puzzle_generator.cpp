@@ -11,18 +11,18 @@ template<uint8_t T>
 void atn::SudokuPuzzleGenerator<T>::init() {
   uint8_t attempts = this->difficulty;
   std::uniform_int_distribution<uint8_t> distribution(0, T * T - 1);
-  auto random_pos = std::bind(distribution, this->rng);
+  auto random_coord = std::bind(distribution, this->rng);
   atn::Sudoku<T> backup_board, solve_board;
   while (attempts > 0) {
 
     // Get random cell which is not set
     uint8_t x, y;
-    uint8_t val;
+    uint8_t value;
     do {
-      x = random_pos();
-      y = random_pos();
-      val = this->puzzle.get({x, y}).value;
-    } while (val == atn::UNSET);
+      x = random_coord();
+      y = random_coord();
+      value = this->puzzle.get({x, y}).value;
+    } while (value == atn::UNSET);
 
     // Prepare backups
     backup_board = solve_board = this->puzzle;
@@ -32,19 +32,20 @@ void atn::SudokuPuzzleGenerator<T>::init() {
 
     // Check that the puzzle does not have multiple soltutions
     for (uint8_t i = 1; i <= T * T; ++i) {
-      if (i != val) {
+      if (i != value) {
         bool valid = this->puzzle.set({x, y}, i);
         if (!valid) continue;
         // Solve
-        bool solved = false;
+        bool solved = atn::solve(this->puzzle);
         if (solved) {
           this->puzzle = backup_board;
+          attempts += 1;
+          break;
         } else {
           this->puzzle.set({x, y}, atn::UNSET);
         }
       }
     }
-    attempts += 1;
   }
 }
 
