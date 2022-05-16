@@ -24,7 +24,7 @@ class SudokuSolutionGenerator {
   std::default_random_engine rng;
   Sudoku<T> solution;
   void init();
-  GeneratorResults<T> fill(Sudoku<T>);
+  GeneratorResults<T> fill(Sudoku<T>&);
  public:
   SudokuSolutionGenerator();
   SudokuSolutionGenerator(unsigned);

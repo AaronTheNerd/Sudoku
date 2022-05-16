@@ -41,7 +41,7 @@ void atn::SudokuSolutionGenerator<T>::init() {
 
 template<uint8_t T>
 atn::GeneratorResults<T> atn::SudokuSolutionGenerator<T>::fill(
-    atn::Sudoku<T> curr_board) {
+    atn::Sudoku<T>& curr_board) {
 
   // Reject invalid Sudoku boards
   if (!curr_board.validate()) return {true, curr_board};
