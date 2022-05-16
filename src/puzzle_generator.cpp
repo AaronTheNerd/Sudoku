@@ -33,17 +33,19 @@ void atn::SudokuPuzzleGenerator<T>::init() {
     // Check that the puzzle does not have multiple soltutions
     for (uint8_t i = 1; i <= T * T; ++i) {
       if (i != value) {
-        bool valid = this->puzzle.set({x, y}, i);
-        if (!valid) continue;
+        bool valid = solve_board.set({x, y}, i);
+        if (!valid) {
+          solve_board = backup_board;
+          continue;
+        }
         // Solve
-        bool solved = atn::solve(this->puzzle);
+        bool solved = atn::solve(solve_board);
         if (solved) {
-          this->puzzle = backup_board;
+          solve_board = backup_board;
           attempts += 1;
           break;
-        } else {
-          this->puzzle.set({x, y}, atn::UNSET);
         }
+        solve_board = backup_board;
       }
     }
   }
