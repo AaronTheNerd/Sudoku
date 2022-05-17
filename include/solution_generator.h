@@ -13,7 +13,7 @@ namespace atn {
 
 template<uint8_t T>
 struct GeneratorResults {
-  bool failed;
+  bool valid;
   Sudoku<T> result;
 };
 
