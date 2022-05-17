@@ -44,7 +44,6 @@ class Sudoku {
   bool validate_row() const;
   bool validate_column() const;
   bool validate_block() const;
-  void fix_options();
   void fix_options(Pos);
   std::bitset<T * T> contains_row_column(Pos);
   std::bitset<T * T> contains_block(uint8_t, uint8_t);
@@ -53,6 +52,8 @@ class Sudoku {
   Cell<T>& at(Pos);
   Cell<T> get(Pos) const;
   bool set(Pos, uint8_t);
+  void unset(Pos);
+  void fix_options();
   std::vector<Cell<T>> get_empty_cells();
   bool validate() const;
   std::string to_str() const;
