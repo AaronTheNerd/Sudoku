@@ -1,7 +1,7 @@
 // Written by Aaron Barge
 // Copyright 2022
 
-#define GAME_SIZE 5
+#define GAME_SIZE 3
 
 #include <chrono> // std::chrono
 #include <iostream> // std::cout, std::endl
@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
   auto start = std::chrono::high_resolution_clock::now();
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double, std::milli> ms_duration = end - start;
-  atn::DIFFICULTY difficulty = atn::SOLUTION;
+  atn::DIFFICULTY difficulty = atn::VERY_EASY;
 
   // Start generating valid Sudoku board
   start = std::chrono::high_resolution_clock::now();
@@ -35,6 +35,10 @@ int main(int argc, char** argv) {
   ms_duration = end - start;
   std::cout << "Solution generated in " << ms_duration.count() << "ms" << std::endl;
 
+  // Display Sudoku solution
+  std::cout << "Solution:" << std::endl;
+  std::cout << solution.to_str() << "\n\n\n\n\n\n" << std::endl;
+
   // Start generating Sudoku puzzle
   start = std::chrono::high_resolution_clock::now();
   atn::SudokuPuzzleGenerator<GAME_SIZE> puzzle_generator(difficulty, seed, solution);
@@ -42,10 +46,6 @@ int main(int argc, char** argv) {
 
   // Get generated Sudoku puzzle
   atn::Sudoku<GAME_SIZE> puzzle = puzzle_generator.get_puzzle();
-
-  // Display Sudoku solution
-  std::cout << "Solution:" << std::endl;
-  std::cout << solution.to_str() << "\n\n\n\n\n\n" << std::endl;
 
   // Record execution time of puzzle
   ms_duration = end - start;
