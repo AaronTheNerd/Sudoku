@@ -11,7 +11,21 @@
 namespace atn {
 
 template<uint8_t T>
-bool fill_known(atn::Sudoku<T>&, std::vector<atn::Cell<T>>&);
+struct FillResult {
+  bool valid;
+  std::vector<Cell<T>> filled;
+};
+
+template<uint8_t T>
+struct SolverState {
+  bool valid = false;
+  Cell<T> placed;
+  std::vector<Cell<T>> known;
+  SolverState();
+};
+
+template<uint8_t T>
+FillResult<T> fill_known(atn::Sudoku<T>&, std::vector<atn::Cell<T>>&);
 
 template<uint8_t T>
 bool solve(atn::Sudoku<T>&);

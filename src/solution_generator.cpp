@@ -43,55 +43,9 @@ template<uint8_t T>
 atn::GeneratorResults<T> atn::SudokuSolutionGenerator<T>::fill(
     atn::Sudoku<T>& curr_board) {
 
-  // Reject invalid Sudoku boards
-  if (!curr_board.validate()) return { false, curr_board };
+  bool valid = atn::solve(curr_board);
 
-  // Sort empty cells based on number of options
-  std::vector<atn::Cell<T>> empty_cells = curr_board.get_empty_cells();
-  std::sort(
-      empty_cells.begin(),
-      empty_cells.end(),
-      atn::Cell<T>::compare_options);
-
-  // Approve Sudoku boards with no empty cells
-  if (empty_cells.size() == 0) return { true, curr_board };
-
-  // Place cells which only have one option
-  if (empty_cells[0].options.count() == 1) {
-
-    bool valid = atn::fill_known(curr_board, empty_cells).valid;
-
-    // Reject invalid Sudoku boards
-    if (!valid || !curr_board.validate()) return { false, curr_board };
-
-    // Approve Sudoku boards which have no empty cells
-    if (empty_cells.size() == 0) return { true, curr_board };
-
-  }
-  // Store original board for backtracking
-  atn::Sudoku<T> original_board = curr_board;
-
-  empty_cells = curr_board.get_empty_cells();
-  std::sort(
-      empty_cells.begin(),
-      empty_cells.end(),
-      atn::Cell<T>::compare_options);
-
-  // Recursive Step
-  for (uint8_t j = 0; j < T * T; ++j) {
-    if (empty_cells[0].options[j]) {
-      bool valid = curr_board.set(empty_cells[0].pos, j + 1);
-      //std::cout << curr_board.to_str() << std::endl;
-      if (!valid) {
-        curr_board = original_board;
-      } else {
-        atn::GeneratorResults<T> result = this->fill(curr_board);
-        if (result.valid) return result;
-        else curr_board = original_board;
-      }
-    }
-  }
-  return {true, original_board};
+  return {valid, curr_board};
 }
 
 template<uint8_t T>
