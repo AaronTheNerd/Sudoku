@@ -175,7 +175,7 @@ atn::Sudoku<T>::Sudoku(): cell_width(0), board() {
 
 template<uint8_t T>
 atn::Cell<T>& atn::Sudoku<T>::at(atn::Pos pos) {
-  return this->board[pos.x][pos.y];
+  return this->board.at(pos.x).at(pos.y);
 }
 
 template<uint8_t T>
@@ -206,10 +206,10 @@ void atn::Sudoku<T>::fix_options() {
   for (uint8_t x = 0; x < T * T; ++x) {
     for (uint8_t y = 0; y < T * T; ++y) {
       atn::Cell<T>& cell = this->at({x, y});
-      cell.options.reset();
+      cell.options.set();
       if (cell.value == atn::UNSET) {
-        cell.options |= this->contains_row_column(cell.pos).flip();
-        cell.options |= this->contains_block(x / T, y / T).flip();
+        cell.options &= this->contains_row_column(cell.pos).flip();
+        cell.options &= this->contains_block(x / T, y / T).flip();
       }
     }
   }
