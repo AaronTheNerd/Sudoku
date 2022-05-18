@@ -13,8 +13,9 @@ void atn::SudokuPuzzleGenerator<T>::init() {
   uint8_t attempts = this->difficulty;
   std::uniform_int_distribution<uint8_t> distribution(0, T * T - 1);
   auto random_coord = std::bind(distribution, this->rng);
+  atn::Pos curr_pos;
   atn::Sudoku<T> backup_board, solve_board;
-  while (attempts > 0) {
+  while (attempts != 0) {
 
     // Get random cell which is not set
     uint8_t x, y;
@@ -22,33 +23,34 @@ void atn::SudokuPuzzleGenerator<T>::init() {
     do {
       x = random_coord();
       y = random_coord();
-      value = this->puzzle.get({x, y}).value;
+      curr_pos = {x, y};
+      value = this->puzzle.get(curr_pos).value;
     } while (value == atn::UNSET);
 
     // Prepare backups
-    backup_board = solve_board = this->puzzle;
-
+    solve_board = this->puzzle;
     // Unset cell
-    this->puzzle.set({x, y}, atn::UNSET);
+    solve_board.set(curr_pos, atn::UNSET);
 
     // Check that the puzzle does not have multiple soltutions
+    bool safe_to_remove = true;
     for (uint8_t i = 1; i <= T * T; ++i) {
-      if (i != value) {
-        bool valid = solve_board.set({x, y}, i);
+      if (i != value && solve_board.get(curr_pos).options[i - 1]) {
+        bool valid = solve_board.set(curr_pos, i);
         if (!valid) {
-          solve_board = backup_board;
+          solve_board.set(curr_pos, atn::UNSET);
           continue;
         }
-        // Solve
         bool solved = atn::solve(solve_board);
         if (solved) {
-          solve_board = backup_board;
-          attempts += 1;
+          this->puzzle.set(curr_pos, value);
+          safe_to_remove = false;
+          attempts -= 1;
           break;
         }
-        solve_board = backup_board;
       }
     }
+    if (safe_to_remove) this->puzzle.set(curr_pos, atn::UNSET);
   }
 }
 
