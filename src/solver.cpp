@@ -33,8 +33,8 @@ std::string to_string(atn::SolverState<T> state) {
 }
 
 template<uint8_t T>
-void print_stack(std::vector<atn::SolverState<T>> stack) {
-  std::cout << "[";
+void print_stack(std::vector<atn::SolverState<T>> stack, bool backtrack) {
+  std::cout << "backtrack=" << backtrack << ", [";
   for (auto it = stack.begin(); it != stack.end(); ++it) {
     std::cout << to_string(*it) << ", ";
   }
@@ -83,19 +83,50 @@ atn::SolverState<T> solve_helper(
     curr_cell = empty_cells[0];
     if (curr_cell.options[i - 1]) {
       bool valid = puzzle.set(curr_cell.pos, i);
-      if (valid) {
-        result.placed = puzzle.at(curr_cell.pos);
+      if (valid && puzzle.validate()) {
+        result.placed = puzzle.get(curr_cell.pos);
         result.valid = true;
         return result;
-      } else {
-        puzzle.set(curr_cell.pos, atn::UNSET);
       }
+      puzzle.set(curr_cell.pos, atn::UNSET);
     }
   }
 
   // No valid options were found
   result.valid = false;
   return result;
+}
+
+template<uint8_t T>
+void iterate_state(atn::Sudoku<T>& puzzle, atn::SolverState<T>& state) {
+  uint8_t start_value;
+  atn::Pos pos;
+  bool valid;
+
+  if (state.placed.value == atn::UNSET) {
+    state.valid = false;
+    return;
+  }
+
+  start_value = state.placed.value;
+  pos = state.placed.pos;
+
+  // Unset placed value in board
+  puzzle.set(pos, atn::UNSET);
+
+  // Find new value
+  for (uint8_t i = start_value + 1; i <= T * T; ++i) {
+    if (puzzle.at(pos).options[i - 1]) {
+      valid = puzzle.set(pos, i);
+      if (valid && puzzle.validate()) {
+        state.valid = true;
+        state.placed.value = i;
+        return;
+      }
+      puzzle.set(pos, atn::UNSET);
+    }
+  }
+  state.valid = false;
 }
 
 } // namespace anonymous
@@ -140,47 +171,24 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
   // Instantiate variables
   std::vector<atn::Cell<T>> empty_cells;
   SolverState<T> curr_state = solve_helper(puzzle, empty_cells);
+  //while (!(curr_state.valid && puzzle.validate())) iterate_state(puzzle, curr_state);
   std::vector<SolverState<T>> stack;
   stack.emplace_back(curr_state);
-  FillResult<T> fill_result;
-  bool valid, backtrack = !curr_state.valid;
-  atn::Pos curr_pos;
-  uint8_t start_value;
+  bool backtrack = !(curr_state.valid && puzzle.validate());
 
   // Main loop
   while (empty_cells.size() > 0 && stack.size() > 0) {
-    //print_stack(stack);
+    print_stack(stack, backtrack);
+    //std::cout << puzzle.to_str() << "\n" << std::endl;
 
     if (backtrack) {
       // Pop previous state
       curr_state = stack.back();
       stack.pop_back();
 
-      if (curr_state.placed.value == atn::UNSET) continue;
-
-      start_value = curr_state.placed.value;
-
-      // Unset placed value in board
-      puzzle.set(curr_state.placed.pos, atn::UNSET);
-
-      // Find new value
-      curr_pos = curr_state.placed.pos;
-      bool placed = false;
-      for (uint8_t i = start_value + 1; i <= T * T; ++i) {
-        if (puzzle.at(curr_pos).options[i - 1]) {
-          valid = puzzle.set(curr_pos, i);
-          if (valid) {
-            placed = true;
-            backtrack = false;
-            curr_state.valid = true;
-            curr_state.placed.value = i;
-            break;
-          } else {
-            puzzle.set(curr_pos, atn::UNSET);
-          }
-        }
-      }
-      if (!placed) {
+      // Attempt to replace value
+      iterate_state(puzzle, curr_state);
+      if (!curr_state.valid) {
         for (uint8_t i = 0; i < curr_state.known.size(); ++i)
           puzzle.unset(curr_state.known[i].pos);
         puzzle.fix_options();
@@ -188,10 +196,14 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
       }
     } else {
       curr_state = solve_helper(puzzle, empty_cells);
+      curr_state.valid &= puzzle.validate();
     }
-    valid = curr_state.valid;
-    if (valid) stack.emplace_back(curr_state);
-    else backtrack = true;
+    if (curr_state.valid) {
+      backtrack = false;
+      stack.emplace_back(curr_state);
+    } else {
+      backtrack = true;
+    }
   }
   return empty_cells.size() == 0 && puzzle.validate();
 }
