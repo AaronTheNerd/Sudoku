@@ -36,7 +36,8 @@ template<uint8_t T>
 void print_stack(std::vector<atn::SolverState<T>> stack, bool backtrack) {
   std::cout << "backtrack=" << backtrack << ", [";
   for (auto it = stack.begin(); it != stack.end(); ++it) {
-    std::cout << to_string(*it) << ", ";
+    if (it != stack.begin()) std::cout << ", ";
+    std::cout << to_string(*it);
   }
   std::cout << "]" << std::endl;
 }
@@ -140,6 +141,7 @@ atn::FillResult<T> atn::fill_known(
     std::vector<atn::Cell<T>>& empty_cells) {
   atn::Pos curr_pos;
   std::vector<atn::Cell<T>> result;
+
   while (empty_cells.size() != 0
       && empty_cells[0].options.count() == 1
       && board.validate()) {
@@ -151,6 +153,9 @@ atn::FillResult<T> atn::fill_known(
           result.emplace_back(board.get(curr_pos));
           break;
         } else {
+          for (uint8_t j = 0; j < result.size(); ++j)
+            board.unset(result[j].pos);
+          board.fix_options();
           result.clear();
           return { false, result };
         }
@@ -162,6 +167,11 @@ atn::FillResult<T> atn::fill_known(
         empty_cells.end(),
         atn::Cell<T>::compare_options);
   }
+  empty_cells = board.get_empty_cells();
+  std::sort(
+      empty_cells.begin(),
+      empty_cells.end(),
+      atn::Cell<T>::compare_options);
   return { true, result };
 }
 
@@ -171,14 +181,13 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
   // Instantiate variables
   std::vector<atn::Cell<T>> empty_cells;
   SolverState<T> curr_state = solve_helper(puzzle, empty_cells);
-  //while (!(curr_state.valid && puzzle.validate())) iterate_state(puzzle, curr_state);
   std::vector<SolverState<T>> stack;
   stack.emplace_back(curr_state);
   bool backtrack = !(curr_state.valid && puzzle.validate());
 
   // Main loop
   while (empty_cells.size() > 0 && stack.size() > 0) {
-    print_stack(stack, backtrack);
+    //print_stack(stack, backtrack);
     //std::cout << puzzle.to_str() << "\n" << std::endl;
 
     if (backtrack) {
