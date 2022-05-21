@@ -148,11 +148,12 @@ atn::FillResult<T> atn::fill_known(
     for (uint8_t i = 0; i < T * T; ++i) {
       if (empty_cells[0].options[i]) {
         curr_pos = empty_cells[0].pos;
-        bool valid = board.set(empty_cells[0].pos, i + 1);
+        bool valid = board.set(curr_pos, i + 1);
         if (valid) {
           result.emplace_back(board.get(curr_pos));
           break;
         } else {
+          board.unset(curr_pos);
           for (uint8_t j = 0; j < result.size(); ++j)
             board.unset(result[j].pos);
           board.fix_options();
@@ -187,7 +188,7 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
 
   // Main loop
   while (empty_cells.size() > 0 && stack.size() > 0) {
-    //print_stack(stack, backtrack);
+    print_stack(stack, backtrack);
     //std::cout << puzzle.to_str() << "\n" << std::endl;
 
     if (backtrack) {
@@ -204,6 +205,13 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
         continue;
       }
     } else {
+
+      empty_cells = puzzle.get_empty_cells();
+      std::sort(
+          empty_cells.begin(),
+          empty_cells.end(),
+          atn::Cell<T>::compare_options);
+
       curr_state = solve_helper(puzzle, empty_cells);
       curr_state.valid &= puzzle.validate();
     }
