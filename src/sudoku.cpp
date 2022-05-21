@@ -206,8 +206,8 @@ void atn::Sudoku<T>::fix_options() {
   for (uint8_t x = 0; x < T * T; ++x) {
     for (uint8_t y = 0; y < T * T; ++y) {
       atn::Cell<T>& cell = this->at({x, y});
-      cell.options.set();
       if (cell.value == atn::UNSET) {
+        cell.options.set();
         cell.options &= this->contains_row_column(cell.pos).flip();
         cell.options &= this->contains_block(x / T, y / T).flip();
       }
