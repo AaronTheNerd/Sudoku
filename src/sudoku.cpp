@@ -202,6 +202,12 @@ void atn::Sudoku<T>::unset(atn::Pos pos) {
 }
 
 template<uint8_t T>
+void atn::Sudoku<T>::unset(std::vector<atn::Cell<T>> cells) {
+  for (uint8_t i = 0; i < cells.size(); ++i)
+    this->unset(cells[i].pos);
+}
+
+template<uint8_t T>
 void atn::Sudoku<T>::fix_options() {
   for (uint8_t x = 0; x < T * T; ++x) {
     for (uint8_t y = 0; y < T * T; ++y) {

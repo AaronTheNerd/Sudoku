@@ -154,8 +154,7 @@ atn::FillResult<T> atn::fill_known(
           break;
         } else {
           board.unset(curr_pos);
-          for (uint8_t j = 0; j < result.size(); ++j)
-            board.unset(result[j].pos);
+          board.unset(result);
           board.fix_options();
           result.clear();
           return { false, result };
@@ -188,7 +187,7 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
 
   // Main loop
   while (empty_cells.size() > 0 && stack.size() > 0) {
-    print_stack(stack, backtrack);
+    //print_stack(stack, backtrack);
     //std::cout << puzzle.to_str() << "\n" << std::endl;
 
     if (backtrack) {
@@ -199,8 +198,7 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
       // Attempt to replace value
       iterate_state(puzzle, curr_state);
       if (!curr_state.valid) {
-        for (uint8_t i = 0; i < curr_state.known.size(); ++i)
-          puzzle.unset(curr_state.known[i].pos);
+        puzzle.unset(curr_state.known);
         puzzle.fix_options();
         continue;
       }

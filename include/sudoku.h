@@ -53,6 +53,7 @@ class Sudoku {
   Cell<T> get(Pos) const;
   bool set(Pos, uint8_t);
   void unset(Pos);
+  void unset(std::vector<Cell<T>>);
   void fix_options();
   std::vector<Cell<T>> get_empty_cells();
   bool validate() const;
