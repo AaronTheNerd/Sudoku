@@ -4,15 +4,15 @@
 #ifndef _SRC_SOLVER_CPP_
 #define _SRC_SOLVER_CPP_
 
-#include <algorithm> // std::sort
-#include <iostream> // std::cout, std::endl
-#include <sstream> // std::stringstream
-#include <string.h> // std::string
 #include "solver.h"
+#include <string.h>   // std::string
+#include <algorithm>  // std::sort
+#include <iostream>   // std::cout, std::endl
+#include <sstream>    // std::stringstream
 
 namespace {
 
-template<uint8_t T>
+template <uint8_t T>
 std::string to_string(atn::Cell<T> cell) {
   std::stringstream ss;
   ss << "{ (";
@@ -25,14 +25,14 @@ std::string to_string(atn::Cell<T> cell) {
   return ss.str();
 }
 
-template<uint8_t T>
+template <uint8_t T>
 std::string to_string(atn::SolverState<T> state) {
   std::stringstream ss;
   ss << to_string(state.placed);
   return ss.str();
 }
 
-template<uint8_t T>
+template <uint8_t T>
 void print_stack(std::vector<atn::SolverState<T>> stack, bool backtrack) {
   std::cout << "backtrack=" << backtrack << ", [";
   for (auto it = stack.begin(); it != stack.end(); ++it) {
@@ -42,20 +42,16 @@ void print_stack(std::vector<atn::SolverState<T>> stack, bool backtrack) {
   std::cout << "]" << std::endl;
 }
 
-template<uint8_t T>
-atn::SolverState<T> solve_helper(
-    atn::Sudoku<T>& puzzle,
-    std::vector<atn::Cell<T>>& empty_cells) {
-
+template <uint8_t T>
+atn::SolverState<T> solve_helper(atn::Sudoku<T>& puzzle,
+                                 std::vector<atn::Cell<T>>& empty_cells) {
   // Instantiate variables
   atn::Cell<T> curr_cell;
   atn::SolverState<T> result;
   empty_cells = puzzle.get_empty_cells();
-  std::sort(
-      empty_cells.begin(),
-      empty_cells.end(),
-      atn::Cell<T>::compare_options);
-  
+  std::sort(empty_cells.begin(), empty_cells.end(),
+            atn::Cell<T>::compare_options);
+
   // If there are no empty cells then there is nothing to do
   if (empty_cells.size() == 0) {
     result.valid = puzzle.validate();
@@ -98,7 +94,7 @@ atn::SolverState<T> solve_helper(
   return result;
 }
 
-template<uint8_t T>
+template <uint8_t T>
 void iterate_state(atn::Sudoku<T>& puzzle, atn::SolverState<T>& state) {
   uint8_t start_value;
   atn::Pos pos;
@@ -130,21 +126,19 @@ void iterate_state(atn::Sudoku<T>& puzzle, atn::SolverState<T>& state) {
   state.valid = false;
 }
 
-} // namespace anonymous
+}  // namespace
 
-template<uint8_t T>
-atn::SolverState<T>::SolverState(): valid(false), placed(), known() {}
+template <uint8_t T>
+atn::SolverState<T>::SolverState() : valid(false), placed(), known() {}
 
-template<uint8_t T>
-atn::FillResult<T> atn::fill_known(
-    atn::Sudoku<T>& board,
-    std::vector<atn::Cell<T>>& empty_cells) {
+template <uint8_t T>
+atn::FillResult<T> atn::fill_known(atn::Sudoku<T>& board,
+                                   std::vector<atn::Cell<T>>& empty_cells) {
   atn::Pos curr_pos;
   std::vector<atn::Cell<T>> result;
 
-  while (empty_cells.size() != 0
-      && empty_cells[0].options.count() == 1
-      && board.validate()) {
+  while (empty_cells.size() != 0 && empty_cells[0].options.count() == 1 &&
+         board.validate()) {
     for (uint8_t i = 0; i < T * T; ++i) {
       if (empty_cells[0].options[i]) {
         curr_pos = empty_cells[0].pos;
@@ -157,27 +151,22 @@ atn::FillResult<T> atn::fill_known(
           board.unset(result);
           board.fix_options();
           result.clear();
-          return { false, result };
+          return {false, result};
         }
       }
     }
     empty_cells = board.get_empty_cells();
-    std::sort(
-        empty_cells.begin(),
-        empty_cells.end(),
-        atn::Cell<T>::compare_options);
+    std::sort(empty_cells.begin(), empty_cells.end(),
+              atn::Cell<T>::compare_options);
   }
   empty_cells = board.get_empty_cells();
-  std::sort(
-      empty_cells.begin(),
-      empty_cells.end(),
-      atn::Cell<T>::compare_options);
-  return { true, result };
+  std::sort(empty_cells.begin(), empty_cells.end(),
+            atn::Cell<T>::compare_options);
+  return {true, result};
 }
 
-template<uint8_t T>
+template <uint8_t T>
 bool atn::solve(atn::Sudoku<T>& puzzle) {
-
   // Instantiate variables
   std::vector<atn::Cell<T>> empty_cells;
   SolverState<T> curr_state = solve_helper(puzzle, empty_cells);
@@ -187,8 +176,8 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
 
   // Main loop
   while (empty_cells.size() > 0 && stack.size() > 0) {
-    //print_stack(stack, backtrack);
-    //std::cout << puzzle.to_str() << "\n" << std::endl;
+    // print_stack(stack, backtrack);
+    // std::cout << puzzle.to_str() << "\n" << std::endl;
 
     if (backtrack) {
       // Pop previous state
@@ -203,12 +192,9 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
         continue;
       }
     } else {
-
       empty_cells = puzzle.get_empty_cells();
-      std::sort(
-          empty_cells.begin(),
-          empty_cells.end(),
-          atn::Cell<T>::compare_options);
+      std::sort(empty_cells.begin(), empty_cells.end(),
+                atn::Cell<T>::compare_options);
 
       curr_state = solve_helper(puzzle, empty_cells);
       curr_state.valid &= puzzle.validate();
@@ -223,4 +209,4 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
   return empty_cells.size() == 0 && puzzle.validate();
 }
 
-#endif // _SRC_SOLVER_CPP_
+#endif  // _SRC_SOLVER_CPP_

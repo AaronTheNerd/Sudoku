@@ -4,11 +4,11 @@
 #ifndef _SRC_PUZZLE_GENERATOR_CPP_
 #define _SRC_PUZZLE_GENERATOR_CPP_
 
-#include <functional> // std::bind
 #include "puzzle_generator.h"
+#include <functional>  // std::bind
 #include "solver.h"
 
-template<uint8_t T>
+template <uint8_t T>
 void atn::SudokuPuzzleGenerator<T>::init() {
   uint8_t attempts = this->difficulty;
   std::uniform_int_distribution<uint8_t> distribution(0, T * T - 1);
@@ -16,7 +16,6 @@ void atn::SudokuPuzzleGenerator<T>::init() {
   atn::Pos curr_pos;
   atn::Sudoku<T> backup_board, solve_board;
   while (attempts != 0) {
-
     // Get random cell which is not set
     uint8_t x, y;
     uint8_t value;
@@ -54,16 +53,17 @@ void atn::SudokuPuzzleGenerator<T>::init() {
   }
 }
 
-template<uint8_t T>
-atn::SudokuPuzzleGenerator<T>::SudokuPuzzleGenerator(
-    atn::DIFFICULTY difficulty, unsigned seed, atn::Sudoku<T> solution):
-  difficulty(difficulty), seed(seed), rng(this->seed), puzzle(solution) {
+template <uint8_t T>
+atn::SudokuPuzzleGenerator<T>::SudokuPuzzleGenerator(atn::DIFFICULTY difficulty,
+                                                     unsigned seed,
+                                                     atn::Sudoku<T> solution)
+    : difficulty(difficulty), seed(seed), rng(this->seed), puzzle(solution) {
   this->init();
 }
 
-template<uint8_t T>
+template <uint8_t T>
 atn::Sudoku<T> atn::SudokuPuzzleGenerator<T>::get_puzzle() const {
   return this->puzzle;
 }
 
-#endif // _SRC_PUZZLE_GENERATOR_CPP_
+#endif  // _SRC_PUZZLE_GENERATOR_CPP_

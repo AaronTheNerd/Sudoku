@@ -4,13 +4,15 @@
 #ifndef _INCLUDE_SUDOKU_H_
 #define _INCLUDE_SUDOKU_H_
 
-#include <array> // std::array
-#include <bitset> // std::bitset
-#include <cstddef> // uint8_t
-#include <string> // std::string
-#include <vector> // std::vector
+#include <array>    // std::array
+#include <bitset>   // std::bitset
+#include <cstddef>  // uint8_t
+#include <string>   // std::string
+#include <vector>   // std::vector
 
 namespace atn {
+
+enum DIFFICULTY { SOLUTION, VERY_EASY, EASY, MEDIUM, HARD, KILLER };
 
 static const uint8_t UNSET = 0;
 
@@ -19,7 +21,7 @@ struct Pos {
   uint8_t y = 0;
 };
 
-template<uint8_t T>
+template <uint8_t T>
 struct Cell {
   uint8_t value;
   Pos pos;
@@ -30,9 +32,7 @@ struct Cell {
   static bool compare_options(const Cell<T>&, const Cell<T>&);
 };
 
-enum DIFFICULTY { SOLUTION, VERY_EASY, EASY, MEDIUM, HARD, KILLER };
-
-template<uint8_t T>
+template <uint8_t T>
 class Sudoku {
  private:
   uint8_t cell_width;
@@ -47,6 +47,7 @@ class Sudoku {
   void fix_options(Pos);
   std::bitset<T * T> contains_row_column(Pos);
   std::bitset<T * T> contains_block(uint8_t, uint8_t);
+
  public:
   Sudoku();
   Cell<T>& at(Pos);
@@ -60,8 +61,8 @@ class Sudoku {
   std::string to_str() const;
 };
 
-} // namespace atn
+}  // namespace atn
 
 #include "../src/sudoku.cpp"
 
-#endif // _INCLUDE_SUDOKU_H_
+#endif  // _INCLUDE_SUDOKU_H_

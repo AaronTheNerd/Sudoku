@@ -3,12 +3,11 @@
 
 #define GAME_SIZE 3
 
-#include <chrono> // std::chrono
-#include <iostream> // std::cout, std::endl
-#include "solution_generator.h" // atn::SudokuSolutionGenerator
-#include "puzzle_generator.h" // atn::SudokuPuzzleGenerator
-#include "sudoku.h" // atn::Sudoku
-
+#include <chrono>                // std::chrono
+#include <iostream>              // std::cout, std::endl
+#include "puzzle_generator.h"    // atn::SudokuPuzzleGenerator
+#include "solution_generator.h"  // atn::SudokuSolutionGenerator
+#include "sudoku.h"              // atn::Sudoku
 
 int main(int argc, char** argv) {
   // Instantiate variables for Sudoku Generation
@@ -33,7 +32,8 @@ int main(int argc, char** argv) {
 
   // Record execution time of solution
   ms_duration = end - start;
-  std::cout << "Solution generated in " << ms_duration.count() << "ms" << std::endl;
+  std::cout << "Solution generated in " << ms_duration.count() << "ms"
+            << std::endl;
 
   // Display Sudoku solution
   std::cout << "Solution:" << std::endl;
@@ -41,7 +41,8 @@ int main(int argc, char** argv) {
 
   // Start generating Sudoku puzzle
   start = std::chrono::high_resolution_clock::now();
-  atn::SudokuPuzzleGenerator<GAME_SIZE> puzzle_generator(difficulty, seed, solution);
+  atn::SudokuPuzzleGenerator<GAME_SIZE> puzzle_generator(difficulty, seed,
+                                                         solution);
   end = std::chrono::high_resolution_clock::now();
 
   // Get generated Sudoku puzzle
@@ -49,10 +50,11 @@ int main(int argc, char** argv) {
 
   // Record execution time of puzzle
   ms_duration = end - start;
-  std::cout << "Puzzle generated in " << ms_duration.count() << "ms" << std::endl;
+  std::cout << "Puzzle generated in " << ms_duration.count() << "ms"
+            << std::endl;
 
   // Display Sudoku puzzle
-  std::cout << "Puzzle:" << std::endl; 
+  std::cout << "Puzzle:" << std::endl;
   std::cout << puzzle.to_str() << std::endl;
 
   return 0;
