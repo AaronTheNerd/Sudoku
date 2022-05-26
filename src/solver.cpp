@@ -137,8 +137,8 @@ atn::FillResult<T> atn::fill_known(
   atn::Pos curr_pos;
   std::vector<atn::Cell<T>> result;
 
-  while (empty_cells.size() != 0 && empty_cells[0].options.count() == 1 &&
-      board.validate()) {
+  while (empty_cells.size() != 0 && empty_cells[0].options.count() == 1
+      && board.validate()) {
     for (uint8_t i = 0; i < T * T; ++i) {
       if (empty_cells[0].options[i]) {
         curr_pos = empty_cells[0].pos;
