@@ -41,8 +41,8 @@ int main(int argc, char** argv) {
 
   // Start generating Sudoku puzzle
   start = std::chrono::high_resolution_clock::now();
-  atn::SudokuPuzzleGenerator<GAME_SIZE> puzzle_generator(difficulty, seed,
-                                                         solution);
+  atn::SudokuPuzzleGenerator<GAME_SIZE> puzzle_generator(
+      difficulty, seed, solution);
   end = std::chrono::high_resolution_clock::now();
 
   // Get generated Sudoku puzzle

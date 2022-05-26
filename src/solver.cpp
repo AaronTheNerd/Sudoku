@@ -43,14 +43,14 @@ void print_stack(std::vector<atn::SolverState<T>> stack, bool backtrack) {
 }
 
 template <uint8_t T>
-atn::SolverState<T> solve_helper(atn::Sudoku<T>& puzzle,
-                                 std::vector<atn::Cell<T>>& empty_cells) {
+atn::SolverState<T> solve_helper(
+    atn::Sudoku<T>& puzzle, std::vector<atn::Cell<T>>& empty_cells) {
   // Instantiate variables
   atn::Cell<T> curr_cell;
   atn::SolverState<T> result;
   empty_cells = puzzle.get_empty_cells();
-  std::sort(empty_cells.begin(), empty_cells.end(),
-            atn::Cell<T>::compare_options);
+  std::sort(
+      empty_cells.begin(), empty_cells.end(), atn::Cell<T>::compare_options);
 
   // If there are no empty cells then there is nothing to do
   if (empty_cells.size() == 0) {
@@ -132,13 +132,13 @@ template <uint8_t T>
 atn::SolverState<T>::SolverState() : valid(false), placed(), known() {}
 
 template <uint8_t T>
-atn::FillResult<T> atn::fill_known(atn::Sudoku<T>& board,
-                                   std::vector<atn::Cell<T>>& empty_cells) {
+atn::FillResult<T> atn::fill_known(
+    atn::Sudoku<T>& board, std::vector<atn::Cell<T>>& empty_cells) {
   atn::Pos curr_pos;
   std::vector<atn::Cell<T>> result;
 
   while (empty_cells.size() != 0 && empty_cells[0].options.count() == 1 &&
-         board.validate()) {
+      board.validate()) {
     for (uint8_t i = 0; i < T * T; ++i) {
       if (empty_cells[0].options[i]) {
         curr_pos = empty_cells[0].pos;
@@ -156,12 +156,12 @@ atn::FillResult<T> atn::fill_known(atn::Sudoku<T>& board,
       }
     }
     empty_cells = board.get_empty_cells();
-    std::sort(empty_cells.begin(), empty_cells.end(),
-              atn::Cell<T>::compare_options);
+    std::sort(
+        empty_cells.begin(), empty_cells.end(), atn::Cell<T>::compare_options);
   }
   empty_cells = board.get_empty_cells();
-  std::sort(empty_cells.begin(), empty_cells.end(),
-            atn::Cell<T>::compare_options);
+  std::sort(
+      empty_cells.begin(), empty_cells.end(), atn::Cell<T>::compare_options);
   return {true, result};
 }
 
@@ -194,7 +194,7 @@ bool atn::solve(atn::Sudoku<T>& puzzle) {
     } else {
       empty_cells = puzzle.get_empty_cells();
       std::sort(empty_cells.begin(), empty_cells.end(),
-                atn::Cell<T>::compare_options);
+          atn::Cell<T>::compare_options);
 
       curr_state = solve_helper(puzzle, empty_cells);
       curr_state.valid &= puzzle.validate();

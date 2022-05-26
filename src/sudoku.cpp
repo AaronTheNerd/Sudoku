@@ -23,8 +23,8 @@ bool atn::Cell<T>::invalid() const {
 }
 
 template <uint8_t T>
-bool atn::Cell<T>::compare_options(const atn::Cell<T>& c1,
-                                   const atn::Cell<T>& c2) {
+bool atn::Cell<T>::compare_options(
+    const atn::Cell<T>& c1, const atn::Cell<T>& c2) {
   return c1.options.count() < c2.options.count();
 }
 
@@ -151,8 +151,8 @@ std::bitset<T * T> atn::Sudoku<T>::contains_row_column(atn::Pos pos) {
 }
 
 template <uint8_t T>
-std::bitset<T * T> atn::Sudoku<T>::contains_block(uint8_t x_block,
-                                                  uint8_t y_block) {
+std::bitset<T * T> atn::Sudoku<T>::contains_block(
+    uint8_t x_block, uint8_t y_block) {
   std::bitset<T * T> contains_block;
   uint8_t value;
   for (uint8_t x = 0; x < T; ++x) {

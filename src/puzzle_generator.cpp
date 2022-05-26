@@ -54,9 +54,8 @@ void atn::SudokuPuzzleGenerator<T>::init() {
 }
 
 template <uint8_t T>
-atn::SudokuPuzzleGenerator<T>::SudokuPuzzleGenerator(atn::DIFFICULTY difficulty,
-                                                     unsigned seed,
-                                                     atn::Sudoku<T> solution)
+atn::SudokuPuzzleGenerator<T>::SudokuPuzzleGenerator(
+    atn::DIFFICULTY difficulty, unsigned seed, atn::Sudoku<T> solution)
     : difficulty(difficulty), seed(seed), rng(this->seed), puzzle(solution) {
   this->init();
 }
