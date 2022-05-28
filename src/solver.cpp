@@ -82,7 +82,7 @@ atn::SolverState<T> solve_helper(
       bool valid = puzzle.set(curr_cell.pos, i);
       if (valid && puzzle.validate()) {
         result.placed = puzzle.get(curr_cell.pos);
-        result.valid = true;
+        result.valid  = true;
         return result;
       }
       puzzle.set(curr_cell.pos, atn::UNSET);
@@ -106,7 +106,7 @@ void iterate_state(atn::Sudoku<T>& puzzle, atn::SolverState<T>& state) {
   }
 
   start_value = state.placed.value;
-  pos = state.placed.pos;
+  pos         = state.placed.pos;
 
   // Unset placed value in board
   puzzle.set(pos, atn::UNSET);
@@ -116,7 +116,7 @@ void iterate_state(atn::Sudoku<T>& puzzle, atn::SolverState<T>& state) {
     if (puzzle.at(pos).options[i - 1]) {
       valid = puzzle.set(pos, i);
       if (valid && puzzle.validate()) {
-        state.valid = true;
+        state.valid        = true;
         state.placed.value = i;
         return;
       }
@@ -141,7 +141,7 @@ atn::FillResult<T> atn::fill_known(
       && board.validate()) {
     for (uint8_t i = 0; i < T * T; ++i) {
       if (empty_cells[0].options[i]) {
-        curr_pos = empty_cells[0].pos;
+        curr_pos   = empty_cells[0].pos;
         bool valid = board.set(curr_pos, i + 1);
         if (valid) {
           result.emplace_back(board.get(curr_pos));

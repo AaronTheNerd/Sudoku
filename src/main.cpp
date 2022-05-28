@@ -4,17 +4,19 @@
 #define GAME_SIZE 3
 
 #include <chrono>                // std::chrono
+#include <fstream>               // std::ofstream
 #include <iostream>              // std::cout, std::endl
 #include "puzzle_generator.h"    // atn::SudokuPuzzleGenerator
 #include "solution_generator.h"  // atn::SudokuSolutionGenerator
 #include "sudoku.h"              // atn::Sudoku
+#include "utils.h"               // atn::json
 
 int main(int argc, char** argv) {
   // Instantiate variables for Sudoku Generation
   auto start = std::chrono::high_resolution_clock::now();
-  auto end = std::chrono::high_resolution_clock::now();
+  auto end   = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double, std::milli> ms_duration = end - start;
-  atn::DIFFICULTY difficulty = atn::VERY_EASY;
+  atn::DIFFICULTY difficulty                            = atn::VERY_EASY;
 
   // Start generating valid Sudoku board
   start = std::chrono::high_resolution_clock::now();
@@ -56,6 +58,11 @@ int main(int argc, char** argv) {
   // Display Sudoku puzzle
   std::cout << "Puzzle:" << std::endl;
   std::cout << puzzle.to_str() << std::endl;
+
+  std::ofstream outfile;
+  outfile.open("puzzle.json", std::ios::out | std::ios::trunc);
+  outfile << atn::json::to_json(seed, difficulty, solution, puzzle);
+  outfile.close();
 
   return 0;
 }

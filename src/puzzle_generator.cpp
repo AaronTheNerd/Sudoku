@@ -10,7 +10,8 @@
 
 template <uint8_t T>
 void atn::SudokuPuzzleGenerator<T>::init() {
-  uint8_t attempts = this->difficulty;
+  if (this->difficulty == SOLUTION) return;
+  uint8_t attempts = 2;
   std::uniform_int_distribution<uint8_t> distribution(0, T * T - 1);
   auto random_coord = std::bind(distribution, this->rng);
   atn::Pos curr_pos;
@@ -20,10 +21,10 @@ void atn::SudokuPuzzleGenerator<T>::init() {
     uint8_t x, y;
     uint8_t value;
     do {
-      x = random_coord();
-      y = random_coord();
+      x        = random_coord();
+      y        = random_coord();
       curr_pos = {x, y};
-      value = this->puzzle.get(curr_pos).value;
+      value    = this->puzzle.get(curr_pos).value;
     } while (value == atn::UNSET);
 
     // Prepare backups

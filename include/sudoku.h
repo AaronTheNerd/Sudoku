@@ -12,7 +12,15 @@
 
 namespace atn {
 
-enum DIFFICULTY { SOLUTION, VERY_EASY, EASY, MEDIUM, HARD, KILLER };
+enum DIFFICULTY {
+  SOLUTION  = 0,
+  VERY_EASY = 4000,
+  EASY      = 4900,
+  MEDIUM    = 6000,
+  HARD      = 7600,
+  KILLER    = 10000,
+  EVIL      = 18000
+};
 
 static const uint8_t UNSET = 0;
 

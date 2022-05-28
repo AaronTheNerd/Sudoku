@@ -31,7 +31,7 @@ bool atn::Cell<T>::compare_options(
 template <uint8_t T>
 void atn::Sudoku<T>::initialize_cell_width() {
   std::string max_cell = std::to_string(T * T);
-  this->cell_width = max_cell.size() + 1;
+  this->cell_width     = max_cell.size() + 1;
 }
 
 template <uint8_t T>
@@ -254,7 +254,7 @@ std::string atn::Sudoku<T>::to_str() const {
     ss << row_indicator
        << std::string(this->cell_width - row_indicator.size() + 1, ' ');
     for (uint8_t x = 0; x < T * T; ++x) {
-      uint8_t cell_val = this->get({x, y}).value;
+      uint8_t cell_val     = this->get({x, y}).value;
       std::string cell_str = std::to_string(cell_val);
       if (cell_val == atn::UNSET)
         ss << std::string(this->cell_width - 1, ' ');
