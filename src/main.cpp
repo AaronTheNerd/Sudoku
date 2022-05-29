@@ -6,10 +6,10 @@
 #include <chrono>                // std::chrono
 #include <fstream>               // std::ofstream
 #include <iostream>              // std::cout, std::endl
+#include "json.h"                // atn::json
 #include "puzzle_generator.h"    // atn::SudokuPuzzleGenerator
 #include "solution_generator.h"  // atn::SudokuSolutionGenerator
 #include "sudoku.h"              // atn::Sudoku
-#include "utils.h"               // atn::json
 
 int main(int argc, char** argv) {
   // Instantiate variables for Sudoku Generation
