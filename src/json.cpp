@@ -7,7 +7,9 @@
 #define TAB_WIDTH 2
 
 #include "json.h"
-#include <sstream>  // std::stringstream
+#include <stdexcept>      // std::
+#include <sstream>        // std::stringstream
+#include <unordered_map>  // std::unordered_map
 
 namespace {
 
@@ -30,23 +32,15 @@ std::string board_to_json(
 }
 
 std::string difficulty_to_string(const atn::DIFFICULTY difficulty) {
-  switch (difficulty) {
-    case atn::SOLUTION:
-      return "Solution";
-    case atn::VERY_EASY:
-      return "Very Easy";
-    case atn::EASY:
-      return "Easy";
-    case atn::MEDIUM:
-      return "Medium";
-    case atn::HARD:
-      return "Hard";
-    case atn::KILLER:
-      return "Killer";
-    case atn::EVIL:
-      return "EVIL";
+  return atn::json::difficulty_to_string_map[difficulty];
+}
+
+atn::DIFFICULTY string_to_difficulty(const std::string difficulty_string) {
+  for (auto it = atn::json::difficulty_to_string_map.begin();
+       it != atn::json::difficulty_to_string_map.end(); ++it) {
+    if (it->second == difficulty_string) return it->first;
   }
-  return "INVALID";
+  throw std::invalid_argument("Unrecognized difficulty: \"" + difficulty_string + "\"");
 }
 
 }  // namespace

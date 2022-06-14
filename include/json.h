@@ -9,6 +9,12 @@
 
 namespace atn::json {
 
+static const std::unordered_map<atn::DIFFICULTY, std::string>
+    difficulty_to_string_map = {{atn::SOLUTION, "Solution"},
+        {atn::VERY_EASY, "Very Easy"}, {atn::EASY, "Easy"},
+        {atn::MEDIUM, "Medium"}, {atn::HARD, "Hard"}, {atn::KILLER, "Killer"},
+        {atn::EVIL, "Evil"}};
+
 template <uint8_t T>
 std::string to_json(
     uint32_t, atn::DIFFICULTY, const atn::Sudoku<T>&, const atn::Sudoku<T>&);
