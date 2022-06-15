@@ -4,11 +4,12 @@
 #ifndef _INCLUDE_SUDOKU_H_
 #define _INCLUDE_SUDOKU_H_
 
-#include <array>    // std::array
-#include <bitset>   // std::bitset
-#include <cstddef>  // uint8_t
-#include <string>   // std::string
-#include <vector>   // std::vector
+#include <array>          // std::array
+#include <bitset>         // std::bitset
+#include <cstddef>        // uint8_t
+#include <string>         // std::string
+#include <unordered_map>  // std::unordered_map
+#include <vector>         // std::vector
 
 namespace atn {
 
@@ -21,6 +22,12 @@ enum DIFFICULTY {
   KILLER    = 10000,
   EVIL      = 18000
 };
+
+static const std::unordered_map<atn::DIFFICULTY, std::string>
+    difficulty_to_string_map = {{atn::SOLUTION, "Solution"},
+        {atn::VERY_EASY, "Very Easy"}, {atn::EASY, "Easy"},
+        {atn::MEDIUM, "Medium"}, {atn::HARD, "Hard"}, {atn::KILLER, "Killer"},
+        {atn::EVIL, "Evil"}};
 
 static const uint8_t UNSET = 0;
 
