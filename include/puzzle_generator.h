@@ -17,11 +17,13 @@ class SudokuPuzzleGenerator {
   unsigned seed;
   std::default_random_engine rng;
   Sudoku<T> puzzle;
+  uint16_t difficulty_score;
   void init();
 
  public:
   SudokuPuzzleGenerator(DIFFICULTY, unsigned, Sudoku<T>);
-  Sudoku<T> get_puzzle() const;
+  atn::Sudoku<T> get_puzzle() const;
+  uint16_t get_difficulty_score() const;
 };
 
 }  // namespace atn
