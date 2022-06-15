@@ -7,9 +7,8 @@
 #define TAB_WIDTH 2
 
 #include "json.h"
-#include <stdexcept>      // std::
+#include <stdexcept>      // std::invalid_argument
 #include <sstream>        // std::stringstream
-#include <unordered_map>  // std::unordered_map
 
 namespace {
 
@@ -32,12 +31,12 @@ std::string board_to_json(
 }
 
 std::string difficulty_to_string(const atn::DIFFICULTY difficulty) {
-  return atn::json::difficulty_to_string_map[difficulty];
+  return atn::difficulty_to_string_map.at(difficulty);
 }
 
 atn::DIFFICULTY string_to_difficulty(const std::string difficulty_string) {
-  for (auto it = atn::json::difficulty_to_string_map.begin();
-       it != atn::json::difficulty_to_string_map.end(); ++it) {
+  for (auto it = atn::difficulty_to_string_map.begin();
+       it != atn::difficulty_to_string_map.end(); ++it) {
     if (it->second == difficulty_string) return it->first;
   }
   throw std::invalid_argument("Unrecognized difficulty: \"" + difficulty_string + "\"");
@@ -46,16 +45,16 @@ atn::DIFFICULTY string_to_difficulty(const std::string difficulty_string) {
 }  // namespace
 
 template <uint8_t T>
-std::string atn::json::to_json(uint32_t seed, atn::DIFFICULTY difficulty,
-    const atn::Sudoku<T>& solution, const atn::Sudoku<T>& puzzle) {
+std::string atn::json::to_json(const atn::SudokuGame<T>& game) {
   std::stringstream ss;
   ss << "{";
-  ss << "\n" << std::string(TAB_WIDTH, ' ') << "\"seed\": " << seed << ",";
+  ss << "\n" << std::string(TAB_WIDTH, ' ') << "\"seed\": " << game.get_seed() << ",";
   ss << "\n"
      << std::string(TAB_WIDTH, ' ') << "\"difficulty\": \""
-     << difficulty_to_string(difficulty) << "\",";
-  ss << "\n" << board_to_json(solution, "solution", 1) << ",";
-  ss << "\n" << board_to_json(puzzle, "puzzle", 1);
+     << difficulty_to_string(game.get_difficulty()) << "\",";
+  ss << "\n" << std::string(TAB_WIDTH, ' ') << "\"difficulty_score\": " << game.get_difficulty_score() << ",";
+  ss << "\n" << board_to_json(game.get_solution(), "solution", 1) << ",";
+  ss << "\n" << board_to_json(game.get_puzzle(), "puzzle", 1);
   ss << "\n}";
   return ss.str();
 }
