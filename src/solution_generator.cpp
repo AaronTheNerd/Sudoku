@@ -52,7 +52,7 @@ atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator()
 }
 
 template <uint8_t T>
-atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator(unsigned seed)
+atn::SudokuSolutionGenerator<T>::SudokuSolutionGenerator(uint32_t seed)
     : seed(seed), rng(this->seed), solution() {
   this->init();
 }
