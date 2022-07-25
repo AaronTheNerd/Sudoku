@@ -8,12 +8,18 @@
 #include <sstream>  // std::stringstream
 
 template <uint8_t T>
-atn::Cell<T>::Cell() : value(atn::UNSET), pos({0, 0}), options() {
+atn::Cell<T>::Cell() : pos({0, 0}), value(atn::UNSET), options() {
   this->options.set();
 }
 
 template <uint8_t T>
-atn::Cell<T>::Cell(atn::Pos pos) : value(atn::UNSET), pos(pos), options() {
+atn::Cell<T>::Cell(atn::Pos pos) : pos(pos), value(atn::UNSET), options() {
+  this->options.set();
+}
+
+template <uint8_t T>
+atn::Cell<T>::Cell(atn::Pos pos, uint8_t value)
+    : pos(pos), value(value), options() {
   this->options.set();
 }
 
@@ -170,6 +176,16 @@ template <uint8_t T>
 atn::Sudoku<T>::Sudoku() : cell_width(0), board() {
   this->initialize_cell_width();
   this->initialize_blank_board();
+}
+
+template <uint8_t T>
+atn::Sudoku<T>::Sudoku(std::array<std::array<uint8_t, T * T>, T * T> board)
+    : cell_width(0), board() {
+  for (uint8_t y = 0; y < T * T; ++y) {
+    for (uint8_t x = 0; x < T * T; ++x) {
+      this->board[x][y] = atn::Cell<T>({x, y}, board[x][y]);
+    }
+  }
 }
 
 template <uint8_t T>

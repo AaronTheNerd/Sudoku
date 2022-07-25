@@ -29,6 +29,7 @@ struct Cell {
   std::bitset<T * T> options;
   Cell();
   Cell(Pos);
+  Cell(Pos, uint8_t);
   bool invalid() const;
   static bool compare_options(const Cell<T>&, const Cell<T>&);
 };
