@@ -13,21 +13,7 @@
 
 namespace atn {
 
-enum DIFFICULTY {
-  SOLUTION  = 0,
-  VERY_EASY = 4000,
-  EASY      = 4900,
-  MEDIUM    = 6000,
-  HARD      = 7600,
-  KILLER    = 10000,
-  EVIL      = 18000
-};
-
-static const std::unordered_map<atn::DIFFICULTY, std::string>
-    difficulty_to_string_map = {{atn::SOLUTION, "Solution"},
-        {atn::VERY_EASY, "Very Easy"}, {atn::EASY, "Easy"},
-        {atn::MEDIUM, "Medium"}, {atn::HARD, "Hard"}, {atn::KILLER, "Killer"},
-        {atn::EVIL, "Evil"}};
+enum BOARD_SPACE : uint8_t { ROW, COLUMN, BLOCK, INVALID_SPACE };
 
 static const uint8_t UNSET = 0;
 
@@ -38,8 +24,8 @@ struct Pos {
 
 template <uint8_t T>
 struct Cell {
-  uint8_t value;
   Pos pos;
+  uint8_t value;
   std::bitset<T * T> options;
   Cell();
   Cell(Pos);
@@ -65,6 +51,7 @@ class Sudoku {
 
  public:
   Sudoku();
+  Sudoku(std::array<std::array<uint8_t, T * T>, T * T>);
   Cell<T>& at(Pos);
   Cell<T> get(Pos) const;
   bool set(Pos, uint8_t);
