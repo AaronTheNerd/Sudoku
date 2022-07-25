@@ -12,6 +12,12 @@
 
 namespace {
 
+static const std::unordered_map<atn::DIFFICULTY, std::string>
+    difficulty_to_string_map = {{atn::SOLUTION, "Solution"},
+        {atn::VERY_EASY, "Very Easy"}, {atn::EASY, "Easy"},
+        {atn::MEDIUM, "Medium"}, {atn::HARD, "Hard"}, {atn::KILLER, "Killer"},
+        {atn::EVIL, "Evil"}};
+
 template <uint8_t T>
 std::string board_to_json(
     const atn::Sudoku<T>& board, std::string name, uint8_t indentation) {
@@ -31,12 +37,12 @@ std::string board_to_json(
 }
 
 std::string difficulty_to_string(const atn::DIFFICULTY difficulty) {
-  return atn::difficulty_to_string_map.at(difficulty);
+  return difficulty_to_string_map.at(difficulty);
 }
 
 atn::DIFFICULTY string_to_difficulty(const std::string difficulty_string) {
-  for (auto it = atn::difficulty_to_string_map.begin();
-       it != atn::difficulty_to_string_map.end(); ++it) {
+  for (auto it = difficulty_to_string_map.begin();
+       it != difficulty_to_string_map.end(); ++it) {
     if (it->second == difficulty_string) return it->first;
   }
   throw std::invalid_argument("Unrecognized difficulty: \"" + difficulty_string + "\"");
