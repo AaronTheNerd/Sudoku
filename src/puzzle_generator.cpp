@@ -5,26 +5,23 @@
 #define _SRC_PUZZLE_GENERATOR_CPP_
 
 #include "puzzle_generator.h"
-#include <functional>  // std::bind
-#include "logical_solver.h"
-#include "solver.h"
+#include <functional>        // std::bind
+#include "logical_solver.h"  // atn::logical_solve
+#include "solver.h"          // atn::solve
 
 template <uint8_t T>
 void atn::SudokuPuzzleGenerator<T>::init() {
-  if (this->difficulty == SOLUTION) return;
-  uint8_t attempts = 2;
+  if (this->difficulty == atn::SOLUTION) return;
+  uint8_t attempts = 1;
   std::uniform_int_distribution<uint8_t> distribution(0, T * T - 1);
   auto random_coord = std::bind(distribution, this->rng);
   atn::Pos curr_pos;
   atn::Sudoku<T> solve_board;
-  while (attempts != 0 && this->difficulty_score < this->difficulty) {
+  while (attempts != 0 && this->difficulty_score < (uint16_t)this->difficulty) {
     // Get random cell which is not set
-    uint8_t x, y;
     uint8_t value;
     do {
-      x        = random_coord();
-      y        = random_coord();
-      curr_pos = {x, y};
+      curr_pos = {random_coord(), random_coord()};
       value    = this->puzzle.get(curr_pos).value;
     } while (value == atn::UNSET);
 
@@ -51,13 +48,13 @@ void atn::SudokuPuzzleGenerator<T>::init() {
       }
     }
     if (safe_to_remove) {
-      this->puzzle.unset(curr_pos);
       solve_board = this->puzzle;
+      solve_board.unset(curr_pos);
       atn::LogicalSolverResults<T> results = atn::logical_solve(solve_board);
-      if (!results.valid) { // Could not solve the puzzle logically
-        this->puzzle.set(curr_pos, value);
+      if (!results.valid) {  // Could not solve the puzzle logically
         attempts -= 1;
       } else {
+        this->puzzle.unset(curr_pos);
         this->difficulty_score = results.difficulty_score;
       }
     }
