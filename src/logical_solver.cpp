@@ -26,13 +26,14 @@ template <uint8_t T>
 atn::LogicalTechniquePtr<T> atn::get_next_move(atn::Sudoku<T>& puzzle) {
   atn::LogicalTechniquePtr<T> technique;
   for (LOGICAL_TECHNIQUE i = SINGLE_CANDIDATE; i != LAST_TECHNIQUE;
-       static_cast<LOGICAL_TECHNIQUE>((uint8_t)i + 1)) {
+       i = static_cast<LOGICAL_TECHNIQUE>((uint8_t)i + 1)) {
     technique = atn::generate_ptr(puzzle, i);
+    if (technique == nullptr) break;
     if (technique->valid) {
       return technique;
     }
   }
-  return technique;
+  return nullptr;
 }
 
 template <uint8_t T>
@@ -42,7 +43,7 @@ atn::LogicalSolverResults<T> atn::logical_solve(atn::Sudoku<T>& puzzle) {
   atn::TechniqueCounts counts;
   while (empty_cells.size() != 0 && puzzle.validate()) {
     technique = atn::get_next_move<T>(puzzle);
-    if (technique->valid) {
+    if (technique != nullptr) {
       auto result = counts.insert({technique->technique, 1});
       if (result.second) result.first->second++;
       technique->apply(puzzle);
