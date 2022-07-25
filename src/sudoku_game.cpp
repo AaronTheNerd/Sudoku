@@ -62,16 +62,4 @@ uint16_t atn::SudokuGame<T>::get_difficulty_score() const {
   return this->difficulty_score;
 }
 
-template <uint8_t T>
-std::string atn::SudokuGame<T>::to_str() const {
-  std::stringstream ss;
-  ss << this->solution.to_str() << "\n\n\n\n\n";
-  ss << this->puzzle.to_str() << "\n\n\n\n\n";
-  ss << "Seed: " << this->get_seed() << "\n";
-  ss << "Difficulty: " << atn::difficulty_to_string_map.at(this->difficulty)
-     << "\n";
-  ss << "Difficulty Score: " << this->difficulty_score;
-  return ss.str();
-}
-
 #endif  // _SRC_SUDOKU_GAME_CPP_

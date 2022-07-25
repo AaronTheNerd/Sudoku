@@ -11,7 +11,6 @@
 
 int main(int argc, char** argv) {
   atn::SudokuGame<3> game(atn::VERY_EASY);
-  std::cout << game.to_str() << std::endl;
   
   std::ofstream outfile;
   outfile.open("puzzle.json", std::ios::out | std::ios::trunc);
