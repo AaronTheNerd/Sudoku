@@ -5,7 +5,9 @@
 #define _SRC_LOGICAL_TECHNIQUES_CPP_
 
 #include "logical_techniques.h"
-#include <array>  // std::array
+#include "utils.h"
+#include <array>          // std::array
+#include <unordered_map>  // std::unordered_map
 
 namespace {}  // namespace
 
@@ -15,14 +17,14 @@ atn::LogicalTechnique<T>::LogicalTechnique(
     : valid(valid), technique(technique) {}
 
 template <uint8_t T>
-atn::SingleCandidate<T>::SingleCandidate(atn::Sudoku<T>& puzzle)
+atn::SingleCandidate<T>::SingleCandidate(const atn::Sudoku<T>& puzzle)
     : atn::LogicalTechnique<T>(false, SINGLE_CANDIDATE),
       pos(),
       value(atn::UNSET) {
   atn::Cell<T> curr_cell;
   for (uint8_t x = 0; x < T * T; ++x) {
     for (uint8_t y = 0; y < T * T; ++y) {
-      curr_cell = puzzle.at({x, y});
+      curr_cell = puzzle.get({x, y});
       if (curr_cell.options.count() == 1 && curr_cell.value == atn::UNSET) {
         this->valid = true;
         for (uint8_t value = 1; value <= T * T; ++value) {
@@ -45,7 +47,7 @@ void atn::SingleCandidate<T>::apply(atn::Sudoku<T>& puzzle) const {
 }
 
 template <uint8_t T>
-atn::SinglePosition<T>::SinglePosition(atn::Sudoku<T>& puzzle)
+atn::SinglePosition<T>::SinglePosition(const atn::Sudoku<T>& puzzle)
     : atn::LogicalTechnique<T>(false, SINGLE_POSITION),
       pos(),
       value(atn::UNSET) {
@@ -56,8 +58,8 @@ atn::SinglePosition<T>::SinglePosition(atn::Sudoku<T>& puzzle)
     row_option_counts.fill(0);
     column_option_counts.fill(0);
     for (uint8_t j = 0; j < T * T; ++j) {
-      column_cell = puzzle.at({i, j});
-      row_cell    = puzzle.at({j, i});
+      column_cell = puzzle.get({i, j});
+      row_cell    = puzzle.get({j, i});
       for (uint8_t value = 1; value <= T * T; ++value) {
         if (row_cell.options[value - 1] && row_cell.value == atn::UNSET)
           row_option_counts[value - 1]++;
@@ -69,7 +71,7 @@ atn::SinglePosition<T>::SinglePosition(atn::Sudoku<T>& puzzle)
       if (column_option_counts[value - 1] == 1) {
         this->valid = true;
         for (uint8_t j = 0; j < T * T; ++j) {
-          column_cell = puzzle.at({i, j});
+          column_cell = puzzle.get({i, j});
           if (column_cell.options[value - 1]) {
             this->pos   = column_cell.pos;
             this->value = value;
@@ -81,7 +83,7 @@ atn::SinglePosition<T>::SinglePosition(atn::Sudoku<T>& puzzle)
       if (row_option_counts[value - 1] == 1) {
         this->valid = true;
         for (uint8_t j = 0; j < T * T; ++j) {
-          row_cell = puzzle.at({j, i});
+          row_cell = puzzle.get({j, i});
           if (row_cell.options[value - 1]) {
             this->pos   = row_cell.pos;
             this->value = value;
@@ -100,17 +102,59 @@ void atn::SinglePosition<T>::apply(atn::Sudoku<T>& puzzle) const {
 }
 
 template <uint8_t T>
-atn::CandidateLines<T>::CandidateLines(atn::Sudoku<T>& puzzle)
+atn::CandidateLines<T>::CandidateLines(const atn::Sudoku<T>& puzzle)
     : atn::LogicalTechnique<T>(false, CANDIDATE_LINES),
-      pos(),
+      positions(),
       value(atn::UNSET),
-      line(ROW) {}
+      line(ROW) {
+  uint8_t block_x, block_y, x, y;
+  Pos curr_pos;
+  Cell<T> curr_cell;
+  std::vector<Pos> positions;
+  std::unordered_map<uint8_t, std::vector<Pos>> valid_positions_of_option;
+  for (uint8_t block_it = 0; block_it < T * T; ++block_it) {
+    block_x = block_it / T;
+    block_y = block_it % T;
+    for (uint8_t it = 0; it < T * T; ++it) {
+      x                         = it / T;
+      y                         = it % T;
+      curr_pos                  = {block_x * T + x, block_y * T + y};
+      curr_cell                 = puzzle.get(curr_pos);
+      valid_positions_of_option = {};
+      for (uint8_t value = 1; value <= T * T; ++value) {
+        if (curr_cell.options[value - 1]) {
+
+          if (valid_positions_of_option.count(value) != 0) {
+            positions = valid_positions_of_option[value];
+            positions.emplace_back(curr_pos);
+            valid_positions_of_option[value] = positions;
+          } else {
+            valid_positions_of_option[value] = {curr_pos};
+          }
+        }
+      }
+      atn::BOARD_SPACE space;
+      for (const auto& [value, positions] : valid_positions_of_option) {
+        space = atn::utils::on_same_line(positions);
+        if (space != atn::INVALID_SPACE) { // TODO: Check for duplicate technique
+          this->valid = true;
+          this->value = value;
+          this->positions = positions;
+          this->line = space;
+          return;
+        }
+      }
+    }
+  }
+}
 
 template <uint8_t T>
-void atn::CandidateLines<T>::apply(atn::Sudoku<T>& puzzle) const {}
+void atn::CandidateLines<T>::apply(atn::Sudoku<T>& puzzle) const {
+  
+}
 
 template <uint8_t T>
-atn::DoublePairs<T>::DoublePairs(atn::Sudoku<T>& puzzle)
+atn::DoublePairs<T>::DoublePairs(const atn::Sudoku<T>& puzzle)
     : atn::LogicalTechnique<T>(false, DOUBLE_PAIRS),
       line(ROW),
       block_x(0),
@@ -121,55 +165,99 @@ template <uint8_t T>
 void atn::DoublePairs<T>::apply(atn::Sudoku<T>& puzzle) const {}
 
 template <uint8_t T>
-atn::MultipleLines<T>::MultipleLines(atn::Sudoku<T>& puzzle)
+atn::MultipleLines<T>::MultipleLines(const atn::Sudoku<T>& puzzle)
     : atn::LogicalTechnique<T>(false, MULTIPLE_LINES) {}
 
 template <uint8_t T>
 void atn::MultipleLines<T>::apply(atn::Sudoku<T>& puzzle) const {}
 
 template <uint8_t T, uint8_t N>
-atn::NakedValueSubset<T, N>::NakedValueSubset(atn::Sudoku<T>& puzzle)
-    : atn::LogicalTechnique<T>(false, INVALID),
+atn::NakedValueSubset<T, N>::NakedValueSubset(
+    const atn::Sudoku<T>& puzzle, const atn::LOGICAL_TECHNIQUE technique)
+    : atn::LogicalTechnique<T>(false, technique),
       space(ROW),
       positions(),
-      values() {}
+      values() {
+  this->findRowSubset(puzzle);
+  if (this->valid) return;
+  this->findColumnSubset(puzzle);
+  if (this->valid) return;
+  this->findBlockSubset(puzzle);
+}
 
 template <uint8_t T, uint8_t N>
-void atn::NakedValueSubset<T, N>::apply(atn::Sudoku<T>& puzzle) const {}
+void atn::NakedValueSubset<T, N>::apply(atn::Sudoku<T>& puzzle) const {
+  switch (this->space) {
+    case ROW:
+      return this->applyRowSubset(puzzle);
+    case COLUMN:
+      return this->applyColumnSubset(puzzle);
+    case BLOCK:
+      return this->applyBlockSubset(puzzle);
+    default:
+      throw std::runtime_error("Invalid space attempted to be applied");
+  }
+}
 
 template <uint8_t T, uint8_t N>
-atn::HiddenValueSubset<T, N>::HiddenValueSubset(atn::Sudoku<T>& puzzle)
-    : atn::NakedValueSubset<T, N>(puzzle) {}
+void atn::NakedValueSubset<T, N>::findRowSubset(const atn::Sudoku<T>& puzzle) {
+  atn::Pos curr_pos;
+  uint8_t count;
+  for (uint8_t y = 0; y < T * T; ++y) {
+    count = 0;
+    for (uint8_t x = 0; x < T * T; ++x) {
+      curr_pos = {x, y};
+      if (puzzle.get(curr_pos).options.count() > N) continue;
+    }
+  }
+}
+
+template <uint8_t T, uint8_t N>
+void atn::NakedValueSubset<T, N>::findColumnSubset(
+    const atn::Sudoku<T>& puzzle) {}
+
+template <uint8_t T, uint8_t N>
+void atn::NakedValueSubset<T, N>::findBlockSubset(
+    const atn::Sudoku<T>& puzzle) {}
+
+template <uint8_t T, uint8_t N>
+void atn::NakedValueSubset<T, N>::applyRowSubset(atn::Sudoku<T>& puzzle) const {
+}
+
+template <uint8_t T, uint8_t N>
+void atn::NakedValueSubset<T, N>::applyColumnSubset(
+    atn::Sudoku<T>& puzzle) const {}
+
+template <uint8_t T, uint8_t N>
+void atn::NakedValueSubset<T, N>::applyBlockSubset(
+    atn::Sudoku<T>& puzzle) const {}
+
+template <uint8_t T, uint8_t N>
+atn::HiddenValueSubset<T, N>::HiddenValueSubset(
+    const atn::Sudoku<T>& puzzle, const atn::LOGICAL_TECHNIQUE technique)
+    : atn::NakedValueSubset<T, N>(puzzle, technique) {}
 
 template <uint8_t T, uint8_t N>
 void atn::HiddenValueSubset<T, N>::apply(atn::Sudoku<T>&) const {}
 
 template <uint8_t T>
-atn::NakedPair<T>::NakedPair(atn::Sudoku<T>& puzzle)
-    : atn::NakedValueSubset<T, 2>(puzzle) {
-  this->technique = NAKED_PAIR;
-}
+atn::NakedPair<T>::NakedPair(const atn::Sudoku<T>& puzzle)
+    : atn::NakedValueSubset<T, 2>(puzzle, NAKED_PAIR) {}
 
 template <uint8_t T>
-atn::HiddenPair<T>::HiddenPair(atn::Sudoku<T>& puzzle)
-    : atn::HiddenValueSubset<T, 2>(puzzle) {
-  this->technique = HIDDEN_PAIR;
-}
+atn::HiddenPair<T>::HiddenPair(const atn::Sudoku<T>& puzzle)
+    : atn::HiddenValueSubset<T, 2>(puzzle, HIDDEN_PAIR) {}
 
 template <uint8_t T>
-atn::NakedTriple<T>::NakedTriple(atn::Sudoku<T>& puzzle)
-    : atn::NakedValueSubset<T, 3>(puzzle) {
-  this->technique = NAKED_TRIPLE;
-}
+atn::NakedTriple<T>::NakedTriple(const atn::Sudoku<T>& puzzle)
+    : atn::NakedValueSubset<T, 3>(puzzle, NAKED_TRIPLE) {}
 
 template <uint8_t T>
-atn::HiddenTriple<T>::HiddenTriple(atn::Sudoku<T>& puzzle)
-    : atn::HiddenValueSubset<T, 3>(puzzle) {
-  this->technique = HIDDEN_TRIPLE;
-}
+atn::HiddenTriple<T>::HiddenTriple(const atn::Sudoku<T>& puzzle)
+    : atn::HiddenValueSubset<T, 3>(puzzle, HIDDEN_TRIPLE) {}
 
 template <uint8_t T>
-atn::XWing<T>::XWing(atn::Sudoku<T>& puzzle)
+atn::XWing<T>::XWing(const atn::Sudoku<T>& puzzle)
     : atn::LogicalTechnique<T>(false, X_WING),
       line(ROW),
       line1_coord(0),
@@ -179,26 +267,22 @@ template <uint8_t T>
 void atn::XWing<T>::apply(atn::Sudoku<T>& puzzle) const {}
 
 template <uint8_t T>
-atn::ForcingChains<T>::ForcingChains(atn::Sudoku<T>& puzzle)
+atn::ForcingChains<T>::ForcingChains(const atn::Sudoku<T>& puzzle)
     : atn::LogicalTechnique<T>(false, FORCING_CHAINS), invariables() {}
 
 template <uint8_t T>
 void atn::ForcingChains<T>::apply(atn::Sudoku<T>& puzzle) const {}
 
 template <uint8_t T>
-atn::NakedQuad<T>::NakedQuad(atn::Sudoku<T>& puzzle)
-    : atn::NakedValueSubset<T, 4>(puzzle) {
-  this->technique = NAKED_QUAD;
-}
+atn::NakedQuad<T>::NakedQuad(const atn::Sudoku<T>& puzzle)
+    : atn::NakedValueSubset<T, 4>(puzzle, NAKED_QUAD) {}
 
 template <uint8_t T>
-atn::HiddenQuad<T>::HiddenQuad(atn::Sudoku<T>& puzzle)
-    : atn::HiddenValueSubset<T, 4>(puzzle) {
-  this->technique = HIDDEN_QUAD;
-}
+atn::HiddenQuad<T>::HiddenQuad(const atn::Sudoku<T>& puzzle)
+    : atn::HiddenValueSubset<T, 4>(puzzle, HIDDEN_QUAD) {}
 
 template <uint8_t T>
-atn::Swordfish<T>::Swordfish(atn::Sudoku<T>& puzzle)
+atn::Swordfish<T>::Swordfish(const atn::Sudoku<T>& puzzle)
     : atn::LogicalTechnique<T>(false, SWORDFISH), line(ROW), verticies() {}
 
 template <uint8_t T>
@@ -206,7 +290,7 @@ void atn::Swordfish<T>::apply(atn::Sudoku<T>& puzzle) const {}
 
 template <uint8_t T>
 atn::LogicalTechniquePtr<T> atn::generate_ptr(
-    atn::Sudoku<T>& puzzle, LOGICAL_TECHNIQUE technique) {
+    const atn::Sudoku<T>& puzzle, const atn::LOGICAL_TECHNIQUE technique) {
   switch (technique) {
     case SINGLE_CANDIDATE:
       return std::make_shared<atn::SingleCandidate<T>>(puzzle);
@@ -236,6 +320,8 @@ atn::LogicalTechniquePtr<T> atn::generate_ptr(
       return std::make_shared<atn::HiddenQuad<T>>(puzzle);
     case SWORDFISH:
       return std::make_shared<atn::Swordfish<T>>(puzzle);
+    default:
+      throw std::invalid_argument("Unrecognized technique: " + technique);
   }
 }
 

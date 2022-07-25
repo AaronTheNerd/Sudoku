@@ -14,8 +14,6 @@ namespace atn {
 
 // Enumerations
 
-enum BOARD_SPACE : uint8_t { ROW, COLUMN, BLOCK };
-
 enum LOGICAL_TECHNIQUE : uint8_t {
   SINGLE_CANDIDATE = 0,
   SINGLE_POSITION,
@@ -32,7 +30,7 @@ enum LOGICAL_TECHNIQUE : uint8_t {
   HIDDEN_QUAD,
   SWORDFISH,
   LAST_TECHNIQUE,
-  INVALID
+  INVALID_TECHNIQUE
 };
 
 // Structs
@@ -51,7 +49,7 @@ template <uint8_t T>
 struct SingleCandidate : public LogicalTechnique<T> {
   atn::Pos pos;
   uint8_t value;
-  SingleCandidate(atn::Sudoku<T> &);
+  SingleCandidate(const atn::Sudoku<T> &);
   void apply(atn::Sudoku<T> &) const;
 };
 
@@ -59,16 +57,16 @@ template <uint8_t T>
 struct SinglePosition : public LogicalTechnique<T> {
   atn::Pos pos;
   uint8_t value;
-  SinglePosition(atn::Sudoku<T> &);
+  SinglePosition(const atn::Sudoku<T> &);
   void apply(atn::Sudoku<T> &) const;
 };
 
 template <uint8_t T>
 struct CandidateLines : public LogicalTechnique<T> {
-  atn::Pos pos;
+  std::vector<atn::Pos> positions;
   uint8_t value;
   BOARD_SPACE line;
-  CandidateLines(atn::Sudoku<T> &);
+  CandidateLines(const atn::Sudoku<T> &);
   void apply(atn::Sudoku<T> &) const;
 };
 
@@ -78,14 +76,14 @@ struct DoublePairs : public LogicalTechnique<T> {
   uint8_t block_x;
   uint8_t block_y;
   uint8_t coord_to_keep;
-  DoublePairs(atn::Sudoku<T> &);
+  DoublePairs(const atn::Sudoku<T> &);
   void apply(atn::Sudoku<T> &) const;
 };
 
 template <uint8_t T>
 struct MultipleLines : public LogicalTechnique<T> {
   // I'll be honest idk what this one is
-  MultipleLines(atn::Sudoku<T> &);
+  MultipleLines(const atn::Sudoku<T> &);
   void apply(atn::Sudoku<T> &) const;
 };
 
@@ -94,66 +92,74 @@ struct NakedValueSubset : public LogicalTechnique<T> {
   BOARD_SPACE space;
   std::array<atn::Pos, N> positions;
   std::array<uint8_t, N> values;
-  NakedValueSubset(atn::Sudoku<T> &);
+  NakedValueSubset(const atn::Sudoku<T> &, const LOGICAL_TECHNIQUE);
   void apply(atn::Sudoku<T> &) const;
+
+ private:
+  void findRowSubset(const atn::Sudoku<T> &);
+  void findColumnSubset(const atn::Sudoku<T> &);
+  void findBlockSubset(const atn::Sudoku<T> &);
+  void applyRowSubset(atn::Sudoku<T> &) const;
+  void applyColumnSubset(atn::Sudoku<T> &) const;
+  void applyBlockSubset(atn::Sudoku<T> &) const;
 };
 
 template <uint8_t T, uint8_t N>
 struct HiddenValueSubset : public NakedValueSubset<T, N> {
-  HiddenValueSubset(atn::Sudoku<T> &);
+  HiddenValueSubset(const atn::Sudoku<T> &, const LOGICAL_TECHNIQUE);
   void apply(atn::Sudoku<T> &) const;
 };
 
 template <uint8_t T>
 struct NakedPair : public NakedValueSubset<T, 2> {
-  NakedPair(atn::Sudoku<T> &);
+  NakedPair(const atn::Sudoku<T> &);
 };
 
 template <uint8_t T>
 struct HiddenPair : public HiddenValueSubset<T, 2> {
-  HiddenPair(atn::Sudoku<T> &);
+  HiddenPair(const atn::Sudoku<T> &);
 };
 
 template <uint8_t T>
 struct NakedTriple : public NakedValueSubset<T, 3> {
-  NakedTriple(atn::Sudoku<T> &);
+  NakedTriple(const atn::Sudoku<T> &);
 };
 
 template <uint8_t T>
 struct HiddenTriple : public HiddenValueSubset<T, 3> {
-  HiddenTriple(atn::Sudoku<T> &);
+  HiddenTriple(const atn::Sudoku<T> &);
 };
 
 template <uint8_t T>
 struct XWing : public LogicalTechnique<T> {
   BOARD_SPACE line;
   uint8_t line1_coord, line2_coord;
-  XWing(atn::Sudoku<T> &);
+  XWing(const atn::Sudoku<T> &);
   void apply(atn::Sudoku<T> &) const;
 };
 
 template <uint8_t T>
 struct ForcingChains : public LogicalTechnique<T> {
   std::vector<SingleCandidate<T>> invariables;
-  ForcingChains(atn::Sudoku<T> &);
+  ForcingChains(const atn::Sudoku<T> &);
   void apply(atn::Sudoku<T> &) const;
 };
 
 template <uint8_t T>
 struct NakedQuad : public NakedValueSubset<T, 4> {
-  NakedQuad(atn::Sudoku<T> &);
+  NakedQuad(const atn::Sudoku<T> &);
 };
 
 template <uint8_t T>
 struct HiddenQuad : public HiddenValueSubset<T, 4> {
-  HiddenQuad(atn::Sudoku<T> &);
+  HiddenQuad(const atn::Sudoku<T> &);
 };
 
 template <uint8_t T>
 struct Swordfish : public LogicalTechnique<T> {
   BOARD_SPACE line;
   std::vector<atn::Pos> verticies;
-  Swordfish(atn::Sudoku<T> &);
+  Swordfish(const atn::Sudoku<T> &);
   void apply(atn::Sudoku<T> &) const;
 };
 
@@ -182,7 +188,7 @@ using LogicalTechniquePtr = std::shared_ptr<LogicalTechnique<T>>;
 // Functions
 
 template <uint8_t T>
-LogicalTechniquePtr<T> generate_ptr(atn::Sudoku<T> &, LOGICAL_TECHNIQUE);
+LogicalTechniquePtr<T> generate_ptr(const atn::Sudoku<T> &, const atn::LOGICAL_TECHNIQUE);
 
 }  // namespace atn
 
