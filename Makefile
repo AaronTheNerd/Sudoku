@@ -13,7 +13,7 @@ TEST_DIR := test
 
 # Build Flags
 CXX := g++
-CFLAGS := -Wall -O3
+CFLAGS := -Wall -O3 -std=c++1z
 INCFLAG := -I $(INC_DIR)
 TARGET := main
 
