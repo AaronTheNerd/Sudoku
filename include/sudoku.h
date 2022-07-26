@@ -20,6 +20,12 @@ static const uint8_t UNSET = 0;
 struct Pos {
   uint8_t x = 0;
   uint8_t y = 0;
+  bool operator==(const Pos& rhs) const {
+    return this->x == rhs.x && this->y == rhs.y;
+  }
+  std::string to_str() const {
+    return "(" + std::to_string(int(x)) + ", " + std::to_string(int(y)) + ")";
+  }
 };
 
 template <uint8_t T>
