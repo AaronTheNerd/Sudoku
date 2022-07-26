@@ -36,4 +36,4 @@ $(BLD_DIR)/test.o: $(TEST_DIR)/main.cpp
 	$(CXX) $(CFLAGS) $(INCFLAG) -c $< -o $@
 
 clean:
-	$(RM) $(BLD_DIR)/*
+	$(RM) $(BLD_DIR)/* test.exe main
