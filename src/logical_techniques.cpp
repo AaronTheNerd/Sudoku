@@ -5,9 +5,11 @@
 #define _SRC_LOGICAL_TECHNIQUES_CPP_
 
 #include "logical_techniques.h"
-#include "utils.h"
-#include <array>          // std::array
+#include <algorithm>  // std::find
+#include <array>      // std::array
+#include <iostream>
 #include <unordered_map>  // std::unordered_map
+#include "utils.h"
 
 namespace {}  // namespace
 
@@ -113,36 +115,29 @@ atn::CandidateLines<T>::CandidateLines(const atn::Sudoku<T>& puzzle)
   std::vector<Pos> positions;
   std::unordered_map<uint8_t, std::vector<Pos>> valid_positions_of_option;
   for (uint8_t block_it = 0; block_it < T * T; ++block_it) {
-    block_x = block_it / T;
-    block_y = block_it % T;
+    block_x                   = block_it / T;
+    block_y                   = block_it % T;
+    valid_positions_of_option = {};
     for (uint8_t it = 0; it < T * T; ++it) {
-      x                         = it / T;
-      y                         = it % T;
-      curr_pos                  = {block_x * T + x, block_y * T + y};
-      curr_cell                 = puzzle.get(curr_pos);
-      valid_positions_of_option = {};
+      x         = it / T;
+      y         = it % T;
+      curr_pos  = {block_x * T + x, block_y * T + y};
+      curr_cell = puzzle.get(curr_pos);
       for (uint8_t value = 1; value <= T * T; ++value) {
-        if (curr_cell.options[value - 1]) {
-
-          if (valid_positions_of_option.count(value) != 0) {
-            positions = valid_positions_of_option[value];
-            positions.emplace_back(curr_pos);
-            valid_positions_of_option[value] = positions;
-          } else {
-            valid_positions_of_option[value] = {curr_pos};
-          }
+        if (curr_cell.value == atn::UNSET && curr_cell.options[value - 1]) {
+          valid_positions_of_option[value].emplace_back(curr_pos);
         }
       }
-      atn::BOARD_SPACE space;
-      for (const auto& [value, positions] : valid_positions_of_option) {
-        space = atn::utils::on_same_line(positions);
-        if (space != atn::INVALID_SPACE) { // TODO: Check for duplicate technique
-          this->valid = true;
-          this->value = value;
-          this->positions = positions;
-          this->line = space;
-          return;
-        }
+    }
+    atn::BOARD_SPACE space;
+    for (const auto& [value, positions] : valid_positions_of_option) {
+      space = atn::utils::on_same_line(positions);
+      if (space != atn::INVALID_SPACE) {  // TODO: Check for duplicate technique
+        this->valid     = true;
+        this->value     = value;
+        this->positions = positions;
+        this->line      = space;
+        return;
       }
     }
   }
@@ -150,7 +145,28 @@ atn::CandidateLines<T>::CandidateLines(const atn::Sudoku<T>& puzzle)
 
 template <uint8_t T>
 void atn::CandidateLines<T>::apply(atn::Sudoku<T>& puzzle) const {
-  
+  uint dx, dy, x0, y0;
+  if (this->line == atn::ROW) {
+    dx = 1;
+    dy = 0;
+    x0 = 0;
+    y0 = this->positions[0].y;
+  } else if (this->line == atn::COLUMN) {
+    dx = 0;
+    dy = 1;
+    x0 = this->positions[0].x;
+    y0 = 0;
+  } else {
+    return;
+  }
+  Pos curr_pos;
+  for (uint8_t x = x0, y = y0; x < T * T && y < T * T; x += dx, y += dy) {
+    curr_pos = {x, y};
+    if (std::find(this->positions.begin(), this->positions.end(), curr_pos)
+        == this->positions.end()) {
+      puzzle.at(curr_pos).options[this->value - 1] = false;
+    }
+  }
 }
 
 template <uint8_t T>

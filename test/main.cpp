@@ -14,5 +14,15 @@ int main(int argc, char** argv) {
   TIME(test_single_candidate());
   TIME(test_single_position());
   TIME(test_candidate_lines());
+  // Double Pairs
+  // Multiple Lines
   TIME(test_naked_pair());
+  // Hidden Pair
+  // Naked Triple
+  // Hidden Triple
+  // X Wing
+  // Forcing Chains
+  // Naked Quad
+  // Hidden Quad
+  // Swordfish
 }

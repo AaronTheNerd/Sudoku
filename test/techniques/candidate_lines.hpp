@@ -44,7 +44,7 @@ int test_candidate_lines() {
         ASSERT(puzzle.get({x, 1}).options.count() == 8);
         ASSERT(puzzle.get({x, 1}).options[3] == false);
       }
-      for (uint8_t x = 6; x < 9; ++x) {
+      for (uint8_t x = 6; x < 8; ++x) {
         ASSERT(puzzle.get({x, 1}).options[3] == true);
       }
 
