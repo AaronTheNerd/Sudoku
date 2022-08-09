@@ -13,7 +13,14 @@
 
 namespace atn {
 
-enum BOARD_SPACE : uint8_t { ROW, COLUMN, BLOCK, INVALID_SPACE };
+enum BOARD_SPACE : uint8_t {
+  ROW,
+  COLUMN,
+  BLOCK,
+  ROW_AND_BLOCK,
+  COLUMN_AND_BLOCK,
+  INVALID_SPACE
+};
 
 static const uint8_t UNSET = 0;
 
