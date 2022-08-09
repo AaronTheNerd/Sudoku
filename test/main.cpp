@@ -11,12 +11,13 @@
 #include "techniques/single_position.hpp"
 
 int main(int argc, char** argv) {
-  TIME(test_single_candidate());
-  TIME(test_single_position());
-  TIME(test_candidate_lines());
+  TEST_SUITE_INIT();
+  TEST_SUITE("Single Candidate", test_single_candidate());
+  TEST_SUITE("Single Position", test_single_position());
+  TEST_SUITE("Candidate Lines", test_candidate_lines());
   // Double Pairs
   // Multiple Lines
-  TIME(test_naked_pair());
+  TEST_SUITE("Naked Pair", test_naked_pair());
   // Hidden Pair
   // Naked Triple
   // Hidden Triple
@@ -25,4 +26,5 @@ int main(int argc, char** argv) {
   // Naked Quad
   // Hidden Quad
   // Swordfish
+  PRINT_RESULTS();
 }
