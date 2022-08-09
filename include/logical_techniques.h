@@ -45,6 +45,10 @@ struct LogicalTechnique {
   LogicalTechnique(bool, LOGICAL_TECHNIQUE);
 };
 
+/*
+ * This technique is used when there is one option
+ * for a value at a specific position
+ */
 template <uint8_t T>
 struct SingleCandidate : public LogicalTechnique<T> {
   atn::Pos pos;
@@ -53,6 +57,10 @@ struct SingleCandidate : public LogicalTechnique<T> {
   void apply(atn::Sudoku<T> &) const;
 };
 
+/*
+ * This technique is used when there is one possible
+ * position for a specific value in a row, column, or block
+ */
 template <uint8_t T>
 struct SinglePosition : public LogicalTechnique<T> {
   atn::Pos pos;
@@ -61,6 +69,10 @@ struct SinglePosition : public LogicalTechnique<T> {
   void apply(atn::Sudoku<T> &) const;
 };
 
+/*
+ * This technique is used when all positions of a specific
+ * value in a block lie on the same line
+ */
 template <uint8_t T>
 struct CandidateLines : public LogicalTechnique<T> {
   std::vector<atn::Pos> positions;
@@ -87,11 +99,15 @@ struct MultipleLines : public LogicalTechnique<T> {
   void apply(atn::Sudoku<T> &) const;
 };
 
+/*
+ * This technique is used when there are some x number of positions
+ * which only contain x unique options in some constrained space
+ */
 template <uint8_t T, uint8_t N>
 struct NakedValueSubset : public LogicalTechnique<T> {
   BOARD_SPACE space;
-  std::array<atn::Pos, N> positions;
-  std::array<uint8_t, N> values;
+  std::vector<atn::Pos> positions;
+  std::vector<uint8_t> values;
   NakedValueSubset(const atn::Sudoku<T> &, const LOGICAL_TECHNIQUE);
   void apply(atn::Sudoku<T> &) const;
 
@@ -102,6 +118,10 @@ struct NakedValueSubset : public LogicalTechnique<T> {
   void applyRowSubset(atn::Sudoku<T> &) const;
   void applyColumnSubset(atn::Sudoku<T> &) const;
   void applyBlockSubset(atn::Sudoku<T> &) const;
+
+ protected:
+  void getNextCombination(
+      std::vector<uint8_t> &, const std::vector<atn::Pos>) const;
 };
 
 template <uint8_t T, uint8_t N>
@@ -163,23 +183,6 @@ struct Swordfish : public LogicalTechnique<T> {
   void apply(atn::Sudoku<T> &) const;
 };
 
-struct StepDifficulty {
-  uint16_t bonus;
-  uint16_t per_uses;
-};
-
-// Constant variable
-
-static const std::unordered_map<LOGICAL_TECHNIQUE, StepDifficulty>
-    TECHNIQUE_DIFFICULTY = {{SINGLE_CANDIDATE, {0, 100}},
-        {SINGLE_POSITION, {0, 100}}, {CANDIDATE_LINES, {150, 200}},
-        {DOUBLE_PAIRS, {250, 250}}, {MULTIPLE_LINES, {300, 400}},
-        {NAKED_PAIR, {250, 500}}, {HIDDEN_PAIR, {300, 1200}},
-        {NAKED_TRIPLE, {600, 1400}}, {HIDDEN_TRIPLE, {800, 1600}},
-        {X_WING, {1200, 1600}}, {FORCING_CHAINS, {2100, 2100}},
-        {NAKED_QUAD, {1000, 4000}}, {HIDDEN_QUAD, {2000, 5000}},
-        {SWORDFISH, {2000, 6000}}};
-
 // Typedefs
 
 template <uint8_t T>
@@ -188,7 +191,8 @@ using LogicalTechniquePtr = std::shared_ptr<LogicalTechnique<T>>;
 // Functions
 
 template <uint8_t T>
-LogicalTechniquePtr<T> generate_ptr(const atn::Sudoku<T> &, const atn::LOGICAL_TECHNIQUE);
+LogicalTechniquePtr<T> generate_ptr(
+    const atn::Sudoku<T> &, const atn::LOGICAL_TECHNIQUE);
 
 }  // namespace atn
 
