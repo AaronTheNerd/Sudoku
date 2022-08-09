@@ -38,4 +38,16 @@ atn::BOARD_SPACE atn::utils::on_same_line(
   return space;
 }
 
+bool atn::utils::in_same_block(const std::vector<atn::Pos>& positions, uint8_t T) {
+  uint8_t block_x, block_y;
+  if (positions.size() == 0) return false;
+  block_x = positions[0].x / T;
+  block_y = positions[0].y / T;
+  for (uint8_t i = 1; i < positions.size(); ++i) {
+    if (block_x != positions[i].x / T || block_y != positions[i].y / T)
+      return false;
+  }
+  return true;
+}
+
 #endif  // _SRC_UTILS_CPP_
