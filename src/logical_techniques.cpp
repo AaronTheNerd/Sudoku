@@ -11,8 +11,6 @@
 #include <unordered_map>  // std::unordered_map
 #include "utils.h"
 
-namespace {}  // namespace
-
 template <uint8_t T>
 atn::LogicalTechnique<T>::LogicalTechnique(
     bool valid, LOGICAL_TECHNIQUE technique)
@@ -205,11 +203,22 @@ template <uint8_t T, uint8_t N>
 void atn::NakedValueSubset<T, N>::apply(atn::Sudoku<T>& puzzle) const {
   switch (this->space) {
     case ROW:
-      return this->applyRowSubset(puzzle);
+      this->applyRowSubset(puzzle);
+      return;
     case COLUMN:
-      return this->applyColumnSubset(puzzle);
+      this->applyColumnSubset(puzzle);
+      return;
     case BLOCK:
-      return this->applyBlockSubset(puzzle);
+      this->applyBlockSubset(puzzle);
+      return;
+    case ROW_AND_BLOCK:
+      this->applyBlockSubset(puzzle);
+      this->applyRowSubset(puzzle);
+      return;
+    case COLUMN_AND_BLOCK:
+      this->applyBlockSubset(puzzle);
+      this->applyColumnSubset(puzzle);
+      return;
     default:
       throw std::runtime_error("Invalid space attempted to be applied");
   }
@@ -218,35 +227,210 @@ void atn::NakedValueSubset<T, N>::apply(atn::Sudoku<T>& puzzle) const {
 template <uint8_t T, uint8_t N>
 void atn::NakedValueSubset<T, N>::findRowSubset(const atn::Sudoku<T>& puzzle) {
   atn::Pos curr_pos;
-  uint8_t count;
+  std::vector<atn::Pos> _positions;
   for (uint8_t y = 0; y < T * T; ++y) {
-    count = 0;
+    _positions = {};
     for (uint8_t x = 0; x < T * T; ++x) {
       curr_pos = {x, y};
       if (puzzle.get(curr_pos).options.count() > N) continue;
+      _positions.emplace_back(curr_pos);
+    }
+
+    if (_positions.size() < N) continue;
+    std::vector<uint8_t> a{N};
+    std::bitset<T * T> values;
+    for (uint8_t i = 0; i < N; ++i) a[i] = i;
+
+    while (true) {
+      // Test subset
+      values.reset();
+      for (uint8_t i = 0; i < N; ++i) {
+        values |= puzzle.get(_positions[a[i]]).options;
+      }
+      if (values.count() == N) {  // TODO: Check for duplicates
+        this->valid = true;
+        for (uint8_t i = 0; i < N; ++i) {
+          this->positions.emplace_back(_positions[a[i]]);
+        }
+        if (atn::utils::in_same_block(this->positions, T))
+          this->space = ROW_AND_BLOCK;
+        else
+          this->space = ROW;
+        for (uint8_t i = 0; i < T * T; ++i) {
+          if (values[i]) this->values.emplace_back(i + 1);
+        }
+        return;
+      }
+
+      this->getNextCombination(a, _positions);
+      if (a.empty()) break;
     }
   }
 }
 
 template <uint8_t T, uint8_t N>
 void atn::NakedValueSubset<T, N>::findColumnSubset(
-    const atn::Sudoku<T>& puzzle) {}
+    const atn::Sudoku<T>& puzzle) {
+  atn::Pos curr_pos;
+  std::vector<atn::Pos> _positions;
+  for (uint8_t x = 0; x < T * T; ++x) {
+    _positions = {};
+    for (uint8_t y = 0; y < T * T; ++y) {
+      curr_pos = {x, y};
+      if (puzzle.get(curr_pos).options.count() > N) continue;
+      _positions.emplace_back(curr_pos);
+    }
+
+    if (_positions.size() < N) continue;
+    std::vector<uint8_t> a{N};
+    std::bitset<T * T> values;
+    for (uint8_t i = 0; i < N; ++i) a[i] = i;
+
+    while (true) {
+      // Test subset
+      values.reset();
+      for (uint8_t i = 0; i < N; ++i) {
+        values |= puzzle.get(_positions[a[i]]).options;
+      }
+      if (values.count() == N) {  // TODO: Check for duplicates
+        this->valid = true;
+        for (uint8_t i = 0; i < N; ++i) {
+          this->positions.emplace_back(_positions[a[i]]);
+        }
+        if (atn::utils::in_same_block(this->positions, T))
+          this->space = COLUMN_AND_BLOCK;
+        else
+          this->space = COLUMN;
+        for (uint8_t i = 0; i < T * T; ++i) {
+          if (values[i]) this->values.emplace_back(i + 1);
+        }
+        return;
+      }
+
+      this->getNextCombination(a, _positions);
+      if (a.empty()) break;
+    }
+  }
+}
 
 template <uint8_t T, uint8_t N>
 void atn::NakedValueSubset<T, N>::findBlockSubset(
-    const atn::Sudoku<T>& puzzle) {}
+    const atn::Sudoku<T>& puzzle) {
+  uint8_t block_x, block_y, x, y;
+  atn::Pos curr_pos;
+  std::vector<atn::Pos> _positions;
+  for (uint8_t block_it = 0; block_it < T * T; ++block_it) {
+    block_x = block_it / T;
+    block_y = block_it % T;
+    _positions = {};
+    for (uint8_t it = 0; it < T * T; ++it) {
+      x = it / T;
+      y = it % T;
+      curr_pos = {block_x * T + x, block_y * T + y};
+      if (puzzle.get(curr_pos).options.count() > N) continue;
+      _positions.emplace_back(curr_pos);
+    }
+
+    if (_positions.size() < N) continue;
+    std::vector<uint8_t> a{N};
+    std::bitset<T * T> values;
+    for (uint8_t i = 0; i < N; ++i) a[i] = i;
+
+    while (true) {
+      // Test subset
+      values.reset();
+      for (uint8_t i = 0; i < N; ++i) {
+        values |= puzzle.get(_positions[a[i]]).options;
+      }
+      if (values.count() == N) {  // TODO: Check for duplicates
+        this->valid = true;
+        for (uint8_t i = 0; i < N; ++i) {
+          this->positions.emplace_back(_positions[a[i]]);
+        }
+        this->space = BLOCK;
+        for (uint8_t i = 0; i < T * T; ++i) {
+          if (values[i]) this->values.emplace_back(i + 1);
+        }
+        return;
+      }
+
+      this->getNextCombination(a, _positions);
+      if (a.empty()) break;
+    }
+  }
+}
 
 template <uint8_t T, uint8_t N>
 void atn::NakedValueSubset<T, N>::applyRowSubset(atn::Sudoku<T>& puzzle) const {
+  uint8_t const_coord = this->positions[0].y;
+  atn::Pos curr_pos;
+  for (uint8_t i = 0; i < T * T; ++i) {
+    curr_pos = {i, const_coord};
+    if (std::find(this->positions.begin(), this->positions.end(), curr_pos)
+        == this->positions.end()) {
+      for (uint8_t value_index = 0; value_index < this->values.size();
+           ++value_index) {
+        puzzle.at(curr_pos).options.reset(this->values[value_index] - 1);
+      }
+    }
+  }
 }
 
 template <uint8_t T, uint8_t N>
 void atn::NakedValueSubset<T, N>::applyColumnSubset(
-    atn::Sudoku<T>& puzzle) const {}
+    atn::Sudoku<T>& puzzle) const {
+  uint8_t const_coord = this->positions[0].x;
+  atn::Pos curr_pos;
+  for (uint8_t i = 0; i < T * T; ++i) {
+    curr_pos = {const_coord, i};
+    if (puzzle.get(curr_pos).value != atn::UNSET) {
+      continue;
+    }
+    auto pos_it =
+        std::find(this->positions.begin(), this->positions.end(), curr_pos);
+    if (pos_it != this->positions.end()) {
+      continue;
+    }
+    for (uint8_t value = 1; value <= T * T; ++value) {
+      auto val_it = std::find(this->values.begin(), this->values.end(), value);
+      if (val_it != this->values.end())
+        puzzle.at(curr_pos).options.reset(value - 1);
+    }
+  }
+}
 
 template <uint8_t T, uint8_t N>
 void atn::NakedValueSubset<T, N>::applyBlockSubset(
-    atn::Sudoku<T>& puzzle) const {}
+    atn::Sudoku<T>& puzzle) const {
+  uint8_t block_x = this->positions[0].x / T,
+          block_y = this->positions[0].y / T;
+  uint8_t x, y;
+  atn::Pos curr_pos;
+  for (uint8_t it = 0; it < T * T; ++it) {
+    x        = it % T;
+    y        = it / T;
+    curr_pos = {block_x * T + x, block_y * T + y};
+    if (std::find(this->positions.begin(), this->positions.end(), curr_pos)
+        == this->positions.end()) {
+      for (uint8_t index = 0; index < this->values.size(); ++index) {
+        puzzle.at(curr_pos).options.reset(this->values[index] - 1);
+      }
+    }
+  }
+}
+
+template <uint8_t T, uint8_t N>
+void atn::NakedValueSubset<T, N>::getNextCombination(
+    std::vector<uint8_t>& a, const std::vector<atn::Pos> positions) const {
+  // https://stackoverflow.com/questions/9430568/generating-combinations-in-c
+  uint8_t i = N - 1;
+  while (i >= 0 && a[i] >= positions.size() - 1 - (N - 1 - i)) --i;
+  if (i < 0) {
+    a.clear();
+    return;
+  }
+  for (uint8_t j = a[i] + 1; i < N; ++j, ++i) a[i] = j;
+}
 
 template <uint8_t T, uint8_t N>
 atn::HiddenValueSubset<T, N>::HiddenValueSubset(
