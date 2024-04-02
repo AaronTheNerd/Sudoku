@@ -11,7 +11,7 @@ TEST(CellTest, Constructor) {
   EXPECT_EQ(cell.get(), 2);
 }
 
-TEST(CellTest, IsUnset) {
+TEST(CellTest, DefaultIsUnset) {
   atn::sudoku::Cell cell;
   EXPECT_FALSE(cell.is_set());
 }
@@ -37,6 +37,7 @@ TEST(CellTest, SetNewValue) {
 
 TEST(CellTest, UnsetValue) {
   atn::sudoku::Cell cell{1};
-  cell.unset();
+  uint8_t old_value = cell.unset();
   EXPECT_FALSE(cell.is_set());
+  EXPECT_EQ(old_value, 1);
 }
