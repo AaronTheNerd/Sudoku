@@ -14,6 +14,10 @@ uint8_t atn::sudoku::Cell::unset() {
   return value;
 }
 
+uint8_t atn::sudoku::Cell::get() const {
+  return this->value;
+}
+
 atn::sudoku::Cell::Cell(): value(atn::sudoku::UNSET_VALUE) {}
 
 atn::sudoku::Cell::Cell(uint8_t value): value(value) {}

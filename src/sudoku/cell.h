@@ -12,6 +12,8 @@ class Cell {
   void set(uint8_t);
   uint8_t unset();
 
+  uint8_t get() const;
+
   Cell();
   Cell(uint8_t);
  private:
