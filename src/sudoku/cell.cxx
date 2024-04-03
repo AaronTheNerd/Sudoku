@@ -1,23 +1,23 @@
 #include "cell.h"
 
 bool atn::sudoku::Cell::is_set() const {
-  return this->value != atn::sudoku::UNSET_VALUE;
+  return this->value != atn::sudoku::Value{};
 }
 
-void atn::sudoku::Cell::set(uint8_t value) {
+void atn::sudoku::Cell::set(atn::sudoku::Value value) {
   this->value = value;
 }
 
-uint8_t atn::sudoku::Cell::unset() {
-  uint8_t value = this->value;
-  this->value = atn::sudoku::UNSET_VALUE;
+atn::sudoku::Value atn::sudoku::Cell::unset() {
+  atn::sudoku::Value value = this->value;
+  this->value = atn::sudoku::Value{};
   return value;
 }
 
-uint8_t atn::sudoku::Cell::get() const {
+atn::sudoku::Value atn::sudoku::Cell::get() const {
   return this->value;
 }
 
-atn::sudoku::Cell::Cell(): value(atn::sudoku::UNSET_VALUE) {}
+atn::sudoku::Cell::Cell(): value() {}
 
-atn::sudoku::Cell::Cell(uint8_t value): value(value) {}
+atn::sudoku::Cell::Cell(atn::sudoku::Value value): value(value) {}

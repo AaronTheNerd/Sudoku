@@ -2,13 +2,15 @@
 #include "cell.h"
 
 TEST(CellTest, DefaultConstrucor) {
+  atn::sudoku::Value unset_value;
   atn::sudoku::Cell cell;
-  EXPECT_EQ(cell.get(), atn::sudoku::UNSET_VALUE);
+  EXPECT_EQ(cell.get(), unset_value);
 }
 
 TEST(CellTest, Constructor) {
-  atn::sudoku::Cell cell{2};
-  EXPECT_EQ(cell.get(), 2);
+  atn::sudoku::Value value{2};
+  atn::sudoku::Cell cell{value};
+  EXPECT_EQ(cell.get(), value);
 }
 
 TEST(CellTest, DefaultIsUnset) {
@@ -17,27 +19,31 @@ TEST(CellTest, DefaultIsUnset) {
 }
 
 TEST(CellTest, IsSet) {
-  atn::sudoku::Cell cell{3};
+  atn::sudoku::Value value{3};
+  atn::sudoku::Cell cell{value};
   EXPECT_TRUE(cell.is_set());
 }
 
 TEST(CellTest, SetValue) {
+  atn::sudoku::Value value{4};
   atn::sudoku::Cell cell;
-  cell.set(4);
+  cell.set(value);
   EXPECT_TRUE(cell.is_set());
-  EXPECT_EQ(cell.get(), 4);
+  EXPECT_EQ(cell.get(), value);
 }
 
 TEST(CellTest, SetNewValue) {
-  atn::sudoku::Cell cell{1};
-  cell.set(5);
+  atn::sudoku::Value old_value{1}, new_value{5};
+  atn::sudoku::Cell cell{old_value};
+  cell.set(new_value);
   EXPECT_TRUE(cell.is_set());
-  EXPECT_EQ(cell.get(), 5);
+  EXPECT_EQ(cell.get(), new_value);
 }
 
 TEST(CellTest, UnsetValue) {
-  atn::sudoku::Cell cell{1};
-  uint8_t old_value = cell.unset();
+  atn::sudoku::Value original_value{1};
+  atn::sudoku::Cell cell{original_value};
+  atn::sudoku::Value return_value = cell.unset();
   EXPECT_FALSE(cell.is_set());
-  EXPECT_EQ(old_value, 1);
+  EXPECT_EQ(return_value, original_value);
 }

@@ -1,23 +1,21 @@
 #pragma once
 
-#include <stdint.h>
+#include "value.h"
 
 namespace atn::sudoku {
-
-const uint8_t UNSET_VALUE{0};
 
 class Cell {
  public:
   bool is_set() const;
-  void set(uint8_t);
-  uint8_t unset();
+  void set(atn::sudoku::Value);
+  atn::sudoku::Value unset();
 
-  uint8_t get() const;
+  atn::sudoku::Value get() const;
 
   Cell();
-  Cell(uint8_t);
+  Cell(atn::sudoku::Value);
  private:
-  uint8_t value;
+  atn::sudoku::Value value;
 };
 
 }
