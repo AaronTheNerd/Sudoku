@@ -16,7 +16,7 @@ class Value {
   Value();
   Value(uint8_t);
  private:
-  uint8_t value;
+  uint8_t _value;
 };
 
 class InvalidValueException : public std::exception {

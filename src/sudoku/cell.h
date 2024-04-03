@@ -15,7 +15,7 @@ class Cell {
   Cell();
   Cell(atn::sudoku::Value);
  private:
-  atn::sudoku::Value value;
+  atn::sudoku::Value _value;
 };
 
 }

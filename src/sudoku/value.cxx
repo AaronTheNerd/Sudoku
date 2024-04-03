@@ -2,18 +2,18 @@
 #include <sstream>
 
 bool atn::sudoku::Value::operator==(const atn::sudoku::Value& rhs) const {
-  return this->value == rhs.value;
+  return this->_value == rhs._value;
 }
 
 bool atn::sudoku::Value::operator!=(const atn::sudoku::Value& rhs) const {
-  return this->value != rhs.value;
+  return this->_value != rhs._value;
 }
 
-atn::sudoku::Value::Value(): value(atn::sudoku::UNSET_VALUE) {}
+atn::sudoku::Value::Value(): _value(atn::sudoku::UNSET_VALUE) {}
 
-atn::sudoku::Value::Value(uint8_t value): value(value) {
-  if (this->value > 9) {
-    throw atn::sudoku::InvalidValueException{this->value};
+atn::sudoku::Value::Value(uint8_t value): _value(value) {
+  if (this->_value > 9) {
+    throw atn::sudoku::InvalidValueException{this->_value};
   }
 }
 
