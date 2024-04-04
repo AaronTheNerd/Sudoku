@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
 #include "cell.h"
+
+#include <gtest/gtest.h>
 
 TEST(CellTest, DefaultConstrucor) {
   atn::sudoku::Value unset_value;

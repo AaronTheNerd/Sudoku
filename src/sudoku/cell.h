@@ -14,8 +14,9 @@ class Cell {
 
   Cell();
   Cell(atn::sudoku::Value);
+
  private:
   atn::sudoku::Value _value;
 };
 
-}
+}  // namespace atn::sudoku

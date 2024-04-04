@@ -1,21 +1,19 @@
-#include <vector>
-#include <gtest/gtest.h>
 #include "value.h"
 
-TEST(ValueTest, DefaultConstrucor) {
-  EXPECT_NO_THROW(atn::sudoku::Value{});
-}
+#include <gtest/gtest.h>
 
-TEST(ValueTest, ValidConstructor) {
-  EXPECT_NO_THROW(atn::sudoku::Value{3});
-}
+#include <vector>
+
+TEST(ValueTest, DefaultConstrucor) { EXPECT_NO_THROW(atn::sudoku::Value{}); }
+
+TEST(ValueTest, ValidConstructor) { EXPECT_NO_THROW(atn::sudoku::Value{3}); }
 
 TEST(ValueTest, InvalidConstructor) {
   EXPECT_THROW(atn::sudoku::Value{11}, atn::sudoku::InvalidValueException);
 }
 
 TEST(ValueTest, Equality) {
-  std::vector<atn::sudoku::Value> values = { {}, {4}, {2}, {4} };
+  std::vector<atn::sudoku::Value> values = {{}, {4}, {2}, {4}};
   for (u_int i{0}; i < values.size(); ++i) {
     EXPECT_TRUE(values[i] == values[i]);
   }
@@ -31,7 +29,7 @@ TEST(ValueTest, Equality) {
 }
 
 TEST(ValueTest, Inequality) {
-  std::vector<atn::sudoku::Value> values = { {}, {4}, {2}, {4} };
+  std::vector<atn::sudoku::Value> values = {{}, {4}, {2}, {4}};
   for (u_int i{0}; i < values.size(); ++i) {
     EXPECT_FALSE(values[i] != values[i]);
   }
