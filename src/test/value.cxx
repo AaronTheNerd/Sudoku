@@ -4,7 +4,7 @@
 
 #include <vector>
 
-TEST(ValueTest, DefaultConstrucor) { EXPECT_NO_THROW(atn::sudoku::Value{}); }
+TEST(ValueTest, DefaultConstructor) { EXPECT_NO_THROW(atn::sudoku::Value{}); }
 
 TEST(ValueTest, ValidConstructor) { EXPECT_NO_THROW(atn::sudoku::Value{3}); }
 

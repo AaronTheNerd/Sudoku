@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-TEST(CellTest, DefaultConstrucor) {
+TEST(CellTest, DefaultConstructor) {
   atn::sudoku::Value unset_value;
   atn::sudoku::Cell cell;
   EXPECT_EQ(cell.get(), unset_value);
