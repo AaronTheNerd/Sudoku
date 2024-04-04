@@ -33,7 +33,6 @@ enable_testing()
 
 file(GLOB test_files "test/**.cxx")
 add_executable(sudoku_test ${test_files})
-target_include_directories(sudoku_test INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(sudoku_test PUBLIC compiler_flags Sudoku GTest::gtest_main)
 
 include(GoogleTest)
