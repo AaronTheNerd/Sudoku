@@ -10,13 +10,12 @@ target_compile_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:-Wall;-Wextra
 configure_file(config.h.in config.h)
 
 add_subdirectory(sudoku)
-
-
+add_subdirectory(generator)
 
 add_executable(main main.cxx)
 target_include_directories(main INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(main PUBLIC "${PROJECT_BINARY_DIR}")
-target_link_libraries(main PUBLIC compiler_flags Sudoku)
+target_link_libraries(main PUBLIC compiler_flags Sudoku SudokuGenerator)
 
 
 
@@ -33,7 +32,7 @@ enable_testing()
 
 file(GLOB test_files "test/**.cxx")
 add_executable(sudoku_test ${test_files})
-target_link_libraries(sudoku_test PUBLIC compiler_flags Sudoku GTest::gtest_main)
+target_link_libraries(sudoku_test PUBLIC compiler_flags Sudoku SudokuGenerator GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(sudoku_test)
