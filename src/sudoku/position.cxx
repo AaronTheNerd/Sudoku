@@ -17,6 +17,14 @@ void atn::sudoku::Position::y(uint y) {
   this->_y = y;
 }
 
+bool atn::sudoku::Position::operator==(const atn::sudoku::Position& rhs) const {
+  return this->x() == rhs.x() && this->y() == rhs.y();
+}
+
+bool atn::sudoku::Position::operator!=(const atn::sudoku::Position& rhs) const {
+  return !(*this == rhs);
+}
+
 atn::sudoku::Position::Position(uint x, uint y) : _x(), _y() {
   this->x(x);
   this->y(y);

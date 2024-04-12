@@ -32,3 +32,31 @@ TEST(PositionTest, Getter) {
   EXPECT_EQ(1, pos.x());
   EXPECT_EQ(2, pos.y());
 }
+
+TEST(PositionTest, Equality) {
+  atn::sudoku::Position pos1{0, 1}, pos2{0, 0}, pos3{1, 0}, pos4{0, 1};
+  EXPECT_TRUE(pos1 == pos1);
+  EXPECT_FALSE(pos1 == pos2);
+  EXPECT_FALSE(pos1 == pos3);
+  EXPECT_TRUE(pos1 == pos4);
+  EXPECT_TRUE(pos2 == pos2);
+  EXPECT_FALSE(pos2 == pos3);
+  EXPECT_FALSE(pos2 == pos4);
+  EXPECT_TRUE(pos3 == pos3);
+  EXPECT_FALSE(pos3 == pos4);
+  EXPECT_TRUE(pos4 == pos4);
+}
+
+TEST(PositionTest, Inequality) {
+  atn::sudoku::Position pos1{0, 1}, pos2{0, 0}, pos3{1, 0}, pos4{0, 1};
+  EXPECT_FALSE(pos1 != pos1);
+  EXPECT_TRUE(pos1 != pos2);
+  EXPECT_TRUE(pos1 != pos3);
+  EXPECT_FALSE(pos1 != pos4);
+  EXPECT_FALSE(pos2 != pos2);
+  EXPECT_TRUE(pos2 != pos3);
+  EXPECT_TRUE(pos2 != pos4);
+  EXPECT_FALSE(pos3 != pos3);
+  EXPECT_TRUE(pos3 != pos4);
+  EXPECT_FALSE(pos4 != pos4);
+}

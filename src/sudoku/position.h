@@ -15,8 +15,10 @@ class Position {
   void x(uint);
   void y(uint);
 
-  Position(uint, uint);
+  bool operator==(const atn::sudoku::Position&) const;
+  bool operator!=(const atn::sudoku::Position&) const;
 
+  Position(uint, uint);
  private:
   void _validate_index(uint) const;
 
