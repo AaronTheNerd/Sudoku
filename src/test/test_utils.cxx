@@ -8,7 +8,7 @@ atn::sudoku::Board atn::test_utils::generate_board(
     for (uint x = 0; x < 9; ++x) {
       atn::sudoku::Position pos{x, y};
       atn::sudoku::Value value{input[y][x]};
-      board.get(pos).set(value);
+      board.get(pos)->set(value);
     }
   }
   return board;

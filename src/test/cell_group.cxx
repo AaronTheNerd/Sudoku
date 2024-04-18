@@ -164,7 +164,7 @@ TEST(CellGroupTest, Mutability) {
                                        {9, 1, 2, 3, 4, 5, 6, 7, 8}});
   atn::sudoku::CellGroupFactory factory{board};
   atn::sudoku::Value value{3};
-  board.get(atn::sudoku::Position{0, 0}).set(value);
+  board.get(atn::sudoku::Position{0, 0})->set(value);
   atn::sudoku::CellGroup row = factory.row(0);
   EXPECT_EQ(row[0]->get(), value);
 }

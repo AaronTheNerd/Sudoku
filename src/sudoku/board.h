@@ -9,13 +9,18 @@ namespace atn::sudoku {
 
 class Board {
  public:
-  atn::sudoku::Cell& get(const atn::sudoku::Position&);
+  atn::sudoku::CellPtr get(const atn::sudoku::Position&);
   bool is_valid() const;
 
   Board();
 
  private:
-  std::array<std::array<atn::sudoku::Cell, 9>, 9> _board;
+  void initialize_board();
+  bool is_valid_rows() const;
+  bool is_valid_columns() const;
+  bool is_valid_boxes() const;
+
+  std::array<std::array<atn::sudoku::CellPtr, 9>, 9> _board;
 };
 
 }  // namespace atn::sudoku

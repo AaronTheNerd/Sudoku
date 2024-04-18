@@ -17,7 +17,7 @@ atn::generator::Recursive::Recursive()
 void atn::generator::Recursive::clear_board() {
   for (uint index{0}; index < 81u; ++index) {
     atn::sudoku::Position position = this->get_position(index);
-    this->_board.get(position).unset();
+    this->_board.get(position)->unset();
   }
 }
 
@@ -30,12 +30,12 @@ bool atn::generator::Recursive::add_value(uint board_index) {
   for (uint index{0}; index < values.size(); ++index) {
     atn::sudoku::Value value = values[index];
     if (this->safe_to_add(value, position)) {
-      atn::sudoku::Cell& cell = this->_board.get(position);
-      cell.set(value);
+      atn::sudoku::CellPtr cell = this->_board.get(position);
+      cell->set(value);
       if (this->add_value(board_index + 1)) {
         return true;
       }
-      cell.unset();
+      cell->unset();
     }
   }
   return false;
@@ -65,7 +65,8 @@ bool atn::generator::Recursive::safe_to_add(
   if (this->cell_group_contains(column, value)) {
     return false;
   }
-  atn::sudoku::CellGroup box = this->_factory.box(position.x() / 3, position.y() / 3);
+  atn::sudoku::CellGroup box =
+      this->_factory.box(position.x() / 3, position.y() / 3);
   if (this->cell_group_contains(box, value)) {
     return false;
   }
