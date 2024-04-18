@@ -8,7 +8,7 @@
 
 namespace atn::sudoku {
 
-typedef std::vector<std::shared_ptr<atn::sudoku::Cell>> CellGroup;
+typedef std::vector<atn::sudoku::CellPtr> CellGroup;
 
 class CellGroupFactory {
  public:

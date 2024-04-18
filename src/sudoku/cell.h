@@ -1,6 +1,7 @@
 #pragma once
 
 #include "value.h"
+#include <memory>
 
 namespace atn::sudoku {
 
@@ -18,5 +19,7 @@ class Cell {
  private:
   atn::sudoku::Value _value;
 };
+
+typedef std::shared_ptr<atn::sudoku::Cell> CellPtr;
 
 }  // namespace atn::sudoku
