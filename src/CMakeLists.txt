@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 add_library(compiler_flags INTERFACE)
-target_compile_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>")
+target_compile_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-O3>")
 
 configure_file(config.h.in config.h)
 
@@ -17,22 +17,4 @@ target_include_directories(main INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(main PUBLIC "${PROJECT_BINARY_DIR}")
 target_link_libraries(main PUBLIC compiler_flags Sudoku SudokuGenerator)
 
-
-
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
-file(GLOB test_files "test/**.cxx")
-add_executable(sudoku_test ${test_files})
-target_link_libraries(sudoku_test PUBLIC compiler_flags Sudoku SudokuGenerator GTest::gtest_main)
-
-include(GoogleTest)
-gtest_discover_tests(sudoku_test)
+add_subdirectory(test)
