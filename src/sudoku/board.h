@@ -10,6 +10,7 @@ namespace atn::sudoku {
 class Board {
  public:
   atn::sudoku::Cell& get(const atn::sudoku::Position&);
+  bool is_valid() const;
 
   Board();
 
