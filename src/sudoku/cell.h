@@ -1,7 +1,8 @@
 #pragma once
 
-#include "value.h"
 #include <memory>
+
+#include "value.h"
 
 namespace atn::sudoku {
 
@@ -10,7 +11,6 @@ class Cell {
   bool is_set() const;
   void set(atn::sudoku::Value);
   atn::sudoku::Value unset();
-
   atn::sudoku::Value get() const;
 
   Cell();
