@@ -14,11 +14,18 @@ class Value {
   bool operator==(const Value&) const;
   bool operator!=(const Value&) const;
 
+  uint8_t value() const;
+
   Value();
   Value(uint8_t);
 
  private:
   uint8_t _value;
+};
+
+class ValueHash {
+ public:
+  uint8_t operator()(const atn::sudoku::Value& t) const;
 };
 
 class InvalidValueException : public std::exception {

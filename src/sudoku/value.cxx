@@ -10,12 +10,20 @@ bool atn::sudoku::Value::operator!=(const atn::sudoku::Value& rhs) const {
   return this->_value != rhs._value;
 }
 
+uint8_t atn::sudoku::Value::value() const {
+  return this->_value;
+}
+
 atn::sudoku::Value::Value() : _value(atn::sudoku::UNSET_VALUE) {}
 
 atn::sudoku::Value::Value(uint8_t value) : _value(value) {
   if (this->_value > 9) {
     throw atn::sudoku::InvalidValueException{this->_value};
   }
+}
+
+uint8_t atn::sudoku::ValueHash::operator()(const atn::sudoku::Value& value) const {
+  return value.value();
 }
 
 atn::sudoku::InvalidValueException::InvalidValueException(
