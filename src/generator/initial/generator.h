@@ -4,13 +4,13 @@
 
 #include "board.h"
 
-namespace atn::generator {
+namespace atn::generator::initial {
 
-class InitialBoardGenerator {
+class Generator {
  public:
   virtual atn::sudoku::Board generate() = 0;
 };
 
-typedef std::shared_ptr<InitialBoardGenerator> InitialBoardGeneratorPtr;
+typedef std::shared_ptr<Generator> GeneratorPtr;
 
 }  // namespace atn::generator

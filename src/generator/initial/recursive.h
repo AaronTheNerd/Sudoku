@@ -2,12 +2,12 @@
 
 #include <random>
 
-#include "board_generator.h"
+#include "../initial/generator.h"
 #include "cell_group.h"
 
-namespace atn::generator {
+namespace atn::generator::initial {
 
-class Recursive : public InitialBoardGenerator {
+class Recursive : public Generator {
  public:
   atn::sudoku::Board generate();
 
@@ -30,15 +30,6 @@ class Recursive : public InitialBoardGenerator {
       atn::sudoku::Value{1}, atn::sudoku::Value{2}, atn::sudoku::Value{3},
       atn::sudoku::Value{4}, atn::sudoku::Value{5}, atn::sudoku::Value{6},
       atn::sudoku::Value{7}, atn::sudoku::Value{8}, atn::sudoku::Value{9}};
-};
-
-class GenerationFailedException : public std::exception {
- public:
-  GenerationFailedException() noexcept;
-  const char* what() const noexcept;
-
- private:
-  std::string message;
 };
 
 }  // namespace atn::generator

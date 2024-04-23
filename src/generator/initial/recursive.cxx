@@ -1,27 +1,28 @@
-#include "recursive.h"
+#include "../initial/recursive.h"
+#include "../initial/exception.h"
 
 #include <algorithm>
 #include <iterator>
 
-atn::sudoku::Board atn::generator::Recursive::generate() {
+atn::sudoku::Board atn::generator::initial::Recursive::generate() {
   this->clear_board();
   if (this->add_value(0)) {
     return this->_board;
   }
-  throw atn::generator::GenerationFailedException{};
+  throw atn::generator::initial::GenerationFailedException{};
 }
 
-atn::generator::Recursive::Recursive()
+atn::generator::initial::Recursive::Recursive()
     : _board(), _factory(this->_board), _rng() {}
 
-void atn::generator::Recursive::clear_board() {
+void atn::generator::initial::Recursive::clear_board() {
   for (uint index{0}; index < 81u; ++index) {
     atn::sudoku::Position position = this->get_position(index);
     this->_board.get(position)->unset();
   }
 }
 
-bool atn::generator::Recursive::add_value(uint board_index) {
+bool atn::generator::initial::Recursive::add_value(uint board_index) {
   if (board_index >= 81u) {
     return true;
   }
@@ -41,13 +42,13 @@ bool atn::generator::Recursive::add_value(uint board_index) {
   return false;
 }
 
-atn::sudoku::Position atn::generator::Recursive::get_position(
+atn::sudoku::Position atn::generator::initial::Recursive::get_position(
     uint board_index) const {
   return atn::sudoku::Position{board_index % 9u, board_index / 9u};
 }
 
 std::vector<atn::sudoku::Value>
-atn::generator::Recursive::get_shuffled_values() {
+atn::generator::initial::Recursive::get_shuffled_values() {
   std::vector<atn::sudoku::Value> values;
   std::copy(this->_values.begin(), this->_values.end(),
             std::back_inserter(values));
@@ -55,7 +56,7 @@ atn::generator::Recursive::get_shuffled_values() {
   return values;
 }
 
-bool atn::generator::Recursive::safe_to_add(
+bool atn::generator::initial::Recursive::safe_to_add(
     atn::sudoku::Value value, atn::sudoku::Position position) const {
   atn::sudoku::CellGroup row = this->_factory.row(position.y());
   if (this->cell_group_contains(row, value)) {
@@ -77,7 +78,7 @@ atn::sudoku::Value value_from_cell_ptr(atn::sudoku::CellPtr cell) {
   return cell->get();
 }
 
-bool atn::generator::Recursive::cell_group_contains(
+bool atn::generator::initial::Recursive::cell_group_contains(
     atn::sudoku::CellGroup cell_group, atn::sudoku::Value value) const {
   std::vector<atn::sudoku::Value> values;
   values.resize(cell_group.size());
@@ -86,11 +87,3 @@ bool atn::generator::Recursive::cell_group_contains(
   return std::find(values.begin(), values.end(), value) != std::end(values);
 }
 
-atn::generator::GenerationFailedException::
-    GenerationFailedException() noexcept {
-  this->message = "Initial board generation failed";
-}
-
-const char* atn::generator::GenerationFailedException::what() const noexcept {
-  return this->message.c_str();
-}
