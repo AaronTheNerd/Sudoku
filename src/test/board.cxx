@@ -2,7 +2,6 @@
 
 #include <gtest/gtest.h>
 
-
 TEST(BoardTest, DefaultConstructor) { EXPECT_NO_THROW(atn::sudoku::Board{}); }
 
 TEST(BoardTest, Get) {

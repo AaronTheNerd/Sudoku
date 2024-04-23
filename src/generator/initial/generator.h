@@ -13,4 +13,4 @@ class Generator {
 
 typedef std::shared_ptr<Generator> GeneratorPtr;
 
-}  // namespace atn::generator
+}  // namespace atn::generator::initial

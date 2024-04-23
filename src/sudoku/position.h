@@ -19,6 +19,7 @@ class Position {
   bool operator!=(const atn::sudoku::Position&) const;
 
   Position(uint, uint);
+
  private:
   void _validate_index(uint) const;
 

@@ -11,4 +11,4 @@ enum class GeneratorType { RECURSIVE };
 atn::generator::initial::GeneratorPtr get_generator(
     atn::generator::initial::GeneratorType);
 
-}  // namespace atn::generator
+}  // namespace atn::generator::initial

@@ -18,6 +18,7 @@ class CellGroupFactory {
   atn::sudoku::CellGroup row(uint) const;
   atn::sudoku::CellGroup column(uint) const;
   atn::sudoku::CellGroup box(uint, uint) const;
+
  private:
   atn::sudoku::Board& _board;
 };

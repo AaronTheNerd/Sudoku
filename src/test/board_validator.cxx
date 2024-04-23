@@ -1,8 +1,7 @@
-#include "validate.h"
-
 #include <gtest/gtest.h>
 
 #include "test_utils.h"
+#include "validate.h"
 
 TEST(BoardValidatorTest, InvalidRow) {
   atn::sudoku::Board board;

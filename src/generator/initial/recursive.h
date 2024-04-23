@@ -32,4 +32,4 @@ class Recursive : public Generator {
       atn::sudoku::Value{7}, atn::sudoku::Value{8}, atn::sudoku::Value{9}};
 };
 
-}  // namespace atn::generator
+}  // namespace atn::generator::initial

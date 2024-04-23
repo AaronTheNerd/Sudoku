@@ -1,8 +1,9 @@
 #include "../initial/recursive.h"
-#include "../initial/exception.h"
 
 #include <algorithm>
 #include <iterator>
+
+#include "../initial/exception.h"
 
 atn::sudoku::Board atn::generator::initial::Recursive::generate() {
   this->clear_board();
@@ -86,4 +87,3 @@ bool atn::generator::initial::Recursive::cell_group_contains(
                  value_from_cell_ptr);
   return std::find(values.begin(), values.end(), value) != std::end(values);
 }
-

@@ -1,9 +1,9 @@
 #include "validate.h"
 
-#include "cell_group.h"
-
 #include <algorithm>
 #include <unordered_set>
+
+#include "cell_group.h"
 
 namespace {
 

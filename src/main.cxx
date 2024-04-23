@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "difficulty.hpp"
 #include "config.h"
+#include "difficulty.hpp"
 #include "generator.h"
 
 int main(int argc, char* argv[]) {
