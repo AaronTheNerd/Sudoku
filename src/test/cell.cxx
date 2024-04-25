@@ -48,3 +48,21 @@ TEST(CellTest, UnsetValue) {
   EXPECT_FALSE(cell.is_set());
   EXPECT_EQ(return_value, original_value);
 }
+
+TEST(CellTest, DefaultAllOptions) {
+  atn::sudoku::Cell cell{};
+  std::vector<atn::sudoku::Value> values{{1}, {2}, {3}, {4}, {5},
+                                         {6}, {7}, {8}, {9}};
+  for (uint index{0}; index < values.size(); ++index) {
+    EXPECT_TRUE(cell.has_option(values[index]));
+  }
+}
+
+TEST(CellTest, ConstructValueNoOptions) {
+  atn::sudoku::Cell cell{{3}};
+  std::vector<atn::sudoku::Value> values{{1}, {2}, {3}, {4}, {5},
+                                         {6}, {7}, {8}, {9}};
+  for (uint index{0}; index < values.size(); ++index) {
+    EXPECT_FALSE(cell.has_option(values[index]));
+  }
+}
