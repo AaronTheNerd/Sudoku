@@ -9,9 +9,9 @@ namespace atn::sudoku {
 
 class Board {
  public:
-  atn::sudoku::CellPtr get(const atn::sudoku::Position&);
-
   Board();
+
+  atn::sudoku::CellPtr get(const atn::sudoku::Position&);
 
  private:
   void initialize_board();

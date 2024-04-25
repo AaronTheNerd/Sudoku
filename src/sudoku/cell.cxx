@@ -1,5 +1,9 @@
 #include "cell.h"
 
+atn::sudoku::Cell::Cell() : _value(), _options() {}
+
+atn::sudoku::Cell::Cell(atn::sudoku::Value value) : _value(value), _options(0) {}
+
 bool atn::sudoku::Cell::is_set() const {
   return this->_value != atn::sudoku::Value{};
 }
@@ -26,6 +30,3 @@ void atn::sudoku::Cell::clear_option(atn::sudoku::Value option) {
   return this->_options.clear(option);
 }
 
-atn::sudoku::Cell::Cell() : _value(), _options() {}
-
-atn::sudoku::Cell::Cell(atn::sudoku::Value value) : _value(value), _options(0) {}

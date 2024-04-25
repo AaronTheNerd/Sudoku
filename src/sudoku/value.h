@@ -7,17 +7,14 @@
 
 namespace atn::sudoku {
 
-const uint8_t UNSET_VALUE{0};
-
 class Value {
  public:
+  Value(uint8_t = 0);
+
   bool operator==(const Value&) const;
   bool operator!=(const Value&) const;
 
   uint8_t value() const;
-
-  Value();
-  Value(uint8_t);
 
  private:
   uint8_t _value;

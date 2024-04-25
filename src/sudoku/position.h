@@ -9,6 +9,8 @@ namespace atn::sudoku {
 
 class Position {
  public:
+  Position(uint, uint);
+
   uint x() const;
   uint y() const;
 
@@ -17,8 +19,6 @@ class Position {
 
   bool operator==(const atn::sudoku::Position&) const;
   bool operator!=(const atn::sudoku::Position&) const;
-
-  Position(uint, uint);
 
  private:
   void _validate_index(uint) const;

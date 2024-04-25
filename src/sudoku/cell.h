@@ -2,13 +2,16 @@
 
 #include <memory>
 
-#include "value.h"
 #include "options.h"
+#include "value.h"
 
 namespace atn::sudoku {
 
 class Cell {
  public:
+  Cell();
+  Cell(atn::sudoku::Value);
+
   bool is_set() const;
   void set(atn::sudoku::Value);
   atn::sudoku::Value unset();
@@ -16,9 +19,6 @@ class Cell {
   bool has_option(atn::sudoku::Value) const;
   void set_option(atn::sudoku::Value);
   void clear_option(atn::sudoku::Value);
-
-  Cell();
-  Cell(atn::sudoku::Value);
 
  private:
   atn::sudoku::Value _value;

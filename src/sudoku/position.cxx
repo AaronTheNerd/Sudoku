@@ -3,6 +3,11 @@
 #include <exception>
 #include <sstream>
 
+atn::sudoku::Position::Position(uint x, uint y) : _x(), _y() {
+  this->x(x);
+  this->y(y);
+}
+
 uint atn::sudoku::Position::x() const { return this->_x; }
 
 uint atn::sudoku::Position::y() const { return this->_y; }
@@ -23,11 +28,6 @@ bool atn::sudoku::Position::operator==(const atn::sudoku::Position& rhs) const {
 
 bool atn::sudoku::Position::operator!=(const atn::sudoku::Position& rhs) const {
   return !(*this == rhs);
-}
-
-atn::sudoku::Position::Position(uint x, uint y) : _x(), _y() {
-  this->x(x);
-  this->y(y);
 }
 
 void atn::sudoku::Position::_validate_index(uint index) const {
