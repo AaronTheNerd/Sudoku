@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "command.h"
 #include "cell.h"
+#include "command.h"
 #include "value.h"
 
 namespace atn::generator::command {
