@@ -6,9 +6,9 @@
 #include "cell.h"
 #include "value.h"
 
-namespace atn::generator::removal {
+namespace atn::generator::command {
 
-class ClearOptions : public atn::generator::removal::Command {
+class ClearOptions : public atn::generator::command::Command {
  public:
   ClearOptions(atn::sudoku::CellPtr, std::vector<atn::sudoku::Value>);
 
@@ -20,4 +20,4 @@ class ClearOptions : public atn::generator::removal::Command {
   std::vector<atn::sudoku::Value> _options;
 };
 
-}  // namespace atn::generator::removal
+}  // namespace atn::generator::command

@@ -4,9 +4,9 @@
 #include "command.h"
 #include "value.h"
 
-namespace atn::generator::removal {
+namespace atn::generator::command {
 
-class SetValue : public atn::generator::removal::Command {
+class SetValue : public atn::generator::command::Command {
  public:
   SetValue(atn::sudoku::CellPtr, atn::sudoku::Value);
 
@@ -18,4 +18,4 @@ class SetValue : public atn::generator::removal::Command {
   atn::sudoku::Value _value;
 };
 
-}  // namespace atn::generator::removal
+}  // namespace atn::generator::command

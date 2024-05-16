@@ -4,12 +4,12 @@
 #include <optional>
 
 #include "board.h"
-#include "removal/clear_options.h"
-#include "removal/macro_command.h"
-#include "removal/set_value.h"
+#include "command/clear_options.h"
+#include "command/macro_command.h"
+#include "command/set_value.h"
 #include "test_utils.h"
 
-using namespace atn::generator::removal;
+using namespace atn::generator::command;
 using namespace atn::sudoku;
 using namespace atn::test_utils;
 

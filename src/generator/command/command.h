@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace atn::generator::removal {
+namespace atn::generator::command {
 
 class Command {
  public:
@@ -12,4 +12,4 @@ class Command {
 
 typedef std::shared_ptr<Command> CommandPtr;
 
-}  // namespace atn::generator::removal
+}  // namespace atn::generator::command
