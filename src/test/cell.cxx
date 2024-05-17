@@ -10,7 +10,7 @@ TEST(CellTest, DefaultConstructor) {
 
 TEST(CellTest, Constructor) {
   atn::sudoku::Value value{2};
-  atn::sudoku::Cell cell{value};
+  atn::sudoku::Cell cell{{0, 0}, value};
   EXPECT_EQ(cell.get(), value);
 }
 
@@ -21,7 +21,7 @@ TEST(CellTest, DefaultIsUnset) {
 
 TEST(CellTest, IsSet) {
   atn::sudoku::Value value{3};
-  atn::sudoku::Cell cell{value};
+  atn::sudoku::Cell cell{{0, 0}, value};
   EXPECT_TRUE(cell.is_set());
 }
 
@@ -35,7 +35,7 @@ TEST(CellTest, SetValue) {
 
 TEST(CellTest, SetNewValue) {
   atn::sudoku::Value old_value{1}, new_value{5};
-  atn::sudoku::Cell cell{old_value};
+  atn::sudoku::Cell cell{{0, 0}, old_value};
   cell.set(new_value);
   EXPECT_TRUE(cell.is_set());
   EXPECT_EQ(cell.get(), new_value);
@@ -43,7 +43,7 @@ TEST(CellTest, SetNewValue) {
 
 TEST(CellTest, UnsetValue) {
   atn::sudoku::Value original_value{1};
-  atn::sudoku::Cell cell{original_value};
+  atn::sudoku::Cell cell{{0, 0}, original_value};
   atn::sudoku::Value return_value = cell.unset();
   EXPECT_FALSE(cell.is_set());
   EXPECT_EQ(return_value, original_value);
@@ -51,18 +51,22 @@ TEST(CellTest, UnsetValue) {
 
 TEST(CellTest, DefaultAllOptions) {
   atn::sudoku::Cell cell{};
-  std::vector<atn::sudoku::Value> values{{1}, {2}, {3}, {4}, {5},
-                                         {6}, {7}, {8}, {9}};
+  std::vector<atn::sudoku::Value> values{1, 2, 3, 4, 5, 6, 7, 8, 9};
   for (uint index{0}; index < values.size(); ++index) {
     EXPECT_TRUE(cell.has_option(values[index]));
   }
 }
 
 TEST(CellTest, ConstructValueNoOptions) {
-  atn::sudoku::Cell cell{{3}};
-  std::vector<atn::sudoku::Value> values{{1}, {2}, {3}, {4}, {5},
-                                         {6}, {7}, {8}, {9}};
+  atn::sudoku::Cell cell{{0, 0}, 3};
+  std::vector<atn::sudoku::Value> values{1, 2, 3, 4, 5, 6, 7, 8, 9};
   for (uint index{0}; index < values.size(); ++index) {
     EXPECT_FALSE(cell.has_option(values[index]));
   }
+}
+
+TEST(CellTest, PositionGetter) {
+  atn::sudoku::Position position{3, 3};
+  atn::sudoku::Cell cell{position};
+  EXPECT_EQ(position, cell.position());
 }

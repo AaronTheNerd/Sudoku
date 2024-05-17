@@ -4,14 +4,16 @@
 
 #include "options.h"
 #include "value.h"
+#include "position.h"
 
 namespace atn::sudoku {
 
 class Cell {
  public:
-  Cell();
-  Cell(atn::sudoku::Value);
+  Cell(atn::sudoku::Position = {0, 0});
+  Cell(atn::sudoku::Position, atn::sudoku::Value);
 
+  atn::sudoku::Position position() const;
   bool is_set() const;
   void set(atn::sudoku::Value);
   atn::sudoku::Value unset();
@@ -21,6 +23,7 @@ class Cell {
   void clear_option(atn::sudoku::Value);
 
  private:
+  atn::sudoku::Position _position;
   atn::sudoku::Value _value;
   atn::sudoku::Options _options;
 };

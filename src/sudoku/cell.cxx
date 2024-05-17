@@ -1,8 +1,12 @@
 #include "cell.h"
 
-atn::sudoku::Cell::Cell() : _value(), _options() {}
+atn::sudoku::Cell::Cell(atn::sudoku::Position position) : _position(position), _value(), _options() {}
 
-atn::sudoku::Cell::Cell(atn::sudoku::Value value) : _value(value), _options(0) {}
+atn::sudoku::Cell::Cell(atn::sudoku::Position position, atn::sudoku::Value value) : _position(position), _value(value), _options(0) {}
+
+atn::sudoku::Position atn::sudoku::Cell::position() const {
+  return this->_position;
+}
 
 bool atn::sudoku::Cell::is_set() const {
   return this->_value != atn::sudoku::Value{};
