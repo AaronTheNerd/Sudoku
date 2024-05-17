@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.15)
 project(SudokuGenerator VERSION 0.1)
 
+include(CTest)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 add_library(compiler_flags INTERFACE)
-target_compile_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-g>")
+target_compile_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-g;--coverage>")
+target_link_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:--coverage>")
 
 configure_file(config.h.in config.h)
 
