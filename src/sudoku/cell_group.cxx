@@ -1,5 +1,7 @@
 #include "cell_group.h"
 
+#include <unordered_set>
+
 atn::sudoku::CellGroupFactory::CellGroupFactory(atn::sudoku::Board& board)
     : _board(board) {}
 
@@ -40,6 +42,41 @@ atn::sudoku::CellGroup atn::sudoku::CellGroupFactory::box(uint box_x,
       atn::sudoku::Position position{3 * box_x + x, 3 * box_y + y};
       group.push_back(this->_board.get(position));
     }
+  }
+  return group;
+}
+
+atn::sudoku::CellGroup atn::sudoku::CellGroupFactory::area_of_effect(atn::sudoku::Position position) const {
+  CellGroup group;
+  std::unordered_set<atn::sudoku::Position, atn::sudoku::PositionHash> visited_positions;
+  visited_positions.insert(position);
+  CellGroup current_group;
+  current_group = this->row(position.y());
+  for (uint index{0}; index < current_group.size(); ++index) {
+    atn::sudoku::CellPtr cell = current_group[index];
+    if (visited_positions.contains(cell->position())) {
+      continue;
+    }
+    visited_positions.insert(cell->position());
+    group.push_back(cell);
+  }
+  current_group = this->column(position.x());
+  for (uint index{0}; index < current_group.size(); ++index) {
+    atn::sudoku::CellPtr cell = current_group[index];
+    if (visited_positions.contains(cell->position())) {
+      continue;
+    }
+    visited_positions.insert(cell->position());
+    group.push_back(cell);
+  }
+  current_group = this->box(position.x() / 3, position.y() / 3);
+  for (uint index{0}; index < current_group.size(); ++index) {
+    atn::sudoku::CellPtr cell = current_group[index];
+    if (visited_positions.contains(cell->position())) {
+      continue;
+    }
+    visited_positions.insert(cell->position());
+    group.push_back(cell);
   }
   return group;
 }

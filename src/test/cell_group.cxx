@@ -168,3 +168,24 @@ TEST(CellGroupTest, Mutability) {
   atn::sudoku::CellGroup row = factory.row(0);
   EXPECT_EQ(row[0]->get(), value);
 }
+
+TEST(CellGroupTest, AreaOfEffect) {
+  atn::sudoku::Board board =
+      atn::test_utils::generate_board({{1, 2, 3, 4, 5, 6, 7, 8, 9},
+                                       {2, 3, 4, 5, 6, 7, 8, 9, 1},
+                                       {3, 4, 5, 6, 7, 8, 9, 1, 2},
+                                       {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                                       {5, 6, 7, 8, 9, 1, 2, 3, 4},
+                                       {6, 7, 8, 9, 1, 2, 3, 4, 5},
+                                       {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                                       {8, 9, 1, 2, 3, 4, 5, 6, 7},
+                                       {9, 1, 2, 3, 4, 5, 6, 7, 8}});
+  atn::sudoku::CellGroupFactory factory{board};
+  for (uint x{0}; x < 9; ++x) {
+    for (uint y{0}; y < 9; ++y) {
+      atn::sudoku::Position position{x, y};
+      atn::sudoku::CellGroup area_of_effect = factory.area_of_effect({0, 0});
+      EXPECT_EQ(area_of_effect.size(), 20);
+    }
+  }
+}
