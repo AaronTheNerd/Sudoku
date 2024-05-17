@@ -36,6 +36,10 @@ void atn::sudoku::Position::_validate_index(uint index) const {
   }
 }
 
+uint atn::sudoku::PositionHash::operator()(const atn::sudoku::Position& position) const {
+  return 9 * position.y() + position.x();
+}
+
 atn::sudoku::InvalidPositionIndex::InvalidPositionIndex(uint index) noexcept {
   std::stringstream ss;
   ss << "Invalid position index received: " << index;

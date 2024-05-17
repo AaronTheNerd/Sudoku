@@ -27,6 +27,11 @@ class Position {
   uint _y;
 };
 
+class PositionHash {
+ public:
+  uint operator()(const atn::sudoku::Position& p) const;
+};
+
 class InvalidPositionIndex : public std::exception {
  public:
   InvalidPositionIndex(uint) noexcept;
