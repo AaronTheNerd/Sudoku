@@ -13,3 +13,7 @@ void atn::sudoku::Options::set(atn::sudoku::Value option) {
 void atn::sudoku::Options::clear(atn::sudoku::Value option) {
   this->_bitset &= ~(1 << option.value());
 }
+
+void atn::sudoku::Options::clear_all() {
+  this->_bitset = 0u;
+}

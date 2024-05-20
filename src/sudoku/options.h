@@ -11,6 +11,7 @@ class Options {
   bool includes(atn::sudoku::Value) const;
   void set(atn::sudoku::Value);
   void clear(atn::sudoku::Value);
+  void clear_all();
 
  private:
   uint16_t _bitset;
