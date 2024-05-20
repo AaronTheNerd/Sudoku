@@ -60,17 +60,8 @@ atn::generator::initial::Recursive::get_shuffled_values() {
 
 bool atn::generator::initial::Recursive::safe_to_add(
     atn::sudoku::Value value, atn::sudoku::Position position) const {
-  atn::sudoku::CellGroup row = this->_factory.row(position.y());
-  if (this->cell_group_contains(row, value)) {
-    return false;
-  }
-  atn::sudoku::CellGroup column = this->_factory.column(position.x());
-  if (this->cell_group_contains(column, value)) {
-    return false;
-  }
-  atn::sudoku::CellGroup box =
-      this->_factory.box(position.x() / 3, position.y() / 3);
-  if (this->cell_group_contains(box, value)) {
+  atn::sudoku::CellGroup aoe = this->_factory.area_of_effect(position);
+  if (this->cell_group_contains(aoe, value)) {
     return false;
   }
   return true;
