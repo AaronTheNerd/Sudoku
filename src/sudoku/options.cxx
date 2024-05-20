@@ -20,6 +20,6 @@ void atn::sudoku::Options::clear_all() {
   this->_bitset = 0u;
 }
 
-uint atn::sudoku::Options::count() {
+uint atn::sudoku::Options::count() const {
   return std::popcount(this->_bitset);
 }
