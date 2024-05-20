@@ -74,3 +74,10 @@ TEST(OptionsTest, ClearAll) {
     EXPECT_FALSE(options.includes(values[index]));
   }
 }
+
+TEST(OptionsTest, Count) {
+  atn::sudoku::Options options;
+  EXPECT_EQ(options.count(), 9);
+  options.clear_all();
+  EXPECT_EQ(options.count(), 0);
+}

@@ -12,6 +12,7 @@ class Options {
   void set(atn::sudoku::Value);
   void clear(atn::sudoku::Value);
   void clear_all();
+  uint count();
 
  private:
   uint16_t _bitset;
