@@ -34,3 +34,6 @@ void atn::sudoku::Cell::clear_option(atn::sudoku::Value option) {
   return this->_options.clear(option);
 }
 
+void atn::sudoku::Cell::clear_all_options() {
+  this->_options.clear_all();
+}

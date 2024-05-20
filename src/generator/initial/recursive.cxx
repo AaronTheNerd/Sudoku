@@ -34,6 +34,7 @@ bool atn::generator::initial::Recursive::add_value(uint board_index) {
     if (this->safe_to_add(value, position)) {
       atn::sudoku::CellPtr cell = this->_board.get(position);
       cell->set(value);
+      cell->clear_all_options();
       if (this->add_value(board_index + 1)) {
         return true;
       }

@@ -21,6 +21,7 @@ class Cell {
   bool has_option(atn::sudoku::Value) const;
   void set_option(atn::sudoku::Value);
   void clear_option(atn::sudoku::Value);
+  void clear_all_options();
 
  private:
   atn::sudoku::Position _position;

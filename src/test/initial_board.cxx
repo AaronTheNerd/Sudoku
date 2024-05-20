@@ -14,9 +14,13 @@ TEST(InitialBoardGeneratorTest, RecursiveGenerator) {
   atn::sudoku::Board board = generator.generate();
   atn::sudoku::CellGroupFactory factory{board};
   atn::sudoku::CellGroup board_cell_group = factory.board();
+  std::vector<atn::sudoku::Value> values{1, 2, 3, 4, 5, 6, 7, 8, 9};
 
   for (uint index{0}; index < board_cell_group.size(); ++index) {
     atn::sudoku::CellPtr cell = board_cell_group[index];
     EXPECT_TRUE(cell->is_set());
+    for (auto& value : values) {
+      EXPECT_FALSE(cell->has_option(value));
+    }
   }
 }
