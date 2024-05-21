@@ -17,3 +17,7 @@ void atn::generator::command::MacroCommand::undo() {
     command->undo();
   }
 }
+
+void atn::generator::command::MacroCommand::push(CommandPtr command) {
+  this->_commands.push_back(command);
+}

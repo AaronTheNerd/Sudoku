@@ -8,10 +8,12 @@ namespace atn::generator::command {
 
 class MacroCommand : public atn::generator::command::Command {
  public:
-  MacroCommand(std::vector<atn::generator::command::CommandPtr>);
+  MacroCommand(std::vector<atn::generator::command::CommandPtr> = {});
 
   void apply();
   void undo();
+
+  virtual void push(CommandPtr);
 
  private:
   std::vector<atn::generator::command::CommandPtr> _commands;
