@@ -37,3 +37,7 @@ void atn::sudoku::Cell::clear_option(atn::sudoku::Value option) {
 void atn::sudoku::Cell::clear_all_options() {
   this->_options.clear_all();
 }
+
+uint atn::sudoku::Cell::count_options() const {
+  return this->_options.count();
+}
