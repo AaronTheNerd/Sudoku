@@ -38,3 +38,24 @@ bool atn::test_utils::cell_has_options_set(
   }
   return true;
 }
+
+atn::sudoku::Board atn::test_utils::generate_board_with_options(std::vector<std::vector<atn::test_utils::BoardNode>> input) {
+  atn::sudoku::Board board;
+  for (uint y = 0; y < 9; ++y) {
+    for (uint x = 0; x < 9; ++x) {
+      atn::sudoku::Position pos{x, y};
+      atn::test_utils::BoardNode node = input[y][x];
+      atn::sudoku::Value value = node.value;
+      atn::sudoku::CellPtr cell = board.get(pos);
+      if (value.value() != 0u) {
+        cell->set(value);
+      }
+      std::vector<atn::sudoku::Value> options = node.options;
+      cell->clear_all_options();
+      for (auto option : options) {
+        cell->set_option(option);
+      }
+    }
+  }
+  return board;
+}

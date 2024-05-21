@@ -6,6 +6,7 @@
 
 #include "board.h"
 #include "cell_group.h"
+#include "value.h"
 
 namespace atn::test_utils {
 
@@ -15,5 +16,12 @@ bool cell_group_eq(atn::sudoku::CellGroup group, std::vector<uint8_t> test);
 
 bool cell_has_options_set(atn::sudoku::CellPtr,
                           std::vector<atn::sudoku::Value>);
+
+struct BoardNode {
+  atn::sudoku::Value value;
+  std::vector<atn::sudoku::Value> options;
+};
+
+atn::sudoku::Board generate_board_with_options(std::vector<std::vector<BoardNode>> input);
 
 }  // namespace atn::test_utils
