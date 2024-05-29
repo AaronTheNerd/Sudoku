@@ -1,3 +1,4 @@
+#include <gtest/gtest.h>
 
 #include "test_utils.h"
 
@@ -59,3 +60,16 @@ atn::sudoku::Board atn::test_utils::generate_board_with_options(std::vector<std:
   }
   return board;
 }
+
+void atn::test_utils::expect_board_state(atn::sudoku::Board board, std::vector<atn::test_utils::BoardState> states) {
+  for (auto state : states) {
+    auto cell = board.get(state.pos);
+    if (state.node.value == 0u) {
+      EXPECT_FALSE(cell->is_set());
+    } else {
+      EXPECT_EQ(cell->get(), state.node.value);
+    }
+    EXPECT_TRUE(cell_has_options_set(cell, state.node.options));
+  }
+}
+

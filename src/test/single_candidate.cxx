@@ -7,11 +7,6 @@ using namespace atn::sudoku;
 using namespace atn::test_utils;
 using namespace atn::generator::logic;
 
-struct BoardState {
-  Position pos;
-  BoardNode node;
-};
-
 TEST(SingleCandidateTest, FullBoard) {
   Board board = generate_board_with_options({
     {{0, {2, 9}},       {4, {}},              {0, {2, 3}},       {0, {7, 8, 9}},       {0, {6, 7, 8, 9}},    {0, {2, 6, 7, 9}},    {0, {3, 9}},          {1, {}},        {5, {}}},
@@ -45,33 +40,9 @@ TEST(SingleCandidateTest, FullBoard) {
   EXPECT_TRUE(optional_move.has_value());
   NextMove move = optional_move.value();
   CommandPtr command = move.get_command();
-  for (auto state : before_state) {
-    auto cell = board.get(state.pos);
-    if (state.node.value == 0u) {
-      EXPECT_FALSE(cell->is_set());
-    } else {
-      EXPECT_EQ(cell->get(), state.node.value);
-    }
-    EXPECT_TRUE(cell_has_options_set(cell, state.node.options));
-  }
+  expect_board_state(board, before_state);
   command->apply();
-  for (auto state : after_state) {
-    auto cell = board.get(state.pos);
-    if (state.node.value == 0u) {
-      EXPECT_FALSE(cell->is_set());
-    } else {
-      EXPECT_EQ(cell->get(), state.node.value);
-    }
-    EXPECT_TRUE(cell_has_options_set(cell, state.node.options));
-  }
+  expect_board_state(board, after_state);
   command->undo();
-  for (auto state : before_state) {
-    auto cell = board.get(state.pos);
-    if (state.node.value == 0u) {
-      EXPECT_FALSE(cell->is_set());
-    } else {
-      EXPECT_EQ(cell->get(), state.node.value);
-    }
-    EXPECT_TRUE(cell_has_options_set(cell, state.node.options));
-  }
+  expect_board_state(board, before_state);
 }

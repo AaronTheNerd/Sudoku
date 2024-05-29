@@ -24,4 +24,11 @@ struct BoardNode {
 
 atn::sudoku::Board generate_board_with_options(std::vector<std::vector<BoardNode>> input);
 
+struct BoardState {
+  atn::sudoku::Position pos;
+  BoardNode node;
+};
+
+void expect_board_state(atn::sudoku::Board, std::vector<BoardState>);
+
 }  // namespace atn::test_utils
