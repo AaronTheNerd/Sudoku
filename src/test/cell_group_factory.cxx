@@ -1,4 +1,4 @@
-#include "cell_group.h"
+#include "cell_group_factory.h"
 
 #include <gtest/gtest.h>
 

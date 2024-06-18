@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "board.h"
-#include "cell_group.h"
+#include "cell_group_factory.h"
 #include "technique.h"
 #include "macro_command.h"
 

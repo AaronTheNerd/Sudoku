@@ -4,6 +4,7 @@
 #include <unordered_set>
 
 #include "cell_group.h"
+#include "cell_group_factory.h"
 
 namespace {
 

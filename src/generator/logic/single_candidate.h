@@ -4,7 +4,7 @@
 #include <string>
 
 #include "board.h"
-#include "cell_group.h"
+#include "cell_group_factory.h"
 #include "macro_command.h"
 #include "technique.h"
 
