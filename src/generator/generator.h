@@ -10,10 +10,10 @@ class Generator {
  public:
   Generator(initial::GeneratorType = initial::GeneratorType::RECURSIVE);
 
-  atn::sudoku::Board get_sudoku(const atn::generator::DifficultyRange&);
+  atn::sudoku::BoardPtr get_sudoku(const atn::generator::DifficultyRange&);
 
  private:
-  atn::sudoku::Board _board;
+  atn::sudoku::BoardPtr _board;
   initial::GeneratorPtr _initial_generator;
 };
 

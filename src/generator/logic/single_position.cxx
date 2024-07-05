@@ -9,8 +9,8 @@
 using namespace atn::generator::logic;
 using namespace atn::generator::command;
 
-atn::generator::logic::SinglePosition::SinglePosition(Board board)
-    : _next_move(std::nullopt), _factory(board) {
+atn::generator::logic::SinglePosition::SinglePosition(BoardPtr board)
+    : _next_move(std::nullopt), _board(board) {
   this->find_next_move();
 }
 
@@ -31,7 +31,7 @@ void atn::generator::logic::SinglePosition::find_next_move() {
 std::optional<NextMove> atn::generator::logic::SinglePosition::search_all_rows()
     const {
   for (uint y{0}; y < 9u; ++y) {
-    CellGroup row = this->_factory.row(y);
+    CellGroup row = this->_board->row(y);
     if (auto result = this->search_group(row)) {
       return this->calculate_changes(*result);
     }
@@ -42,7 +42,7 @@ std::optional<NextMove> atn::generator::logic::SinglePosition::search_all_rows()
 std::optional<NextMove>
 atn::generator::logic::SinglePosition::search_all_columns() const {
   for (uint x{0}; x < 9u; ++x) {
-    CellGroup column = this->_factory.column(x);
+    CellGroup column = this->_board->column(x);
     if (auto result = this->search_group(column)) {
       return this->calculate_changes(*result);
     }
@@ -54,7 +54,7 @@ std::optional<NextMove>
 atn::generator::logic::SinglePosition::search_all_boxes() const {
   for (uint x{0}; x < 3u; ++x) {
     for (uint y{0}; y < 3u; ++y) {
-      CellGroup box = this->_factory.box(x, y);
+      CellGroup box = this->_board->box(x, y);
       if (auto result = this->search_group(box)) {
         return this->calculate_changes(*result);
       }
@@ -104,7 +104,7 @@ NextMove atn::generator::logic::SinglePosition::calculate_changes(
 MacroCommand atn::generator::logic::SinglePosition::calculate_aoe_changes(
     CellPtr original_cell, Value set_value) const {
   MacroCommand command;
-  CellGroup aoe = this->_factory.area_of_effect(original_cell->position());
+  CellGroup aoe = this->_board->area_of_effect(original_cell->position());
   for (auto& cell : aoe) {
     if (cell->has_option(set_value)) {
       command.push(

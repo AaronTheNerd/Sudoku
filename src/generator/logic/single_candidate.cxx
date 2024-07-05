@@ -9,8 +9,8 @@ using namespace atn::sudoku;
 using namespace atn::generator::logic;
 using namespace atn::generator::command;
 
-atn::generator::logic::SingleCandidate::SingleCandidate(Board board)
-    : _next_move(std::nullopt), _factory(board) {
+atn::generator::logic::SingleCandidate::SingleCandidate(BoardPtr board)
+    : _next_move(std::nullopt), _board(board) {
   this->find_next_move();
 }
 
@@ -20,7 +20,7 @@ atn::generator::logic::SingleCandidate::get_next_move() {
 }
 
 void atn::generator::logic::SingleCandidate::find_next_move() {
-  CellGroup board = this->_factory.board();
+  CellGroup board = this->_board->board();
   for (auto it = board.begin(); it != board.end(); ++it) {
     CellPtr cell = *it;
     if (cell->count_options() == 1) {
@@ -53,7 +53,7 @@ Value atn::generator::logic::SingleCandidate::calculate_set_value(
 MacroCommand atn::generator::logic::SingleCandidate::calculate_aoe_changes(
     CellPtr original_cell, Value set_value) const {
   MacroCommand command;
-  CellGroup aoe = this->_factory.area_of_effect(original_cell->position());
+  CellGroup aoe = this->_board->area_of_effect(original_cell->position());
   for (auto& cell : aoe) {
     if (cell->has_option(set_value)) {
       command.push(

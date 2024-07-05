@@ -3,13 +3,12 @@
 #include <random>
 
 #include "../initial/generator.h"
-#include "cell_group_factory.h"
 
 namespace atn::generator::initial {
 
 class Recursive : public Generator {
  public:
-  atn::sudoku::Board generate();
+  atn::sudoku::BoardPtr generate();
 
   Recursive();
 
@@ -21,8 +20,7 @@ class Recursive : public Generator {
   bool safe_to_add(atn::sudoku::Value, atn::sudoku::Position) const;
   bool cell_group_contains(atn::sudoku::CellGroup, atn::sudoku::Value) const;
 
-  atn::sudoku::Board _board;
-  atn::sudoku::CellGroupFactory _factory;
+  atn::sudoku::BoardPtr _board;
   std::default_random_engine _rng;
 
  protected:

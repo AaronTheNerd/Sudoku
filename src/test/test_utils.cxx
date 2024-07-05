@@ -4,14 +4,14 @@
 
 #include <algorithm>
 
-atn::sudoku::Board atn::test_utils::generate_board(
+atn::sudoku::BoardPtr atn::test_utils::generate_board(
     std::vector<std::vector<uint8_t>> input) {
-  atn::sudoku::Board board{};
+  atn::sudoku::BoardPtr board = atn::sudoku::Board::create();
   for (uint y = 0; y < 9; ++y) {
     for (uint x = 0; x < 9; ++x) {
       atn::sudoku::Position pos{x, y};
       atn::sudoku::Value value{input[y][x]};
-      board.get(pos)->set(value);
+      board->get(pos)->set(value);
     }
   }
   return board;
@@ -40,14 +40,14 @@ bool atn::test_utils::cell_has_options_set(
   return true;
 }
 
-atn::sudoku::Board atn::test_utils::generate_board_with_options(std::vector<std::vector<atn::test_utils::BoardNode>> input) {
-  atn::sudoku::Board board;
+atn::sudoku::BoardPtr atn::test_utils::generate_board_with_options(std::vector<std::vector<atn::test_utils::BoardNode>> input) {
+  atn::sudoku::BoardPtr board = atn::sudoku::Board::create();
   for (uint y = 0; y < 9; ++y) {
     for (uint x = 0; x < 9; ++x) {
       atn::sudoku::Position pos{x, y};
       atn::test_utils::BoardNode node = input[y][x];
       atn::sudoku::Value value = node.value;
-      atn::sudoku::CellPtr cell = board.get(pos);
+      atn::sudoku::CellPtr cell = board->get(pos);
       if (value.value() != 0u) {
         cell->set(value);
       }
@@ -61,9 +61,9 @@ atn::sudoku::Board atn::test_utils::generate_board_with_options(std::vector<std:
   return board;
 }
 
-void atn::test_utils::expect_board_state(atn::sudoku::Board board, std::vector<atn::test_utils::BoardState> states) {
+void atn::test_utils::expect_board_state(atn::sudoku::BoardPtr board, std::vector<atn::test_utils::BoardState> states) {
   for (auto state : states) {
-    auto cell = board.get(state.pos);
+    auto cell = board->get(state.pos);
     if (state.node.value == 0u) {
       EXPECT_FALSE(cell->is_set());
     } else {

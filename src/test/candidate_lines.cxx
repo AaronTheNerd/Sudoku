@@ -9,7 +9,7 @@ using namespace atn::generator::logic;
 
 
 TEST(CandidateLinesTest, FullBoard) {
-  Board board = generate_board_with_options({
+  BoardPtr board = generate_board_with_options({
     {{0, {2, 4, 8}}, {0, {2, 4, 8}}, {1, {}},     {9, {}}, {5, {}},     {7, {}},     {0, {2, 4}},       {6, {}},           {3, {}}},
     {{0, {2, 4, 5}}, {0, {2, 3, 4}}, {0, {3, 5}}, {8, {}}, {0, {2, 4}}, {6, {}},     {0, {1, 2, 4, 9}}, {7, {}},           {0, {1, 2, 4, 9}}},
     {{7, {}},        {6, {}},        {9, {}},     {1, {}}, {3, {}},     {0, {2, 4}}, {8, {}},           {0, {2, 4}},       {5, {}}},

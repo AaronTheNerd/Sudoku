@@ -5,7 +5,7 @@
 
 #include "../initial/exception.h"
 
-atn::sudoku::Board atn::generator::initial::Recursive::generate() {
+atn::sudoku::BoardPtr atn::generator::initial::Recursive::generate() {
   this->clear_board();
   if (this->add_value(0)) {
     return this->_board;
@@ -14,12 +14,12 @@ atn::sudoku::Board atn::generator::initial::Recursive::generate() {
 }
 
 atn::generator::initial::Recursive::Recursive()
-    : _board(), _factory(this->_board), _rng() {}
+    : _board(atn::sudoku::Board::create()), _rng() {}
 
 void atn::generator::initial::Recursive::clear_board() {
   for (uint index{0}; index < 81u; ++index) {
     atn::sudoku::Position position = this->get_position(index);
-    this->_board.get(position)->unset();
+    this->_board->get(position)->unset();
   }
 }
 
@@ -32,7 +32,7 @@ bool atn::generator::initial::Recursive::add_value(uint board_index) {
   for (uint index{0}; index < values.size(); ++index) {
     atn::sudoku::Value value = values[index];
     if (this->safe_to_add(value, position)) {
-      atn::sudoku::CellPtr cell = this->_board.get(position);
+      atn::sudoku::CellPtr cell = this->_board->get(position);
       cell->set(value);
       cell->clear_all_options();
       if (this->add_value(board_index + 1)) {
@@ -60,7 +60,7 @@ atn::generator::initial::Recursive::get_shuffled_values() {
 
 bool atn::generator::initial::Recursive::safe_to_add(
     atn::sudoku::Value value, atn::sudoku::Position position) const {
-  atn::sudoku::CellGroup aoe = this->_factory.area_of_effect(position);
+  atn::sudoku::CellGroup aoe = this->_board->area_of_effect(position);
   if (this->cell_group_contains(aoe, value)) {
     return false;
   }

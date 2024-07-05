@@ -6,8 +6,8 @@
 
 using namespace atn::generator::logic;
 
-atn::generator::logic::CandidateLines::CandidateLines(Board board)
-    : _next_move(std::nullopt), _factory(board) {
+atn::generator::logic::CandidateLines::CandidateLines(BoardPtr board)
+    : _next_move(std::nullopt), _board(board) {
   this->find_next_move();
 }
 
@@ -18,7 +18,7 @@ std::optional<NextMove> atn::generator::logic::CandidateLines::get_next_move() {
 void atn::generator::logic::CandidateLines::find_next_move() {
   for (uint x{0}; x < 3; ++x) {
     for (uint y{0}; y < 3; ++y) {
-      CellGroup box = this->_factory.box(x, y);
+      CellGroup box = this->_board->box(x, y);
       if (auto result = this->search_box(box)) {
         this->_next_move = result;
         return;
@@ -97,10 +97,10 @@ CellGroup atn::generator::logic::CandidateLines::get_cell_group(
     LineTestEnum line, std::vector<CellPtr> cells) const {
   Position pos = cells[0]->position();
   if (line == LineTestEnum::COLUMN) {
-    return this->_factory.column(pos.x());
+    return this->_board->column(pos.x());
   }
   if (line == LineTestEnum::ROW) {
-    return this->_factory.row(pos.y());
+    return this->_board->row(pos.y());
   }
   throw;
 }

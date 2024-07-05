@@ -4,7 +4,6 @@
 #include <string>
 
 #include "board.h"
-#include "cell_group_factory.h"
 #include "macro_command.h"
 #include "technique.h"
 
@@ -16,7 +15,7 @@ using namespace atn::generator::command;
 
 class SingleCandidate : public Technique {
  public:
-  SingleCandidate(Board);
+  SingleCandidate(BoardPtr);
   std::optional<NextMove> get_next_move();
 
  private:
@@ -26,7 +25,7 @@ class SingleCandidate : public Technique {
   MacroCommand calculate_aoe_changes(CellPtr, Value) const;
 
   std::optional<NextMove> _next_move;
-  CellGroupFactory _factory;
+  BoardPtr _board;
 };
 
 class MissingOption : public std::exception {

@@ -11,9 +11,8 @@ TEST(InitialBoardGeneratorTest, DefaultConstructor) {
 
 TEST(InitialBoardGeneratorTest, RecursiveGenerator) {
   atn::generator::initial::Recursive generator{};
-  atn::sudoku::Board board = generator.generate();
-  atn::sudoku::CellGroupFactory factory{board};
-  atn::sudoku::CellGroup board_cell_group = factory.board();
+  atn::sudoku::BoardPtr board = generator.generate();
+  atn::sudoku::CellGroup board_cell_group = board->board();
   std::vector<atn::sudoku::Value> values{1, 2, 3, 4, 5, 6, 7, 8, 9};
 
   for (uint index{0}; index < board_cell_group.size(); ++index) {

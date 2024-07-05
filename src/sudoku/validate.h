@@ -4,6 +4,6 @@
 
 namespace atn::sudoku {
 
-bool validate(atn::sudoku::Board&);
+bool validate(atn::sudoku::BoardPtr);
 
 }  // namespace atn::sudoku

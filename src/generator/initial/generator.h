@@ -8,7 +8,7 @@ namespace atn::generator::initial {
 
 class Generator {
  public:
-  virtual atn::sudoku::Board generate() = 0;
+  virtual atn::sudoku::BoardPtr generate() = 0;
 };
 
 typedef std::shared_ptr<Generator> GeneratorPtr;

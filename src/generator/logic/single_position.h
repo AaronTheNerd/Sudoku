@@ -3,7 +3,6 @@
 #include <optional>
 
 #include "board.h"
-#include "cell_group_factory.h"
 #include "technique.h"
 #include "macro_command.h"
 
@@ -20,7 +19,7 @@ struct GroupSearchResult {
 
 class SinglePosition : public Technique {
  public:
-  SinglePosition(Board);
+  SinglePosition(BoardPtr);
   std::optional<NextMove> get_next_move();
 
  private:
@@ -33,7 +32,7 @@ class SinglePosition : public Technique {
   MacroCommand calculate_aoe_changes(CellPtr, Value) const;
 
   std::optional<NextMove> _next_move;
-  CellGroupFactory _factory;
+  BoardPtr _board;
 };
 
 }  // namespace atn::generator::logic

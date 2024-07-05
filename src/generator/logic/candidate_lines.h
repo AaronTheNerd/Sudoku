@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 #include "board.h"
-#include "cell_group_factory.h"
 #include "technique.h"
 #include "macro_command.h"
 
@@ -22,7 +21,7 @@ enum class LineTestEnum {
 
 class CandidateLines : public Technique {
  public:
-  CandidateLines(Board);
+  CandidateLines(BoardPtr);
   std::optional<NextMove> get_next_move();
 
  private:
@@ -35,7 +34,7 @@ class CandidateLines : public Technique {
   NextMove calculate_changes(std::vector<CellPtr>, Value) const;
 
   std::optional<NextMove> _next_move;
-  CellGroupFactory _factory;
+  BoardPtr _board;
 };
 
 }  // namespace atn::generator::logic
