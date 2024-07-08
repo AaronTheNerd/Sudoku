@@ -66,8 +66,8 @@ MacroCommand atn::generator::logic::SingleCandidate::calculate_aoe_changes(
 atn::generator::logic::MissingOption::MissingOption(
     atn::sudoku::Position pos) noexcept {
   std::stringstream ss;
-  ss << "Cell at position (" << pos.x() << ", " << pos.y()
-     << ") is missing any valid options";
+  ss << "Cell at position " << pos.to_string()
+     << " is missing any valid options";
   this->message = ss.str();
 }
 

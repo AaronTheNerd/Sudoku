@@ -36,10 +36,12 @@ TEST(BoardTest, InvalidIndex) {
                                        {7, 8, 9, 1, 2, 3, 4, 5, 6},
                                        {8, 9, 1, 2, 3, 4, 5, 6, 7},
                                        {9, 1, 2, 3, 4, 5, 6, 7, 8}});
-  EXPECT_THROW(board->row(9), std::exception);
-  EXPECT_THROW(board->column(9), std::exception);
-  EXPECT_THROW(board->box(0, 3), std::exception);
-  EXPECT_THROW(board->box(3, 0), std::exception);
+  EXPECT_THROW(board->get({0, 9}), atn::sudoku::InvalidIndexValueException);
+  EXPECT_THROW(board->get({9, 0}), atn::sudoku::InvalidIndexValueException);
+  EXPECT_THROW(board->row(9), atn::sudoku::InvalidIndexValueException);
+  EXPECT_THROW(board->column(9), atn::sudoku::InvalidIndexValueException);
+  EXPECT_THROW(board->box(0, 3), atn::sudoku::InvalidIndexValueException);
+  EXPECT_THROW(board->box(3, 0), atn::sudoku::InvalidIndexValueException);
 }
 
 TEST(BoardTest, Board) {

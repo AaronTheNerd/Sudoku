@@ -3,23 +3,25 @@
 #include <exception>
 #include <sstream>
 
-atn::sudoku::Position::Position(uint x, uint y) : _x(), _y() {
-  this->x(x);
-  this->y(y);
+atn::sudoku::Position::Position(atn::sudoku::Index x, atn::sudoku::Index y) : _x(x), _y(y) {
 }
 
-uint atn::sudoku::Position::x() const { return this->_x; }
+atn::sudoku::Index atn::sudoku::Position::x() const { return this->_x; }
 
-uint atn::sudoku::Position::y() const { return this->_y; }
+atn::sudoku::Index atn::sudoku::Position::y() const { return this->_y; }
 
-void atn::sudoku::Position::x(uint x) {
-  this->_validate_index(x);
+void atn::sudoku::Position::x(atn::sudoku::Index x) {
   this->_x = x;
 }
 
-void atn::sudoku::Position::y(uint y) {
-  this->_validate_index(y);
+void atn::sudoku::Position::y(atn::sudoku::Index y) {
   this->_y = y;
+}
+
+std::string atn::sudoku::Position::to_string() const {
+  std::stringstream ss;
+  ss << "(" << this->x().to_string() << ", " << this->y().to_string() << ")";
+  return ss.str();
 }
 
 bool atn::sudoku::Position::operator==(const atn::sudoku::Position& rhs) const {
@@ -30,22 +32,6 @@ bool atn::sudoku::Position::operator!=(const atn::sudoku::Position& rhs) const {
   return !(*this == rhs);
 }
 
-void atn::sudoku::Position::_validate_index(uint index) const {
-  if (index >= 9) {
-    throw atn::sudoku::InvalidPositionIndex(index);
-  }
-}
-
 uint atn::sudoku::PositionHash::operator()(const atn::sudoku::Position& position) const {
-  return 9 * position.y() + position.x();
-}
-
-atn::sudoku::InvalidPositionIndex::InvalidPositionIndex(uint index) noexcept {
-  std::stringstream ss;
-  ss << "Invalid position index received: " << index;
-  this->message = ss.str();
-}
-
-const char* atn::sudoku::InvalidPositionIndex::what() const noexcept {
-  return this->message.c_str();
+  return 9 * position.y().value() + position.x().value();
 }

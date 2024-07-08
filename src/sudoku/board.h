@@ -30,9 +30,9 @@ class Board : public std::enable_shared_from_this<Board> {
   CellPtr get(const Position&) const;
 
   CellGroup board() const;
-  CellGroup row(uint) const;
-  CellGroup column(uint) const;
-  CellGroup box(uint, uint) const;
+  CellGroup row(Index) const;
+  CellGroup column(Index) const;
+  CellGroup box(BoxIndex, BoxIndex) const;
   CellGroup area_of_effect(Position) const;
 
  private:

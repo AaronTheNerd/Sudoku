@@ -1,5 +1,7 @@
 #pragma once
 
+#include "index.h"
+
 #include <sys/types.h>
 
 #include <exception>
@@ -9,36 +11,28 @@ namespace atn::sudoku {
 
 class Position {
  public:
-  Position(uint, uint);
+  Position(Index, Index);
 
-  uint x() const;
-  uint y() const;
+  Index x() const;
+  Index y() const;
 
-  void x(uint);
-  void y(uint);
+  void x(Index);
+  void y(Index);
+
+  std::string to_string() const;
 
   bool operator==(const atn::sudoku::Position&) const;
   bool operator!=(const atn::sudoku::Position&) const;
 
  private:
-  void _validate_index(uint) const;
 
-  uint _x;
-  uint _y;
+  Index _x;
+  Index _y;
 };
 
 class PositionHash {
  public:
   uint operator()(const atn::sudoku::Position& p) const;
-};
-
-class InvalidPositionIndex : public std::exception {
- public:
-  InvalidPositionIndex(uint) noexcept;
-  const char* what() const noexcept;
-
- private:
-  std::string message;
 };
 
 }  // namespace atn::sudoku

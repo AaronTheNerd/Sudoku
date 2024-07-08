@@ -1,5 +1,6 @@
 #include "board.h"
 
+#include <sstream>
 #include <unordered_set>
 
 atn::sudoku::Board::Board(Board::Private) : _board() {
@@ -16,44 +17,42 @@ atn::sudoku::BoardPtr atn::sudoku::Board::get_ptr() {
 
 atn::sudoku::CellPtr atn::sudoku::Board::get(
     const atn::sudoku::Position& pos) const {
-  return this->_board[pos.y()][pos.x()];
+  return this->_board[pos.y().value()][pos.x().value()];
 }
 
 atn::sudoku::CellGroup atn::sudoku::Board::board() const {
   CellGroup group;
-  for (uint y{0}; y < 9; ++y) {
-    for (uint x{0}; x < 9; ++x) {
-      atn::sudoku::Position position{x, y};
-      group.push_back(this->get(position));
+  for (atn::sudoku::Index y{0}; y < 9; ++y) {
+    for (atn::sudoku::Index x{0}; x < 9; ++x) {
+      group.push_back(this->get({x, y}));
     }
   }
   return group;
 }
 
-atn::sudoku::CellGroup atn::sudoku::Board::row(uint y) const {
+atn::sudoku::CellGroup atn::sudoku::Board::row(atn::sudoku::Index y) const {
   CellGroup group;
-  for (uint x{0}; x < 9; ++x) {
-    atn::sudoku::Position position{x, y};
-    group.push_back(this->get(position));
+  for (atn::sudoku::Index x{0}; x < 9; ++x) {
+    group.push_back(this->get({x, y}));
   }
   return group;
 }
 
-atn::sudoku::CellGroup atn::sudoku::Board::column(uint x) const {
+atn::sudoku::CellGroup atn::sudoku::Board::column(atn::sudoku::Index x) const {
   CellGroup group;
-  for (uint y{0}; y < 9; ++y) {
-    atn::sudoku::Position position{x, y};
-    group.push_back(this->get(position));
+  for (atn::sudoku::Index y{0}; y < 9; ++y) {
+    group.push_back(this->get({x, y}));
   }
   return group;
 }
 
-atn::sudoku::CellGroup atn::sudoku::Board::box(uint box_x, uint box_y) const {
+atn::sudoku::CellGroup atn::sudoku::Board::box(
+    atn::sudoku::BoxIndex box_x, atn::sudoku::BoxIndex box_y) const {
   CellGroup group;
-  for (uint y{0}; y < 3; ++y) {
-    for (uint x{0}; x < 3; ++x) {
-      atn::sudoku::Position position{3 * box_x + x, 3 * box_y + y};
-      group.push_back(this->get(position));
+  for (atn::sudoku::BoxIndex y{0}; y < 3; ++y) {
+    for (atn::sudoku::BoxIndex x{0}; x < 3; ++x) {
+      group.push_back(this->get(
+          {3 * box_x.value() + x.value(), 3 * box_y.value() + y.value()}));
     }
   }
   return group;
@@ -83,7 +82,7 @@ atn::sudoku::CellGroup atn::sudoku::Board::area_of_effect(
     visited_positions.insert(cell->position());
     group.push_back(cell);
   }
-  current_group = this->box(position.x() / 3, position.y() / 3);
+  current_group = this->box(position.x().value() / 3, position.y().value() / 3);
   for (uint index{0}; index < current_group.size(); ++index) {
     atn::sudoku::CellPtr cell = current_group[index];
     if (visited_positions.contains(cell->position())) {
@@ -103,3 +102,4 @@ void atn::sudoku::Board::initialize_board() {
     }
   }
 }
+
