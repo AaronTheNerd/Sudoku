@@ -16,8 +16,8 @@ std::optional<NextMove> atn::generator::logic::CandidateLines::get_next_move() {
 }
 
 void atn::generator::logic::CandidateLines::find_next_move() {
-  for (uint x{0}; x < 3; ++x) {
-    for (uint y{0}; y < 3; ++y) {
+  for (BoxIndex x{0}; x < 3; ++x) {
+    for (BoxIndex y{0}; y < 3; ++y) {
       CellGroup box = this->_board->box(x, y);
       if (auto result = this->search_box(box)) {
         this->_next_move = result;
