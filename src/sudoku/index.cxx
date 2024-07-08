@@ -50,4 +50,3 @@ atn::sudoku::InvalidIndexValueException::InvalidIndexValueException(
 const char* atn::sudoku::InvalidIndexValueException::what() const noexcept {
   return this->message.c_str();
 }
-

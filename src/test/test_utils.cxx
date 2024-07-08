@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
-
 #include "test_utils.h"
+
+#include <gtest/gtest.h>
 
 #include <algorithm>
 
@@ -40,7 +40,8 @@ bool atn::test_utils::cell_has_options_set(
   return true;
 }
 
-atn::sudoku::BoardPtr atn::test_utils::generate_board_with_options(std::vector<std::vector<atn::test_utils::BoardNode>> input) {
+atn::sudoku::BoardPtr atn::test_utils::generate_board_with_options(
+    std::vector<std::vector<atn::test_utils::BoardNode>> input) {
   atn::sudoku::BoardPtr board = atn::sudoku::Board::create();
   for (uint8_t y = 0; y < 9; ++y) {
     for (uint8_t x = 0; x < 9; ++x) {
@@ -61,7 +62,9 @@ atn::sudoku::BoardPtr atn::test_utils::generate_board_with_options(std::vector<s
   return board;
 }
 
-void atn::test_utils::expect_board_state(atn::sudoku::BoardPtr board, std::vector<atn::test_utils::BoardState> states) {
+void atn::test_utils::expect_board_state(
+    atn::sudoku::BoardPtr board,
+    std::vector<atn::test_utils::BoardState> states) {
   for (auto state : states) {
     auto cell = board->get(state.pos);
     if (state.node.value == 0u) {
@@ -72,4 +75,3 @@ void atn::test_utils::expect_board_state(atn::sudoku::BoardPtr board, std::vecto
     EXPECT_TRUE(cell_has_options_set(cell, state.node.options));
   }
 }
-

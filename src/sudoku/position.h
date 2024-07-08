@@ -1,11 +1,11 @@
 #pragma once
 
-#include "index.h"
-
 #include <sys/types.h>
 
 #include <exception>
 #include <string>
+
+#include "index.h"
 
 namespace atn::sudoku {
 
@@ -25,7 +25,6 @@ class Position {
   bool operator!=(const atn::sudoku::Position&) const;
 
  private:
-
   Index _x;
   Index _y;
 };

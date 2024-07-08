@@ -1,8 +1,11 @@
 #include "cell.h"
 
-atn::sudoku::Cell::Cell(atn::sudoku::Position position) : _position(position), _value(), _options() {}
+atn::sudoku::Cell::Cell(atn::sudoku::Position position)
+    : _position(position), _value(), _options() {}
 
-atn::sudoku::Cell::Cell(atn::sudoku::Position position, atn::sudoku::Value value) : _position(position), _value(value), _options(0) {}
+atn::sudoku::Cell::Cell(atn::sudoku::Position position,
+                        atn::sudoku::Value value)
+    : _position(position), _value(value), _options(0) {}
 
 atn::sudoku::Position atn::sudoku::Cell::position() const {
   return this->_position;
@@ -34,10 +37,6 @@ void atn::sudoku::Cell::clear_option(atn::sudoku::Value option) {
   return this->_options.clear(option);
 }
 
-void atn::sudoku::Cell::clear_all_options() {
-  this->_options.clear_all();
-}
+void atn::sudoku::Cell::clear_all_options() { this->_options.clear_all(); }
 
-uint atn::sudoku::Cell::count_options() const {
-  return this->_options.count();
-}
+uint atn::sudoku::Cell::count_options() const { return this->_options.count(); }

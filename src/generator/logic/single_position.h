@@ -3,8 +3,8 @@
 #include <optional>
 
 #include "board.h"
-#include "technique.h"
 #include "macro_command.h"
+#include "technique.h"
 
 namespace atn::generator::logic {
 

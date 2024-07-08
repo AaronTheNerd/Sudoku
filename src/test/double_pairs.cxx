@@ -7,8 +7,8 @@ using namespace atn::sudoku;
 using namespace atn::test_utils;
 using namespace atn::generator::logic;
 
-
 TEST(DoublePairsTest, FullBoard) {
+  // clang-format off
   BoardPtr board = generate_board_with_options({
     {{9, {}},        {3, {}},        {4, {}},           {0, {1, 2, 7}}, {6, {}},        {0, {2, 7}},       {0, {1, 7, 8}}, {5, {}},     {0, {1, 8}}},
     {{0, {1, 7}},    {0, {1, 5}},    {6, {}},           {0, {1, 7, 8}}, {0, {5, 7, 8}}, {4, {}},           {9, {}},        {2, {}},     {3, {}}},
@@ -20,16 +20,12 @@ TEST(DoublePairsTest, FullBoard) {
     {{4, {}},        {7, {}},        {0, {2, 9}},       {6, {}},        {0, {2, 3, 8}}, {0, {2, 3, 8, 9}}, {5, {}},        {0, {1, 8}}, {0, {1, 8, 9}}},
     {{0, {1, 2}},    {8, {}},        {0, {1, 2, 5, 9}}, {0, {2, 7}},    {0, {2, 5, 7}}, {0, {2, 5, 7, 9}}, {6, {}},        {3, {}},     {4, {}}}
   });
-  std::vector<BoardState> before_state{
-    {{3, 8}, {0, {2, 7}}},
-    {{5, 7}, {0, {2, 3, 8, 9}}},
-    {{5, 8}, {0, {2, 5, 7, 9}}}
-  };
+  // clang-format on
+  std::vector<BoardState> before_state{{{3, 8}, {0, {2, 7}}},
+                                       {{5, 7}, {0, {2, 3, 8, 9}}},
+                                       {{5, 8}, {0, {2, 5, 7, 9}}}};
   std::vector<BoardState> after_state{
-    {{3, 8}, {0, {7}}},
-    {{5, 7}, {0, {3, 8, 9}}},
-    {{5, 8}, {0, {5, 7, 9}}}
-  };
+      {{3, 8}, {0, {7}}}, {{5, 7}, {0, {3, 8, 9}}}, {{5, 8}, {0, {5, 7, 9}}}};
   CandidateLines move_candidate{board};
   std::optional<NextMove> optional_move = move_candidate.get_next_move();
   EXPECT_TRUE(optional_move.has_value());

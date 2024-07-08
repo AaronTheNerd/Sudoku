@@ -41,5 +41,4 @@ class InvalidIndexValueException : public std::exception {
   std::string message;
 };
 
-
 }  // namespace atn::sudoku

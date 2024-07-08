@@ -3,8 +3,8 @@
 #include <memory>
 
 #include "options.h"
-#include "value.h"
 #include "position.h"
+#include "value.h"
 
 namespace atn::sudoku {
 

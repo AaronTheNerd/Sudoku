@@ -102,4 +102,3 @@ void atn::sudoku::Board::initialize_board() {
     }
   }
 }
-

@@ -22,7 +22,8 @@ struct BoardNode {
   std::vector<atn::sudoku::Value> options;
 };
 
-atn::sudoku::BoardPtr generate_board_with_options(std::vector<std::vector<BoardNode>> input);
+atn::sudoku::BoardPtr generate_board_with_options(
+    std::vector<std::vector<BoardNode>> input);
 
 struct BoardState {
   atn::sudoku::Position pos;

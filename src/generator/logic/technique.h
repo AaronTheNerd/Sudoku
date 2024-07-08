@@ -1,7 +1,8 @@
 #pragma once
 
-#include "next_move.h"
 #include <optional>
+
+#include "next_move.h"
 
 namespace atn::generator::logic {
 
