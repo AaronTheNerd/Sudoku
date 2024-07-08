@@ -180,8 +180,8 @@ TEST(BoardTest, AreaOfEffect) {
                                        {7, 8, 9, 1, 2, 3, 4, 5, 6},
                                        {8, 9, 1, 2, 3, 4, 5, 6, 7},
                                        {9, 1, 2, 3, 4, 5, 6, 7, 8}});
-  for (uint x{0}; x < 9; ++x) {
-    for (uint y{0}; y < 9; ++y) {
+  for (atn::sudoku::Index x{0}; x < 9; ++x) {
+    for (atn::sudoku::Index y{0}; y < 9; ++y) {
       atn::sudoku::Position position{x, y};
       atn::sudoku::CellGroup area_of_effect = board->area_of_effect({0, 0});
       EXPECT_EQ(area_of_effect.size(), 20);

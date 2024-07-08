@@ -95,8 +95,8 @@ atn::sudoku::CellGroup atn::sudoku::Board::area_of_effect(
 }
 
 void atn::sudoku::Board::initialize_board() {
-  for (uint y{0}; y < 9u; ++y) {
-    for (uint x{0}; x < 9u; ++x) {
+  for (uint8_t y{0}; y < 9u; ++y) {
+    for (uint8_t x{0}; x < 9u; ++x) {
       this->_board[y][x] =
           std::make_shared<atn::sudoku::Cell>(atn::sudoku::Position{x, y});
     }

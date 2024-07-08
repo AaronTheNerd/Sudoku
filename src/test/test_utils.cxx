@@ -7,8 +7,8 @@
 atn::sudoku::BoardPtr atn::test_utils::generate_board(
     std::vector<std::vector<uint8_t>> input) {
   atn::sudoku::BoardPtr board = atn::sudoku::Board::create();
-  for (uint y = 0; y < 9; ++y) {
-    for (uint x = 0; x < 9; ++x) {
+  for (uint8_t y{0}; y < 9; ++y) {
+    for (uint8_t x{0}; x < 9; ++x) {
       atn::sudoku::Position pos{x, y};
       atn::sudoku::Value value{input[y][x]};
       board->get(pos)->set(value);
@@ -42,8 +42,8 @@ bool atn::test_utils::cell_has_options_set(
 
 atn::sudoku::BoardPtr atn::test_utils::generate_board_with_options(std::vector<std::vector<atn::test_utils::BoardNode>> input) {
   atn::sudoku::BoardPtr board = atn::sudoku::Board::create();
-  for (uint y = 0; y < 9; ++y) {
-    for (uint x = 0; x < 9; ++x) {
+  for (uint8_t y = 0; y < 9; ++y) {
+    for (uint8_t x = 0; x < 9; ++x) {
       atn::sudoku::Position pos{x, y};
       atn::test_utils::BoardNode node = input[y][x];
       atn::sudoku::Value value = node.value;

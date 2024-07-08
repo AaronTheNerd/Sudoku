@@ -19,12 +19,12 @@ std::optional<NextMove> atn::generator::logic::SinglePosition::get_next_move() {
 }
 
 void atn::generator::logic::SinglePosition::find_next_move() {
-  if (auto next_move = this->search_all_rows()) {
-    this->_next_move = next_move;
-  } else if (auto next_move = this->search_all_columns()) {
-    this->_next_move = next_move;
-  } else if (auto next_move = this->search_all_boxes()) {
-    this->_next_move = next_move;
+  if (auto row_next_move = this->search_all_rows()) {
+    this->_next_move = row_next_move;
+  } else if (auto column_next_move = this->search_all_columns()) {
+    this->_next_move = column_next_move;
+  } else if (auto box_next_move = this->search_all_boxes()) {
+    this->_next_move = box_next_move;
   }
 }
 
