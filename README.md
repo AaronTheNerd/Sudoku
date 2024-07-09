@@ -1,9 +1,9 @@
 # Sudoku
 ========
 
-Run `ctest -T Test -T Coverage` within `build/` directory to run unit tests and view coverage report.
+Run `ctest -T Test -T Coverage` within `build/` directory to run unit tests and view general coverage report.
 
-Run `gcovr --root .. --filter ../src/ --exclude ../src/test/ --exclude ../src/main.cxx --html coverage.html` within `build/` directory to generate a `coverage.html` report.
+Run `bash coverage/coverage.sh` within `Sudoku/` directory to create a clean build, run all unit tests, and generate `gcovr` and `lcov` coverage reports.
 
 Run `find . -iname '*.h' -o -iname '*.cxx' | xargs clang-format -i` within `main/` directory to format all source code files
 

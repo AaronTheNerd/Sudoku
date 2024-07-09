@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 add_library(compiler_flags INTERFACE)
-target_compile_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-g;--coverage>")
+target_compile_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-g;--coverage;-fprofile-arcs;-ftest-coverage>")
 target_link_options(compiler_flags INTERFACE "$<BUILD_INTERFACE:--coverage>")
 
 configure_file(config.h.in config.h)
