@@ -34,6 +34,8 @@ TEST(SingleCandidateTest, FullBoard) {
   std::optional<NextMove> optional_move = move_candidate.get_next_move();
   EXPECT_TRUE(optional_move.has_value());
   NextMove move = optional_move.value();
+  TechniqueEnum technique = move.get_technique();
+  EXPECT_EQ(technique, TechniqueEnum::SINGLE_CANDIDATE);
   CommandPtr command = move.get_command();
   expect_board_state(board, before_state);
   command->apply();
