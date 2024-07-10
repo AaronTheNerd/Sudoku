@@ -20,7 +20,6 @@ struct GroupSearchResult {
 class SinglePosition : public Technique {
  public:
   SinglePosition(BoardPtr);
-  std::optional<NextMove> get_next_move();
 
  private:
   void find_next_move();
@@ -30,9 +29,6 @@ class SinglePosition : public Technique {
   std::optional<GroupSearchResult> search_group(const CellGroup&) const;
   NextMove calculate_changes(GroupSearchResult) const;
   MacroCommand calculate_aoe_changes(CellPtr, Value) const;
-
-  std::optional<NextMove> _next_move;
-  BoardPtr _board;
 };
 
 }  // namespace atn::generator::logic

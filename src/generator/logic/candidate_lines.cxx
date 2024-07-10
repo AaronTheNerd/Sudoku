@@ -7,12 +7,8 @@
 using namespace atn::generator::logic;
 
 atn::generator::logic::CandidateLines::CandidateLines(BoardPtr board)
-    : _next_move(std::nullopt), _board(board) {
+    : Technique(board) {
   this->find_next_move();
-}
-
-std::optional<NextMove> atn::generator::logic::CandidateLines::get_next_move() {
-  return this->_next_move;
 }
 
 void atn::generator::logic::CandidateLines::find_next_move() {

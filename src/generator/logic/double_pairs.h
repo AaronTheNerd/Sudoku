@@ -11,14 +11,12 @@ using namespace atn::sudoku;
 using namespace atn::generator::logic;
 using namespace atn::generator::command;
 
-class DoublePairs : Technique {
+class DoublePairs : public Technique {
  public:
   DoublePairs(BoardPtr);
-  std::optional<NextMove> get_next_move();
 
  private:
-  std::optional<NextMove> _next_move;
-  BoardPtr _board;
+  void find_next_move();
 };
 
 }  // namespace atn::generator::logic

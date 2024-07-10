@@ -3,8 +3,10 @@
 using namespace atn::generator::logic;
 
 atn::generator::logic::DoublePairs::DoublePairs(BoardPtr board)
-    : _next_move(std::nullopt), _board(board) {}
+    : Technique(board) {
+  this->find_next_move();
+}
 
-std::optional<NextMove> atn::generator::logic::DoublePairs::get_next_move() {
-  return std::nullopt;
+void atn::generator::logic::DoublePairs::find_next_move() {
+  
 }

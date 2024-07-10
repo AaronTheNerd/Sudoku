@@ -18,7 +18,6 @@ enum class LineTestEnum { COLUMN, ROW, NONE };
 class CandidateLines : public Technique {
  public:
   CandidateLines(BoardPtr);
-  std::optional<NextMove> get_next_move();
 
  private:
   void find_next_move();
@@ -30,9 +29,6 @@ class CandidateLines : public Technique {
                                            Value) const;
   CellGroup get_cell_group(LineTestEnum, std::vector<CellPtr>) const;
   NextMove calculate_changes(std::vector<CellPtr>, Value) const;
-
-  std::optional<NextMove> _next_move;
-  BoardPtr _board;
 };
 
 }  // namespace atn::generator::logic

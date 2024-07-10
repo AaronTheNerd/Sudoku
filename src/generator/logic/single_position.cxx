@@ -10,12 +10,8 @@ using namespace atn::generator::logic;
 using namespace atn::generator::command;
 
 atn::generator::logic::SinglePosition::SinglePosition(BoardPtr board)
-    : _next_move(std::nullopt), _board(board) {
+    : Technique(board) {
   this->find_next_move();
-}
-
-std::optional<NextMove> atn::generator::logic::SinglePosition::get_next_move() {
-  return this->_next_move;
 }
 
 void atn::generator::logic::SinglePosition::find_next_move() {
