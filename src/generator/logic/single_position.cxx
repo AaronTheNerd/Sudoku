@@ -26,7 +26,7 @@ void atn::generator::logic::SinglePosition::find_next_move() {
 
 std::optional<NextMove> atn::generator::logic::SinglePosition::search_all_rows()
     const {
-  for (uint y{0}; y < 9u; ++y) {
+  for (Index y{0}; y < 9u; ++y) {
     CellGroup row = this->_board->row(y);
     if (auto result = this->search_group(row)) {
       return this->calculate_changes(*result);
@@ -37,7 +37,7 @@ std::optional<NextMove> atn::generator::logic::SinglePosition::search_all_rows()
 
 std::optional<NextMove>
 atn::generator::logic::SinglePosition::search_all_columns() const {
-  for (uint x{0}; x < 9u; ++x) {
+  for (Index x{0}; x < 9u; ++x) {
     CellGroup column = this->_board->column(x);
     if (auto result = this->search_group(column)) {
       return this->calculate_changes(*result);
@@ -48,8 +48,8 @@ atn::generator::logic::SinglePosition::search_all_columns() const {
 
 std::optional<NextMove>
 atn::generator::logic::SinglePosition::search_all_boxes() const {
-  for (uint x{0}; x < 3u; ++x) {
-    for (uint y{0}; y < 3u; ++y) {
+  for (BoxIndex x{0}; x < 3u; ++x) {
+    for (BoxIndex y{0}; y < 3u; ++y) {
       CellGroup box = this->_board->box(x, y);
       if (auto result = this->search_group(box)) {
         return this->calculate_changes(*result);
