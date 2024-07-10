@@ -18,7 +18,7 @@ class Index {
   Index& operator++();
 
   uint8_t value() const;
-  bool is_invalid() const;
+  virtual bool is_invalid() const;
   std::string to_string() const;
 
  protected:
@@ -29,7 +29,7 @@ class BoxIndex : public Index {
  public:
   BoxIndex(uint8_t = 0);
 
-  bool is_invalid() const;
+  bool is_invalid() const override;
 };
 
 class InvalidIndexValueException : public std::exception {

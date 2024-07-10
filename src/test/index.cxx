@@ -32,6 +32,12 @@ TEST(IndexTest, InvalidValueExceptionThrow) {
   EXPECT_THROW(index.value(), atn::sudoku::InvalidIndexValueException);
 }
 
+TEST(IndexTest, InvalidBoxValueExceptionThrow) {
+  atn::sudoku::BoxIndex index{3};
+  EXPECT_NO_THROW(index.to_string());
+  EXPECT_THROW(index.value(), atn::sudoku::InvalidIndexValueException);
+}
+
 TEST(IndexTest, ToString) {
   atn::sudoku::Index index{2};
   EXPECT_EQ(index.to_string(), "2");
