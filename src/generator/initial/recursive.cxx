@@ -5,7 +5,9 @@
 
 #include "../initial/exception.h"
 
-atn::sudoku::BoardPtr atn::generator::initial::Recursive::generate() {
+using namespace atn::sudoku;
+
+BoardPtr atn::generator::initial::Recursive::generate() {
   this->clear_board();
   if (this->add_value(0)) {
     return this->_board;
@@ -14,11 +16,11 @@ atn::sudoku::BoardPtr atn::generator::initial::Recursive::generate() {
 }
 
 atn::generator::initial::Recursive::Recursive()
-    : _board(atn::sudoku::Board::create()), _rng() {}
+    : _board(Board::create()), _rng() {}
 
 void atn::generator::initial::Recursive::clear_board() {
   for (uint index{0}; index < 81u; ++index) {
-    atn::sudoku::Position position = this->get_position(index);
+    Position position = this->get_position(index);
     this->_board->get(position)->unset();
   }
 }
@@ -27,12 +29,12 @@ bool atn::generator::initial::Recursive::add_value(uint board_index) {
   if (board_index >= 81u) {
     return true;
   }
-  atn::sudoku::Position position = this->get_position(board_index);
-  std::vector<atn::sudoku::Value> values = this->get_shuffled_values();
+  Position position = this->get_position(board_index);
+  std::vector<Value> values = this->get_shuffled_values();
   for (uint index{0}; index < values.size(); ++index) {
-    atn::sudoku::Value value = values[index];
+    Value value = values[index];
     if (this->safe_to_add(value, position)) {
-      atn::sudoku::CellPtr cell = this->_board->get(position);
+      CellPtr cell = this->_board->get(position);
       cell->set(value);
       cell->clear_all_options();
       if (this->add_value(board_index + 1)) {
@@ -44,36 +46,33 @@ bool atn::generator::initial::Recursive::add_value(uint board_index) {
   return false;
 }
 
-atn::sudoku::Position atn::generator::initial::Recursive::get_position(
+Position atn::generator::initial::Recursive::get_position(
     uint board_index) const {
-  return atn::sudoku::Position{board_index % 9u, board_index / 9u};
+  return Position{board_index % 9u, board_index / 9u};
 }
 
-std::vector<atn::sudoku::Value>
-atn::generator::initial::Recursive::get_shuffled_values() {
-  std::vector<atn::sudoku::Value> values;
+std::vector<Value> atn::generator::initial::Recursive::get_shuffled_values() {
+  std::vector<Value> values;
   std::copy(this->_values.begin(), this->_values.end(),
             std::back_inserter(values));
   std::shuffle(values.begin(), values.end(), this->_rng);
   return values;
 }
 
-bool atn::generator::initial::Recursive::safe_to_add(
-    atn::sudoku::Value value, atn::sudoku::Position position) const {
-  atn::sudoku::CellGroup aoe = this->_board->area_of_effect(position);
+bool atn::generator::initial::Recursive::safe_to_add(Value value,
+                                                     Position position) const {
+  CellGroup aoe = this->_board->area_of_effect(position);
   if (this->cell_group_contains(aoe, value)) {
     return false;
   }
   return true;
 }
 
-atn::sudoku::Value value_from_cell_ptr(atn::sudoku::CellPtr cell) {
-  return cell->get();
-}
+Value value_from_cell_ptr(CellPtr cell) { return cell->get(); }
 
 bool atn::generator::initial::Recursive::cell_group_contains(
-    atn::sudoku::CellGroup cell_group, atn::sudoku::Value value) const {
-  std::vector<atn::sudoku::Value> values;
+    CellGroup cell_group, Value value) const {
+  std::vector<Value> values;
   values.resize(cell_group.size());
   std::transform(cell_group.begin(), cell_group.end(), values.begin(),
                  value_from_cell_ptr);
