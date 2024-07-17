@@ -1,4 +1,9 @@
-file(GLOB source_files "**.cxx")
+set(source_files
+  clear_options.cxx
+  command.cxx
+  macro_command.cxx
+  set_value.cxx
+)
 
 add_library(Command ${source_files})
 

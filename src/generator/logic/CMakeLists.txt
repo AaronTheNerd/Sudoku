@@ -1,4 +1,11 @@
-file(GLOB source_files "**.cxx")
+set(source_files
+  candidate_lines.cxx
+  double_pairs.cxx
+  next_move.cxx
+  single_candidate.cxx
+  single_position.cxx
+  technique.cxx
+)
 
 add_library(LogicalSolver ${source_files})
 

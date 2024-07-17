@@ -9,7 +9,24 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-file(GLOB source_files "**.cxx")
+set(source_files
+  board_validator.cxx
+  board.cxx
+  candidate_lines.cxx
+  cell.cxx
+  commands.cxx
+  difficulty.cxx
+  double_pairs.cxx
+  generator.cxx
+  index.cxx
+  initial_board.cxx
+  options.cxx
+  position.cxx
+  single_candidate.cxx
+  single_position.cxx
+  test_utils.cxx
+  value.cxx
+)
 
 add_executable(sudoku_test ${source_files})
 target_include_directories(main PUBLIC "${PROJECT_BINARY_DIR}")

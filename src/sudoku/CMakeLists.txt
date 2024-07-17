@@ -1,4 +1,12 @@
-file(GLOB source_files "**.cxx")
+set(source_files
+  board.cxx
+  cell.cxx
+  index.cxx
+  options.cxx
+  position.cxx
+  validate.cxx
+  value.cxx
+)
 
 add_library(Sudoku ${source_files})
 

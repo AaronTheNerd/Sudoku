@@ -1,4 +1,8 @@
-file(GLOB source_files "**.cxx")
+set(source_files
+  exception.cxx
+  get_generator.cxx
+  recursive.cxx
+)
 
 add_library(InitialBoardGenerator ${source_files})
 

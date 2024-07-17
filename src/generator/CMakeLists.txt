@@ -1,4 +1,6 @@
-file(GLOB source_files "**.cxx")
+set(source_files
+  generator.cxx
+)
 
 add_library(SudokuGenerator ${source_files})
 
