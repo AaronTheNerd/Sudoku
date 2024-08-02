@@ -5,27 +5,24 @@
 
 #include "../initial/exception.h"
 
-using namespace atn::sudoku;
-
-BoardPtr atn::generator::initial::Recursive::generate() {
+atn::BoardPtr atn::Recursive::generate() {
   this->clear_board();
   if (this->add_value(0)) {
     return this->_board;
   }
-  throw atn::generator::initial::GenerationFailedException{};
+  throw GenerationFailedException{};
 }
 
-atn::generator::initial::Recursive::Recursive()
-    : _board(Board::create()), _rng() {}
+atn::Recursive::Recursive() : _board(Board::create()), _rng() {}
 
-void atn::generator::initial::Recursive::clear_board() {
+void atn::Recursive::clear_board() {
   for (uint index{0}; index < 81u; ++index) {
     Position position = this->get_position(index);
     this->_board->get(position)->unset();
   }
 }
 
-bool atn::generator::initial::Recursive::add_value(uint board_index) {
+bool atn::Recursive::add_value(uint board_index) {
   if (board_index >= 81u) {
     return true;
   }
@@ -46,12 +43,11 @@ bool atn::generator::initial::Recursive::add_value(uint board_index) {
   return false;
 }
 
-Position atn::generator::initial::Recursive::get_position(
-    uint board_index) const {
+atn::Position atn::Recursive::get_position(uint board_index) const {
   return Position{board_index % 9u, board_index / 9u};
 }
 
-std::vector<Value> atn::generator::initial::Recursive::get_shuffled_values() {
+std::vector<atn::Value> atn::Recursive::get_shuffled_values() {
   std::vector<Value> values;
   std::copy(this->_values.begin(), this->_values.end(),
             std::back_inserter(values));
@@ -59,8 +55,7 @@ std::vector<Value> atn::generator::initial::Recursive::get_shuffled_values() {
   return values;
 }
 
-bool atn::generator::initial::Recursive::safe_to_add(Value value,
-                                                     Position position) const {
+bool atn::Recursive::safe_to_add(Value value, Position position) const {
   CellGroup aoe = this->_board->area_of_effect(position);
   if (this->cell_group_contains(aoe, value)) {
     return false;
@@ -68,10 +63,10 @@ bool atn::generator::initial::Recursive::safe_to_add(Value value,
   return true;
 }
 
-Value value_from_cell_ptr(CellPtr cell) { return cell->get(); }
+atn::Value value_from_cell_ptr(atn::CellPtr cell) { return cell->get(); }
 
-bool atn::generator::initial::Recursive::cell_group_contains(
-    CellGroup cell_group, Value value) const {
+bool atn::Recursive::cell_group_contains(CellGroup cell_group,
+                                         Value value) const {
   std::vector<Value> values;
   values.resize(cell_group.size());
   std::transform(cell_group.begin(), cell_group.end(), values.begin(),

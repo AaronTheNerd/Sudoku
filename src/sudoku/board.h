@@ -3,16 +3,16 @@
 #include <array>
 #include <memory>
 
-namespace atn::sudoku {
+namespace atn {
 class Board;
-typedef std::shared_ptr<atn::sudoku::Board> BoardPtr;
-}  // namespace atn::sudoku
+typedef std::shared_ptr<Board> BoardPtr;
+}  // namespace atn
 
 #include "cell.h"
 #include "cell_group.h"
 #include "position.h"
 
-namespace atn::sudoku {
+namespace atn {
 
 class Board : public std::enable_shared_from_this<Board> {
  private:
@@ -39,4 +39,4 @@ class Board : public std::enable_shared_from_this<Board> {
   std::array<std::array<CellPtr, 9>, 9> _board;
 };
 
-}  // namespace atn::sudoku
+}  // namespace atn

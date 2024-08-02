@@ -6,16 +6,11 @@
 #include "clear_options.h"
 #include "set_value.h"
 
-using namespace atn::sudoku;
-using namespace atn::generator::logic;
-using namespace atn::generator::command;
-
-atn::generator::logic::SinglePosition::SinglePosition(BoardPtr board)
-    : Technique(board) {
+atn::SinglePosition::SinglePosition(BoardPtr board) : Technique(board) {
   this->find_next_move();
 }
 
-void atn::generator::logic::SinglePosition::find_next_move() {
+void atn::SinglePosition::find_next_move() {
   if (auto row_next_move = this->search_all_rows()) {
     this->_next_move = row_next_move;
   } else if (auto column_next_move = this->search_all_columns()) {
@@ -25,8 +20,7 @@ void atn::generator::logic::SinglePosition::find_next_move() {
   }
 }
 
-std::optional<NextMove> atn::generator::logic::SinglePosition::search_all_rows()
-    const {
+std::optional<atn::NextMove> atn::SinglePosition::search_all_rows() const {
   for (Index y{0}; y < 9u; ++y) {
     CellGroup row = this->_board->row(y);
     if (auto result = this->search_group(row)) {
@@ -36,8 +30,7 @@ std::optional<NextMove> atn::generator::logic::SinglePosition::search_all_rows()
   return std::nullopt;
 }
 
-std::optional<NextMove>
-atn::generator::logic::SinglePosition::search_all_columns() const {
+std::optional<atn::NextMove> atn::SinglePosition::search_all_columns() const {
   for (Index x{0}; x < 9u; ++x) {
     CellGroup column = this->_board->column(x);
     if (auto result = this->search_group(column)) {
@@ -47,8 +40,7 @@ atn::generator::logic::SinglePosition::search_all_columns() const {
   return std::nullopt;
 }
 
-std::optional<NextMove>
-atn::generator::logic::SinglePosition::search_all_boxes() const {
+std::optional<atn::NextMove> atn::SinglePosition::search_all_boxes() const {
   for (BoxIndex x{0}; x < 3u; ++x) {
     for (BoxIndex y{0}; y < 3u; ++y) {
       CellGroup box = this->_board->box(x, y);
@@ -60,8 +52,7 @@ atn::generator::logic::SinglePosition::search_all_boxes() const {
   return std::nullopt;
 }
 
-std::optional<GroupSearchResult>
-atn::generator::logic::SinglePosition::search_group(
+std::optional<atn::GroupSearchResult> atn::SinglePosition::search_group(
     const CellGroup& group) const {
   std::unordered_map<Value, std::vector<CellPtr>, ValueHash> value_cells{
       {1, {}}, {2, {}}, {3, {}}, {4, {}}, {5, {}},
@@ -84,7 +75,7 @@ atn::generator::logic::SinglePosition::search_group(
   return std::nullopt;
 }
 
-NextMove atn::generator::logic::SinglePosition::calculate_changes(
+atn::NextMove atn::SinglePosition::calculate_changes(
     GroupSearchResult result) const {
   CellPtr cell = result.cell;
   MacroCommand command = this->calculate_aoe_changes(cell, result.value);
@@ -98,7 +89,7 @@ NextMove atn::generator::logic::SinglePosition::calculate_changes(
           std::make_shared<MacroCommand>(command)};
 }
 
-MacroCommand atn::generator::logic::SinglePosition::calculate_aoe_changes(
+atn::MacroCommand atn::SinglePosition::calculate_aoe_changes(
     CellPtr original_cell, Value set_value) const {
   MacroCommand command;
   CellGroup aoe = this->_board->area_of_effect(original_cell->position());

@@ -4,8 +4,8 @@
 
 #include "cell.h"
 
-namespace atn::sudoku {
+namespace atn {
 
-typedef std::vector<atn::sudoku::CellPtr> CellGroup;
+typedef std::vector<CellPtr> CellGroup;
 
-}  // namespace atn::sudoku
+}  // namespace atn

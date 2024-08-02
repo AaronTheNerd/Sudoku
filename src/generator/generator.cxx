@@ -2,12 +2,10 @@
 
 #include "initial/get_generator.h"
 
-using namespace atn::generator;
+atn::Generator::Generator(InitialGeneratorType type)
+    : _board(), _initial_generator(get_generator(type)) {}
 
-Generator::Generator(initial::GeneratorType type)
-    : _board(), _initial_generator(initial::get_generator(type)) {}
-
-atn::sudoku::BoardPtr Generator::get_sudoku(const DifficultyRange& difficulty) {
+atn::BoardPtr atn::Generator::get_sudoku(const DifficultyRange& difficulty) {
   this->_board = this->_initial_generator->generate();
   return this->_board;
 }

@@ -4,16 +4,16 @@
 
 #include <vector>
 
-TEST(ValueTest, DefaultConstructor) { EXPECT_NO_THROW(atn::sudoku::Value{}); }
+TEST(ValueTest, DefaultConstructor) { EXPECT_NO_THROW(atn::Value{}); }
 
-TEST(ValueTest, ValidConstructor) { EXPECT_NO_THROW(atn::sudoku::Value{3}); }
+TEST(ValueTest, ValidConstructor) { EXPECT_NO_THROW(atn::Value{3}); }
 
 TEST(ValueTest, InvalidConstructor) {
-  EXPECT_THROW(atn::sudoku::Value{11}, atn::sudoku::InvalidValueException);
+  EXPECT_THROW(atn::Value{11}, atn::InvalidValueException);
 }
 
 TEST(ValueTest, Equality) {
-  std::vector<atn::sudoku::Value> values = {{}, {4}, {2}, {4}};
+  std::vector<atn::Value> values = {{}, {4}, {2}, {4}};
   for (u_int i{0}; i < values.size(); ++i) {
     EXPECT_TRUE(values[i] == values[i]);
   }
@@ -29,7 +29,7 @@ TEST(ValueTest, Equality) {
 }
 
 TEST(ValueTest, Inequality) {
-  std::vector<atn::sudoku::Value> values = {{}, {4}, {2}, {4}};
+  std::vector<atn::Value> values = {{}, {4}, {2}, {4}};
   for (u_int i{0}; i < values.size(); ++i) {
     EXPECT_FALSE(values[i] != values[i]);
   }

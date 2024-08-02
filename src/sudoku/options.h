@@ -2,15 +2,15 @@
 
 #include "value.h"
 
-namespace atn::sudoku {
+namespace atn {
 
 class Options {
  public:
   Options(uint16_t = 0b0000001111111110);
 
-  bool includes(atn::sudoku::Value) const;
-  void set(atn::sudoku::Value);
-  void clear(atn::sudoku::Value);
+  bool includes(Value) const;
+  void set(Value);
+  void clear(Value);
   void clear_all();
   uint count() const;
 
@@ -18,4 +18,4 @@ class Options {
   uint16_t _bitset;
 };
 
-}  // namespace atn::sudoku
+}  // namespace atn

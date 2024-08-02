@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace atn::generator::command {
+namespace atn {
 
 class Command;
 
@@ -16,4 +16,4 @@ class Command {
   void push(CommandPtr);
 };
 
-}  // namespace atn::generator::command
+}  // namespace atn

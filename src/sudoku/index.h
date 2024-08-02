@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string>
 
-namespace atn::sudoku {
+namespace atn {
 
 class Index {
  public:
@@ -41,4 +41,4 @@ class InvalidIndexValueException : public std::exception {
   std::string message;
 };
 
-}  // namespace atn::sudoku
+}  // namespace atn

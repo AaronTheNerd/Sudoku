@@ -5,14 +5,14 @@
 #include "board.h"
 #include "technique.h"
 
-namespace atn::generator::logic {
+namespace atn {
 
 class DoublePairs : public Technique {
  public:
-  DoublePairs(atn::sudoku::BoardPtr);
+  DoublePairs(BoardPtr);
 
  private:
   void find_next_move();
 };
 
-}  // namespace atn::generator::logic
+}  // namespace atn

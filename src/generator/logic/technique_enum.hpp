@@ -1,6 +1,6 @@
 #pragma once
 
-namespace atn::generator::logic {
+namespace atn {
 
 enum class TechniqueEnum {
   SINGLE_CANDIDATE,
@@ -19,4 +19,4 @@ enum class TechniqueEnum {
   SWORDFISH
 };
 
-}  // namespace atn::generator::logic
+}  // namespace atn

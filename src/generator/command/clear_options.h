@@ -6,18 +6,18 @@
 #include "command.h"
 #include "value.h"
 
-namespace atn::generator::command {
+namespace atn {
 
-class ClearOptions : public atn::generator::command::Command {
+class ClearOptions : public Command {
  public:
-  ClearOptions(atn::sudoku::CellPtr, std::vector<atn::sudoku::Value>);
+  ClearOptions(CellPtr, std::vector<Value>);
 
   void apply();
   void undo();
 
  private:
-  atn::sudoku::CellPtr _cell;
-  std::vector<atn::sudoku::Value> _options;
+  CellPtr _cell;
+  std::vector<Value> _options;
 };
 
-}  // namespace atn::generator::command
+}  // namespace atn

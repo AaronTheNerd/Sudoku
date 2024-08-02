@@ -4,16 +4,11 @@
 
 #include "clear_options.h"
 
-using namespace atn::sudoku;
-using namespace atn::generator::logic;
-using namespace atn::generator::command;
-
-atn::generator::logic::CandidateLines::CandidateLines(BoardPtr board)
-    : Technique(board) {
+atn::CandidateLines::CandidateLines(atn::BoardPtr board) : Technique(board) {
   this->find_next_move();
 }
 
-void atn::generator::logic::CandidateLines::find_next_move() {
+void atn::CandidateLines::find_next_move() {
   for (BoxIndex x{0}; x < 3; ++x) {
     for (BoxIndex y{0}; y < 3; ++y) {
       CellGroup box = this->_board->box(x, y);
@@ -25,8 +20,8 @@ void atn::generator::logic::CandidateLines::find_next_move() {
   }
 }
 
-std::optional<NextMove> atn::generator::logic::CandidateLines::search_box(
-    CellGroup box) const {
+std::optional<atn::NextMove> atn::CandidateLines::search_box(
+    atn::CellGroup box) const {
   auto option_cells_map = this->map_options_to_cells(box);
   for (uint value{1}; value <= 9; ++value) {
     auto cells = option_cells_map.at(value);
@@ -39,9 +34,8 @@ std::optional<NextMove> atn::generator::logic::CandidateLines::search_box(
   return std::nullopt;
 }
 
-std::unordered_map<Value, CellGroup, ValueHash>
-atn::generator::logic::CandidateLines::map_options_to_cells(
-    CellGroup box) const {
+std::unordered_map<atn::Value, atn::CellGroup, atn::ValueHash>
+atn::CandidateLines::map_options_to_cells(atn::CellGroup box) const {
   std::unordered_map<Value, CellGroup, ValueHash> option_cells_map{
       {1, {}}, {2, {}}, {3, {}}, {4, {}}, {5, {}},
       {6, {}}, {7, {}}, {8, {}}, {9, {}}};
@@ -56,8 +50,7 @@ atn::generator::logic::CandidateLines::map_options_to_cells(
   return option_cells_map;
 }
 
-LineTestEnum atn::generator::logic::CandidateLines::test_line(
-    CellGroup cells) const {
+atn::LineTestEnum atn::CandidateLines::test_line(atn::CellGroup cells) const {
   if (cells.size() < 2) return LineTestEnum::NONE;
   bool row = true, column = true;
   Position first = cells[0]->position();
@@ -75,8 +68,8 @@ LineTestEnum atn::generator::logic::CandidateLines::test_line(
   return LineTestEnum::NONE;
 }
 
-CellGroup atn::generator::logic::CandidateLines::find_affected_cells(
-    LineTestEnum line, CellGroup cells, Value value) const {
+atn::CellGroup atn::CandidateLines::find_affected_cells(
+    atn::LineTestEnum line, atn::CellGroup cells, atn::Value value) const {
   auto cell_group = this->get_cell_group(line, cells);
   CellGroup affected_cells;
   std::copy_if(
@@ -91,8 +84,8 @@ CellGroup atn::generator::logic::CandidateLines::find_affected_cells(
   return affected_cells;
 }
 
-CellGroup atn::generator::logic::CandidateLines::get_cell_group(
-    LineTestEnum line, CellGroup cells) const {
+atn::CellGroup atn::CandidateLines::get_cell_group(atn::LineTestEnum line,
+                                                   atn::CellGroup cells) const {
   Position pos = cells[0]->position();
   if (line == LineTestEnum::COLUMN) {
     return this->_board->column(pos.x());
@@ -103,8 +96,8 @@ CellGroup atn::generator::logic::CandidateLines::get_cell_group(
   throw;
 }
 
-NextMove atn::generator::logic::CandidateLines::calculate_changes(
-    CellGroup cells, Value value) const {
+atn::NextMove atn::CandidateLines::calculate_changes(atn::CellGroup cells,
+                                                     atn::Value value) const {
   MacroCommand command;
   for (auto cell : cells) {
     command.push(std::make_shared<ClearOptions>(cell, std::vector{value}));

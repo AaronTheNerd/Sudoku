@@ -7,7 +7,7 @@
 
 #include "index.h"
 
-namespace atn::sudoku {
+namespace atn {
 
 class Position {
  public:
@@ -21,8 +21,8 @@ class Position {
 
   std::string to_string() const;
 
-  bool operator==(const atn::sudoku::Position&) const;
-  bool operator!=(const atn::sudoku::Position&) const;
+  bool operator==(const Position&) const;
+  bool operator!=(const Position&) const;
 
  private:
   Index _x;
@@ -31,7 +31,7 @@ class Position {
 
 class PositionHash {
  public:
-  uint operator()(const atn::sudoku::Position& p) const;
+  uint operator()(const Position& p) const;
 };
 
-}  // namespace atn::sudoku
+}  // namespace atn

@@ -4,17 +4,17 @@
 #include "difficulty.hpp"
 #include "initial/get_generator.h"
 
-namespace atn::generator {
+namespace atn {
 
 class Generator {
  public:
-  Generator(initial::GeneratorType = initial::GeneratorType::RECURSIVE);
+  Generator(InitialGeneratorType = InitialGeneratorType::RECURSIVE);
 
-  atn::sudoku::BoardPtr get_sudoku(const atn::generator::DifficultyRange&);
+  BoardPtr get_sudoku(const DifficultyRange&);
 
  private:
-  atn::sudoku::BoardPtr _board;
-  initial::GeneratorPtr _initial_generator;
+  BoardPtr _board;
+  InitialGeneratorPtr _initial_generator;
 };
 
-}  // namespace atn::generator
+}  // namespace atn

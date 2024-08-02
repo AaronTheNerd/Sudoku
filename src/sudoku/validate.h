@@ -2,8 +2,8 @@
 
 #include "board.h"
 
-namespace atn::sudoku {
+namespace atn {
 
-bool validate(atn::sudoku::BoardPtr);
+bool validate(atn::BoardPtr);
 
-}  // namespace atn::sudoku
+}  // namespace atn

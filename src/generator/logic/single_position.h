@@ -6,27 +6,25 @@
 #include "macro_command.h"
 #include "technique.h"
 
-namespace atn::generator::logic {
+namespace atn {
 
 struct GroupSearchResult {
-  atn::sudoku::CellPtr cell;
-  atn::sudoku::Value value;
+  CellPtr cell;
+  Value value;
 };
 
 class SinglePosition : public Technique {
  public:
-  SinglePosition(atn::sudoku::BoardPtr);
+  SinglePosition(BoardPtr);
 
  private:
   void find_next_move();
   std::optional<NextMove> search_all_rows() const;
   std::optional<NextMove> search_all_columns() const;
   std::optional<NextMove> search_all_boxes() const;
-  std::optional<GroupSearchResult> search_group(
-      const atn::sudoku::CellGroup&) const;
+  std::optional<GroupSearchResult> search_group(const CellGroup&) const;
   NextMove calculate_changes(GroupSearchResult) const;
-  atn::generator::command::MacroCommand calculate_aoe_changes(
-      atn::sudoku::CellPtr, atn::sudoku::Value) const;
+  MacroCommand calculate_aoe_changes(CellPtr, Value) const;
 };
 
-}  // namespace atn::generator::logic
+}  // namespace atn

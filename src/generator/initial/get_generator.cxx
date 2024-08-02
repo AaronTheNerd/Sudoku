@@ -2,11 +2,9 @@
 
 #include "recursive.h"
 
-using namespace atn::generator::initial;
-
-GeneratorPtr atn::generator::initial::get_generator(GeneratorType type) {
+atn::InitialGeneratorPtr atn::get_generator(InitialGeneratorType type) {
   switch (type) {
-    case GeneratorType::RECURSIVE:
+    case InitialGeneratorType::RECURSIVE:
       return std::make_shared<Recursive>();
   }
 }

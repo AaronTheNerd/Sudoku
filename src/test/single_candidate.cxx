@@ -4,14 +4,9 @@
 
 #include "test_utils.h"
 
-using namespace atn::sudoku;
-using namespace atn::test_utils;
-using namespace atn::generator::logic;
-using namespace atn::generator::command;
-
 TEST(SingleCandidateTest, FullBoard) {
   // clang-format off
-  BoardPtr board = generate_board_with_options({
+  atn::BoardPtr board = atn::generate_board_with_options({
     {{0, {2, 9}},       {4, {}},              {0, {2, 3}},       {0, {7, 8, 9}},       {0, {6, 7, 8, 9}},    {0, {2, 6, 7, 9}},    {0, {3, 9}},          {1, {}},        {5, {}}},
     {{8, {}},           {0, {5, 6, 9}},       {0, {5}},          {3, {}},              {0, {1, 5, 6, 7, 9}}, {0, {1, 4, 6, 7, 9}}, {0, {4, 9}},          {2, {}},        {0, {4, 7, 9}}},
     {{7, {}},           {0, {2, 3, 5, 9}},    {1, {}},           {0, {4, 5, 8, 9}},    {0, {5, 8, 9}},       {0, {2, 4, 9}},       {6, {}},              {0, {4, 8}},    {0, {3, 4, 8, 9}}},
@@ -23,21 +18,21 @@ TEST(SingleCandidateTest, FullBoard) {
     {{3, {}},           {0, {1, 5, 7}},       {0, {4, 5}},       {0, {1, 5, 7, 9}},    {0, {1, 5, 7, 9}},    {8, {}},              {2, {}},              {0, {4, 5, 7}}, {6, {}}}
   });
   // clang-format on
-  std::vector<BoardState> before_state{
+  std::vector<atn::BoardState> before_state{
       {{1, 1}, {0, {5, 6, 9}}},    {{2, 1}, {0, {5}}},
       {{1, 2}, {0, {2, 3, 5, 9}}}, {{4, 1}, {0, {1, 5, 6, 7, 9}}},
       {{2, 7}, {0, {4, 5, 8}}},    {{2, 8}, {0, {4, 5}}}};
-  std::vector<BoardState> after_state{
+  std::vector<atn::BoardState> after_state{
       {{1, 1}, {0, {6, 9}}},    {{2, 1}, {5, {}}},
       {{1, 2}, {0, {2, 3, 9}}}, {{4, 1}, {0, {1, 6, 7, 9}}},
       {{2, 7}, {0, {4, 8}}},    {{2, 8}, {0, {4}}}};
-  SingleCandidate move_candidate{board};
-  std::optional<NextMove> optional_move = move_candidate.get_next_move();
+  atn::SingleCandidate move_candidate{board};
+  std::optional<atn::NextMove> optional_move = move_candidate.get_next_move();
   EXPECT_TRUE(optional_move.has_value());
-  NextMove move = optional_move.value();
-  TechniqueEnum technique = move.get_technique();
-  EXPECT_EQ(technique, TechniqueEnum::SINGLE_CANDIDATE);
-  CommandPtr command = move.get_command();
+  atn::NextMove move = optional_move.value();
+  atn::TechniqueEnum technique = move.get_technique();
+  EXPECT_EQ(technique, atn::TechniqueEnum::SINGLE_CANDIDATE);
+  atn::CommandPtr command = move.get_command();
   expect_board_state(board, before_state);
   command->apply();
   expect_board_state(board, after_state);
@@ -47,7 +42,7 @@ TEST(SingleCandidateTest, FullBoard) {
 
 TEST(SingleCandidateTest, NoNextMove) {
   // clang-format off
-  BoardPtr board = generate_board_with_options({
+  atn::BoardPtr board = atn::generate_board_with_options({
     {{4, {}},        {0, {1, 2, 5, 9}},    {6, {}},        {0, {1, 2, 9}},       {0, {1, 5, 9}},       {0, {2, 5, 7, 9}},       {0, {2, 7, 8}},          {3, {}},              {0, {2, 5, 7, 8}}},
     {{0, {2, 5}},    {0, {1, 2, 3, 5, 9}}, {8, {}},        {0, {1, 2, 3, 6, 9}}, {0, {1, 3, 5, 6, 9}}, {0, {2, 3, 5, 6, 7, 9}}, {0, {2, 7}},             {4, {}},              {0, {2, 5, 7}}},
     {{7, {}},        {0, {2, 3, 5}},       {0, {2, 3, 5}}, {0, {2, 3, 8}},       {0, {3, 5, 8}},       {4, {}},                 {1, {}},                 {9, {}},              {6, {}}},
@@ -59,7 +54,7 @@ TEST(SingleCandidateTest, NoNextMove) {
     {{0, {2, 8}},    {0, {2, 3}},          {7, {}},        {5, {}},              {4, {}},              {0, {2, 3, 6, 8, 9}},    {0, {2, 3, 6, 8, 9}},    {0, {1, 2, 6, 8}},    {0, {1, 2, 3, 8, 9}}},
   });
   // clang-format on
-  SingleCandidate move_candidate{board};
-  std::optional<NextMove> optional_move = move_candidate.get_next_move();
+  atn::SingleCandidate move_candidate{board};
+  std::optional<atn::NextMove> optional_move = move_candidate.get_next_move();
   EXPECT_FALSE(optional_move.has_value());
 }

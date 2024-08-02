@@ -3,7 +3,7 @@
 #include <exception>
 #include <string>
 
-namespace atn::generator::initial {
+namespace atn {
 
 class GenerationFailedException : public std::exception {
  public:
@@ -14,4 +14,4 @@ class GenerationFailedException : public std::exception {
   std::string message;
 };
 
-}  // namespace atn::generator::initial
+}  // namespace atn

@@ -6,30 +6,30 @@
 #include "position.h"
 #include "value.h"
 
-namespace atn::sudoku {
+namespace atn {
 
 class Cell {
  public:
-  Cell(atn::sudoku::Position = {0, 0});
-  Cell(atn::sudoku::Position, atn::sudoku::Value);
+  Cell(Position = {0, 0});
+  Cell(Position, Value);
 
-  atn::sudoku::Position position() const;
+  Position position() const;
   bool is_set() const;
-  void set(atn::sudoku::Value);
-  atn::sudoku::Value unset();
-  atn::sudoku::Value get() const;
-  bool has_option(atn::sudoku::Value) const;
-  void set_option(atn::sudoku::Value);
-  void clear_option(atn::sudoku::Value);
+  void set(Value);
+  Value unset();
+  Value get() const;
+  bool has_option(Value) const;
+  void set_option(Value);
+  void clear_option(Value);
   void clear_all_options();
   uint count_options() const;
 
  private:
-  atn::sudoku::Position _position;
-  atn::sudoku::Value _value;
-  atn::sudoku::Options _options;
+  Position _position;
+  Value _value;
+  Options _options;
 };
 
-typedef std::shared_ptr<atn::sudoku::Cell> CellPtr;
+typedef std::shared_ptr<Cell> CellPtr;
 
-}  // namespace atn::sudoku
+}  // namespace atn

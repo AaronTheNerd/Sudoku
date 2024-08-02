@@ -4,18 +4,18 @@
 #include "command.h"
 #include "value.h"
 
-namespace atn::generator::command {
+namespace atn {
 
-class SetValue : public atn::generator::command::Command {
+class SetValue : public Command {
  public:
-  SetValue(atn::sudoku::CellPtr, atn::sudoku::Value);
+  SetValue(CellPtr, Value);
 
   void apply();
   void undo();
 
  private:
-  atn::sudoku::CellPtr _cell;
-  atn::sudoku::Value _value;
+  CellPtr _cell;
+  Value _value;
 };
 
-}  // namespace atn::generator::command
+}  // namespace atn

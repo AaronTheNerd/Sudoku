@@ -3,11 +3,11 @@
 #include <gtest/gtest.h>
 
 TEST(PositionTest, Constructor) {
-  EXPECT_NO_THROW((atn::sudoku::Position{3, 3}));
+  EXPECT_NO_THROW((atn::Position{3, 3}));
 }
 
 TEST(PositionTest, Setter) {
-  atn::sudoku::Position pos{0, 0};
+  atn::Position pos{0, 0};
   pos.x(1);
   pos.y(2);
   EXPECT_EQ(1, pos.x().value());
@@ -15,13 +15,13 @@ TEST(PositionTest, Setter) {
 }
 
 TEST(PositionTest, Getter) {
-  atn::sudoku::Position pos{1, 2};
+  atn::Position pos{1, 2};
   EXPECT_EQ(1, pos.x().value());
   EXPECT_EQ(2, pos.y().value());
 }
 
 TEST(PositionTest, Equality) {
-  atn::sudoku::Position pos1{0, 1}, pos2{0, 0}, pos3{1, 0}, pos4{0, 1};
+  atn::Position pos1{0, 1}, pos2{0, 0}, pos3{1, 0}, pos4{0, 1};
   EXPECT_TRUE(pos1 == pos1);
   EXPECT_FALSE(pos1 == pos2);
   EXPECT_FALSE(pos1 == pos3);
@@ -35,7 +35,7 @@ TEST(PositionTest, Equality) {
 }
 
 TEST(PositionTest, Inequality) {
-  atn::sudoku::Position pos1{0, 1}, pos2{0, 0}, pos3{1, 0}, pos4{0, 1};
+  atn::Position pos1{0, 1}, pos2{0, 0}, pos3{1, 0}, pos4{0, 1};
   EXPECT_FALSE(pos1 != pos1);
   EXPECT_TRUE(pos1 != pos2);
   EXPECT_TRUE(pos1 != pos3);
@@ -49,6 +49,6 @@ TEST(PositionTest, Inequality) {
 }
 
 TEST(PositionTest, ToString) {
-  atn::sudoku::Position pos{1, 2};
+  atn::Position pos{1, 2};
   EXPECT_EQ(pos.to_string(), "(1, 2)");
 }

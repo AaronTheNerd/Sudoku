@@ -2,7 +2,7 @@
 
 #include "sys/types.h"
 
-namespace atn::generator {
+namespace atn {
 
 class DifficultyRange {
  public:
@@ -31,4 +31,4 @@ constexpr DifficultyRange diabolical{11000, 25000};
 
 }  // namespace difficulty
 
-}  // namespace atn::generator
+}  // namespace atn

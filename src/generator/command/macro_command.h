@@ -4,11 +4,11 @@
 
 #include "command.h"
 
-namespace atn::generator::command {
+namespace atn {
 
-class MacroCommand : public atn::generator::command::Command {
+class MacroCommand : public Command {
  public:
-  MacroCommand(std::vector<atn::generator::command::CommandPtr> = {});
+  MacroCommand(std::vector<CommandPtr> = {});
 
   void apply();
   void undo();
@@ -16,7 +16,7 @@ class MacroCommand : public atn::generator::command::Command {
   virtual void push(CommandPtr);
 
  private:
-  std::vector<atn::generator::command::CommandPtr> _commands;
+  std::vector<CommandPtr> _commands;
 };
 
-}  // namespace atn::generator::command
+}  // namespace atn

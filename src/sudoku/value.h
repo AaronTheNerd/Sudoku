@@ -5,7 +5,7 @@
 #include <exception>
 #include <string>
 
-namespace atn::sudoku {
+namespace atn {
 
 class Value {
  public:
@@ -22,7 +22,7 @@ class Value {
 
 class ValueHash {
  public:
-  uint8_t operator()(const atn::sudoku::Value& t) const;
+  uint8_t operator()(const Value& t) const;
 };
 
 class InvalidValueException : public std::exception {
@@ -34,4 +34,4 @@ class InvalidValueException : public std::exception {
   std::string message;
 };
 
-}  // namespace atn::sudoku
+}  // namespace atn

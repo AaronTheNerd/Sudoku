@@ -4,11 +4,10 @@
 
 #include "../initial/generator.h"
 
-namespace atn::generator::initial {
+namespace atn {
 
-enum class GeneratorType { RECURSIVE };
+enum class InitialGeneratorType { RECURSIVE };
 
-atn::generator::initial::GeneratorPtr get_generator(
-    atn::generator::initial::GeneratorType);
+InitialGeneratorPtr get_generator(InitialGeneratorType);
 
-}  // namespace atn::generator::initial
+}  // namespace atn
