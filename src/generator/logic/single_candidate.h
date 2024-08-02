@@ -9,24 +9,21 @@
 
 namespace atn::generator::logic {
 
-using namespace atn::sudoku;
-using namespace atn::generator::logic;
-using namespace atn::generator::command;
-
 class SingleCandidate : public Technique {
  public:
-  SingleCandidate(BoardPtr);
+  SingleCandidate(atn::sudoku::BoardPtr);
 
  private:
   void find_next_move();
-  void calculate_changes(CellPtr);
-  Value calculate_set_value(CellPtr) const;
-  MacroCommand calculate_aoe_changes(CellPtr, Value) const;
+  void calculate_changes(atn::sudoku::CellPtr);
+  atn::sudoku::Value calculate_set_value(atn::sudoku::CellPtr) const;
+  atn::generator::command::MacroCommand calculate_aoe_changes(
+      atn::sudoku::CellPtr, atn::sudoku::Value) const;
 };
 
 class MissingOption : public std::exception {
  public:
-  MissingOption(Position) noexcept;
+  MissingOption(atn::sudoku::Position) noexcept;
   const char* what() const noexcept;
 
  private:

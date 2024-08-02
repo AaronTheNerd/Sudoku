@@ -7,17 +7,14 @@
 
 namespace atn::generator::logic {
 
-using namespace atn::generator::logic;
-using namespace atn::sudoku;
-
 class Technique {
  public:
-  Technique(BoardPtr);
+  Technique(atn::sudoku::BoardPtr);
   std::optional<NextMove> get_next_move() const;
 
  protected:
   std::optional<NextMove> _next_move;
-  BoardPtr _board;
+  atn::sudoku::BoardPtr _board;
 };
 
 }  // namespace atn::generator::logic

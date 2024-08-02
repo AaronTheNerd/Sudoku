@@ -5,19 +5,16 @@
 
 namespace atn::generator::logic {
 
-using namespace atn::generator::logic;
-using namespace atn::generator::command;
-
 class NextMove {
  public:
-  NextMove(TechniqueEnum, CommandPtr);
+  NextMove(TechniqueEnum, atn::generator::command::CommandPtr);
 
   TechniqueEnum get_technique() const;
-  CommandPtr get_command() const;
+  atn::generator::command::CommandPtr get_command() const;
 
  private:
   TechniqueEnum _technique;
-  CommandPtr _command;
+  atn::generator::command::CommandPtr _command;
 };
 
 }  // namespace atn::generator::logic

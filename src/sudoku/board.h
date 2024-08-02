@@ -14,8 +14,6 @@ typedef std::shared_ptr<atn::sudoku::Board> BoardPtr;
 
 namespace atn::sudoku {
 
-using namespace atn::sudoku;
-
 class Board : public std::enable_shared_from_this<Board> {
  private:
   struct Private {

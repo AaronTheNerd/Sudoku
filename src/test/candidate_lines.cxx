@@ -7,6 +7,7 @@
 using namespace atn::sudoku;
 using namespace atn::test_utils;
 using namespace atn::generator::logic;
+using namespace atn::generator::command;
 
 TEST(CandidateLinesTest, FullBoard) {
   // clang-format off

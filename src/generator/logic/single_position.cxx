@@ -6,6 +6,7 @@
 #include "clear_options.h"
 #include "set_value.h"
 
+using namespace atn::sudoku;
 using namespace atn::generator::logic;
 using namespace atn::generator::command;
 
