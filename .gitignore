@@ -4,3 +4,4 @@ sudoku.txt
 build/
 .vscode/
 Testing/
+coverage/output/
