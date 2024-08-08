@@ -40,6 +40,14 @@ atn::BoxIndex::BoxIndex(uint8_t index) : Index(index) {}
 
 bool atn::BoxIndex::is_invalid() const { return this->_index >= 3u; }
 
+atn::BoxIndex atn::BoxIndex::index_in_box(atn::Index index) {
+  return atn::BoxIndex{index.value() % 3};
+}
+
+atn::BoxIndex atn::BoxIndex::index_in_board(atn::Index index) {
+  return atn::BoxIndex{index.value() / 3};
+}
+
 atn::InvalidIndexValueException::InvalidIndexValueException(
     uint8_t index) noexcept {
   std::stringstream ss;

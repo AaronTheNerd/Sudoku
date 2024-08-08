@@ -30,6 +30,9 @@ class BoxIndex : public Index {
   BoxIndex(uint8_t = 0);
 
   bool is_invalid() const override;
+
+  static BoxIndex index_in_box(Index);
+  static BoxIndex index_in_board(Index);
 };
 
 class InvalidIndexValueException : public std::exception {

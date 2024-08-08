@@ -75,7 +75,8 @@ atn::CellGroup atn::Board::area_of_effect(Position position) const {
     visited_positions.insert(cell->position());
     group.push_back(cell);
   }
-  current_group = this->box(position.x().value() / 3, position.y().value() / 3);
+  current_group = this->box(atn::BoxIndex::index_in_board(position.x()),
+                            atn::BoxIndex::index_in_board(position.y()));
   for (uint index{0}; index < current_group.size(); ++index) {
     CellPtr cell = current_group[index];
     if (visited_positions.contains(cell->position())) {
