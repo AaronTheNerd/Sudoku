@@ -5,6 +5,7 @@ set(source_files
   single_candidate.cxx
   single_position.cxx
   technique.cxx
+  line_box_view.cxx
 )
 
 add_library(LogicalSolver ${source_files})

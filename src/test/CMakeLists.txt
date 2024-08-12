@@ -26,6 +26,7 @@ set(source_files
   single_position.cxx
   test_utils.cxx
   value.cxx
+  line_box_view.cxx
 )
 
 add_executable(sudoku_test ${source_files})
