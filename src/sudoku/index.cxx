@@ -36,6 +36,10 @@ std::string atn::Index::to_string() const {
   return ss.str();
 }
 
+atn::Index atn::Index::from_boxes(atn::BoxIndex board_index, atn::BoxIndex box_index) {
+  return 3 * board_index.value() + box_index.value();
+}
+
 atn::BoxIndex::BoxIndex(uint8_t index) : Index(index) {}
 
 bool atn::BoxIndex::is_invalid() const { return this->_index >= 3u; }

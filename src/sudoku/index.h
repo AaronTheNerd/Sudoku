@@ -8,6 +8,8 @@
 
 namespace atn {
 
+class BoxIndex;
+
 class Index {
  public:
   Index(uint8_t = 0);
@@ -20,6 +22,8 @@ class Index {
   uint8_t value() const;
   virtual bool is_invalid() const;
   std::string to_string() const;
+
+  static Index from_boxes(BoxIndex board_index, BoxIndex internal_index);
 
  protected:
   uint8_t _index;

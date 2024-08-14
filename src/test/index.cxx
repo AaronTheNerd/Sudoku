@@ -9,6 +9,12 @@ struct IndexBoxConversion {
   atn::BoxIndex expected;
 };
 
+struct BoxIndexConversion {
+  atn::BoxIndex board;
+  atn::BoxIndex internal;
+  atn::Index expected;
+};
+
 TEST(IndexTest, DefaultConstructor) { EXPECT_NO_THROW(atn::Index{}); }
 
 TEST(IndexTest, ValidConstructor) { EXPECT_NO_THROW(atn::Index{3}); }
@@ -57,7 +63,16 @@ TEST(IndexTest, IndexToInsideBoxIndex) {
   std::vector<IndexBoxConversion> test_cases{
       {0, 0}, {1, 1}, {2, 2}, {3, 0}, {4, 1}, {5, 2}, {6, 0}, {7, 1}, {8, 2}};
   for (auto test_case : test_cases) {
-    EXPECT_EQ(atn::BoxIndex::index_in_box(test_case.index),
+    EXPECT_EQ(atn::BoxIndex::index_in_box(test_case.index), test_case.expected);
+  }
+}
+
+TEST(IndexTest, BoxIndiciesToIndex) {
+  std::vector<BoxIndexConversion> test_cases{{0, 0, 0}, {0, 1, 1}, {0, 2, 2},
+                                             {1, 0, 3}, {1, 1, 4}, {1, 2, 5},
+                                             {2, 0, 6}, {2, 1, 7}, {2, 2, 8}};
+  for (auto test_case : test_cases) {
+    EXPECT_EQ(atn::Index::from_boxes(test_case.board, test_case.internal),
               test_case.expected);
   }
 }
