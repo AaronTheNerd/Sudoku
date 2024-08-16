@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "candidate_lines.h"
+#include "double_pairs.h"
 #include "test_utils.h"
 
 TEST(DoublePairsTest, FullBoard) {
@@ -22,7 +22,7 @@ TEST(DoublePairsTest, FullBoard) {
                                        {{5, 8}, {0, {2, 5, 7, 9}}}};
   std::vector<atn::BoardState> after_state{
       {{3, 8}, {0, {7}}}, {{5, 7}, {0, {3, 8, 9}}}, {{5, 8}, {0, {5, 7, 9}}}};
-  atn::CandidateLines move_candidate{board};
+  atn::DoublePairs move_candidate{board};
   std::optional<atn::NextMove> optional_move = move_candidate.get_next_move();
   EXPECT_TRUE(optional_move.has_value());
   atn::NextMove move = optional_move.value();
