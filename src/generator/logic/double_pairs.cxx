@@ -116,7 +116,8 @@ atn::NextMove atn::DoublePairs::calculate_changes_row(BoxIndex box_y,
       }
     }
   }
-  return {TechniqueEnum::DOUBLE_PAIRS, std::make_shared<MacroCommand>(command)};
+  return {this->get_technique_from_exclude(exclude_inside_y),
+          std::make_shared<MacroCommand>(command)};
 }
 
 atn::NextMove atn::DoublePairs::calculate_changes_column(
@@ -135,5 +136,14 @@ atn::NextMove atn::DoublePairs::calculate_changes_column(
       }
     }
   }
-  return {TechniqueEnum::DOUBLE_PAIRS, std::make_shared<MacroCommand>(command)};
+  return {this->get_technique_from_exclude(exclude_inside_x),
+          std::make_shared<MacroCommand>(command)};
+}
+
+atn::TechniqueEnum atn::DoublePairs::get_technique_from_exclude(
+    BoxIndex exclude_index) const {
+  if (exclude_index == 2) {
+    return TechniqueEnum::MULTIPLE_LINES;
+  }
+  return TechniqueEnum::DOUBLE_PAIRS;
 }

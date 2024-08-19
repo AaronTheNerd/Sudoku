@@ -24,7 +24,8 @@ class DoublePairs : public Technique {
   NextMove calculate_changes(BoxIndex, Line, Value, BoxIndex, BoxIndex) const;
   NextMove calculate_changes_row(BoxIndex, Value, BoxIndex, BoxIndex) const;
   NextMove calculate_changes_column(BoxIndex, Value, BoxIndex, BoxIndex) const;
-  
+  TechniqueEnum get_technique_from_exclude(BoxIndex) const;
+
   LineBoxView view;
 };
 
