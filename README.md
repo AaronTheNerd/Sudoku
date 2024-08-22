@@ -26,7 +26,7 @@ Run `bash coverage/coverage.sh` within `Sudoku/` directory to create a clean bui
 
 ## Formatting
 
-Run `find . -iname '*.h' -o -iname '*.cxx' | xargs clang-format -i` within `main/` directory to format all source code files
+Run `find . -iname '*.h' -o -iname '*.cxx' | xargs clang-format -i` within `src/` directory to format all source code files
 
 # Next Steps
 
