@@ -1,6 +1,6 @@
 set(source_files
   candidate_lines.cxx
-  double_pairs.cxx
+  candidate_box.cxx
   next_move.cxx
   single_candidate.cxx
   single_position.cxx

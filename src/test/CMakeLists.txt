@@ -16,7 +16,7 @@ set(source_files
   cell.cxx
   commands.cxx
   difficulty.cxx
-  double_pairs.cxx
+  candidate_box.cxx
   generator.cxx
   index.cxx
   initial_board.cxx
