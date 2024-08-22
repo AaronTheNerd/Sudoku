@@ -2,9 +2,7 @@
 
 #include <gtest/gtest.h>
 
-TEST(PositionTest, Constructor) {
-  EXPECT_NO_THROW((atn::Position{3, 3}));
-}
+TEST(PositionTest, Constructor) { EXPECT_NO_THROW((atn::Position{3, 3})); }
 
 TEST(PositionTest, Setter) {
   atn::Position pos{0, 0};

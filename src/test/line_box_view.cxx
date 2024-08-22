@@ -100,8 +100,7 @@ TEST(LineBoxViewTest, BitsetTest) {
   // clang-format on
   atn::LineBoxView view{board};
   for (auto test_case : test_cases) {
-    EXPECT_EQ(
-        view.box_bitset(test_case.value, test_case.line, test_case.index),
-        test_case.expected);
+    EXPECT_EQ(view.box_bitset(test_case.value, test_case.line, test_case.index),
+              test_case.expected);
   }
 }

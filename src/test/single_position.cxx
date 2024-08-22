@@ -19,15 +19,15 @@ TEST(SinglePositionTest, FullBoardColumn) {
   });
   // clang-format on
   std::vector<atn::BoardState> before_state{{{2, 7}, {0, {3, 9}}},
-                                       {{3, 7}, {0, {2, 3, 8, 9}}},
-                                       {{4, 7}, {0, {3, 8, 9}}},
-                                       {{6, 7}, {0, {2, 3, 7, 8, 9}}},
-                                       {{8, 7}, {0, {2, 3, 5, 7, 8, 9}}}};
+                                            {{3, 7}, {0, {2, 3, 8, 9}}},
+                                            {{4, 7}, {0, {3, 8, 9}}},
+                                            {{6, 7}, {0, {2, 3, 7, 8, 9}}},
+                                            {{8, 7}, {0, {2, 3, 5, 7, 8, 9}}}};
   std::vector<atn::BoardState> after_state{{{2, 7}, {9, {}}},
-                                      {{3, 7}, {0, {2, 3, 8}}},
-                                      {{4, 7}, {0, {3, 8}}},
-                                      {{6, 7}, {0, {2, 3, 7, 8}}},
-                                      {{8, 7}, {0, {2, 3, 5, 7, 8}}}};
+                                           {{3, 7}, {0, {2, 3, 8}}},
+                                           {{4, 7}, {0, {3, 8}}},
+                                           {{6, 7}, {0, {2, 3, 7, 8}}},
+                                           {{8, 7}, {0, {2, 3, 5, 7, 8}}}};
   atn::SinglePosition move_candidate{board};
   std::optional<atn::NextMove> optional_move = move_candidate.get_next_move();
   EXPECT_TRUE(optional_move.has_value());
@@ -57,15 +57,15 @@ TEST(SinglePositionTest, FullBoardRow) {
   });
   // clang-format on
   std::vector<atn::BoardState> before_state{{{1, 2}, {0, {3, 9}}},
-                                       {{1, 3}, {0, {2, 3, 8, 9}}},
-                                       {{1, 4}, {0, {3, 8, 9}}},
-                                       {{1, 6}, {0, {2, 3, 7, 8, 9}}},
-                                       {{1, 8}, {0, {2, 3, 5, 7, 8, 9}}}};
+                                            {{1, 3}, {0, {2, 3, 8, 9}}},
+                                            {{1, 4}, {0, {3, 8, 9}}},
+                                            {{1, 6}, {0, {2, 3, 7, 8, 9}}},
+                                            {{1, 8}, {0, {2, 3, 5, 7, 8, 9}}}};
   std::vector<atn::BoardState> after_state{{{1, 2}, {9, {}}},
-                                      {{1, 3}, {0, {2, 3, 8}}},
-                                      {{1, 4}, {0, {3, 8}}},
-                                      {{1, 6}, {0, {2, 3, 7, 8}}},
-                                      {{1, 8}, {0, {2, 3, 5, 7, 8}}}};
+                                           {{1, 3}, {0, {2, 3, 8}}},
+                                           {{1, 4}, {0, {3, 8}}},
+                                           {{1, 6}, {0, {2, 3, 7, 8}}},
+                                           {{1, 8}, {0, {2, 3, 5, 7, 8}}}};
   atn::SinglePosition move_candidate{board};
   std::optional<atn::NextMove> optional_move = move_candidate.get_next_move();
   EXPECT_TRUE(optional_move.has_value());

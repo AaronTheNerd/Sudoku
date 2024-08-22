@@ -14,8 +14,7 @@ atn::BoardPtr generate_board(std::vector<std::vector<uint8_t>> input);
 
 bool cell_group_eq(atn::CellGroup group, std::vector<uint8_t> test);
 
-bool cell_has_options_set(atn::CellPtr,
-                          std::vector<atn::Value>);
+bool cell_has_options_set(atn::CellPtr, std::vector<atn::Value>);
 
 struct BoardNode {
   atn::Value value;

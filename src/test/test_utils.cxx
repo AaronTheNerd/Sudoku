@@ -4,8 +4,7 @@
 
 #include <algorithm>
 
-atn::BoardPtr atn::generate_board(
-    std::vector<std::vector<uint8_t>> input) {
+atn::BoardPtr atn::generate_board(std::vector<std::vector<uint8_t>> input) {
   atn::BoardPtr board = atn::Board::create();
   for (uint8_t y{0}; y < 9; ++y) {
     for (uint8_t x{0}; x < 9; ++x) {
@@ -17,8 +16,7 @@ atn::BoardPtr atn::generate_board(
   return board;
 }
 
-bool atn::cell_group_eq(atn::CellGroup group,
-                                    std::vector<uint8_t> test) {
+bool atn::cell_group_eq(atn::CellGroup group, std::vector<uint8_t> test) {
   if (group.size() != test.size()) return false;
   for (uint index{0}; index < group.size(); ++index) {
     if (group[index]->get() != atn::Value{test[index]}) return false;
@@ -26,8 +24,8 @@ bool atn::cell_group_eq(atn::CellGroup group,
   return true;
 }
 
-bool atn::cell_has_options_set(
-    atn::CellPtr cell, std::vector<atn::Value> options) {
+bool atn::cell_has_options_set(atn::CellPtr cell,
+                               std::vector<atn::Value> options) {
   std::vector<atn::Value> all_values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
   for (auto it = all_values.begin(); it != all_values.end(); ++it) {
     bool should_be_in_options =
@@ -62,9 +60,8 @@ atn::BoardPtr atn::generate_board_with_options(
   return board;
 }
 
-void atn::expect_board_state(
-    atn::BoardPtr board,
-    std::vector<atn::BoardState> states) {
+void atn::expect_board_state(atn::BoardPtr board,
+                             std::vector<atn::BoardState> states) {
   for (auto state : states) {
     auto cell = board->get(state.pos);
     if (state.node.value == 0u) {

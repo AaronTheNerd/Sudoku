@@ -4,9 +4,7 @@
 
 #include "difficulty.hpp"
 
-TEST(GeneratorTest, DefaultConstructor) {
-  EXPECT_NO_THROW(atn::Generator{});
-}
+TEST(GeneratorTest, DefaultConstructor) { EXPECT_NO_THROW(atn::Generator{}); }
 
 TEST(GeneratorTest, GetSudoku) {
   atn::Generator gen{};
