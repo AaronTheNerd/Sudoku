@@ -10,7 +10,7 @@
 
 namespace atn {
 
-atn::BoardPtr generate_board(std::vector<std::vector<uint8_t>> input);
+atn::BoardPtr generate_board(std::vector<std::vector<atn::Value>> input);
 
 bool cell_group_eq(atn::CellGroup group, std::vector<uint8_t> test);
 
@@ -30,5 +30,7 @@ struct BoardState {
 };
 
 void expect_board_state(atn::BoardPtr, std::vector<BoardState>);
+
+atn::BoardPtr generate_board_and_options(std::vector<std::vector<atn::Value>>);
 
 }  // namespace atn

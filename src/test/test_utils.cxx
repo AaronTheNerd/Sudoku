@@ -4,13 +4,16 @@
 
 #include <algorithm>
 
-atn::BoardPtr atn::generate_board(std::vector<std::vector<uint8_t>> input) {
+atn::BoardPtr atn::generate_board(std::vector<std::vector<Value>> input) {
   atn::BoardPtr board = atn::Board::create();
-  for (uint8_t y{0}; y < 9; ++y) {
-    for (uint8_t x{0}; x < 9; ++x) {
+  for (Index y{0}; y < 9; ++y) {
+    for (Index x{0}; x < 9; ++x) {
       atn::Position pos{x, y};
-      atn::Value value{input[y][x]};
-      board->get(pos)->set(value);
+      atn::Value value = input[y.value()][x.value()];
+      if (value.value() != 0) {
+        board->get(pos)->set(value);
+        board->get(pos)->clear_all_options();
+      }
     }
   }
   return board;
@@ -71,4 +74,22 @@ void atn::expect_board_state(atn::BoardPtr board,
     }
     EXPECT_TRUE(cell_has_options_set(cell, state.node.options));
   }
+}
+
+atn::BoardPtr atn::generate_board_and_options(std::vector<std::vector<atn::Value>> values) {
+  atn::BoardPtr board = atn::generate_board(values);
+  // Fill options
+  for (Index y{0}; y < 9; ++y) {
+    for (Index x{0}; x < 9; ++x) {
+      Position pos{x, y};
+      CellPtr cell = board->get(pos);
+      if (cell->is_set()) continue;
+      CellGroup aoe = board->area_of_effect(pos);
+      for (auto aoe_cell : aoe) {
+        if (!aoe_cell->is_set()) continue;
+        cell->clear_option(aoe_cell->get());
+      }
+    }
+  }
+  return board;
 }
