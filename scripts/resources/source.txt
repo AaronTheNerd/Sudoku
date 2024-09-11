@@ -1,0 +1,8 @@
+#include "{header_file}"
+
+atn::{class_name}::{class_name}(atn::BoardPtr board)
+    : Technique(board) {{
+  this->find_next_move();
+}}
+
+void atn::{class_name}::find_next_move() {{}}

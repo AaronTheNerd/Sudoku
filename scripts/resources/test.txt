@@ -1,0 +1,35 @@
+#include "{header_file}"
+
+#include <gtest/gtest.h>
+
+#include "test_utils.h"
+
+TEST({class_name}Test, FullBoard) {{
+  // clang-format off
+  atn::BoardPtr board = atn::generate_board_with_options({{
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}},
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}},
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}},
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}},
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}},
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}},
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}},
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}},
+    {{{{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}}}
+  }});
+  // clang-format on
+  std::vector<atn::BoardState> before_state{{}};
+  std::vector<atn::BoardState> after_state{{}};
+  atn::{class_name} move_candidate{{board}};
+  std::optional<atn::NextMove> optional_move = move_candidate.get_next_move();
+  EXPECT_TRUE(optional_move.has_value());
+  atn::NextMove move = optional_move.value();
+  atn::TechniqueEnum technique = move.get_technique();
+  EXPECT_EQ(technique, atn::TechniqueEnum::{enum_name});
+  atn::CommandPtr command = move.get_command();
+  expect_board_state(board, before_state);
+  command->apply();
+  expect_board_state(board, after_state);
+  command->undo();
+  expect_board_state(board, before_state);
+}}

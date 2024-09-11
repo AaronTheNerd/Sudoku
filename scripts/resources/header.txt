@@ -1,0 +1,18 @@
+#pragma once
+
+#include <optional>
+
+#include "board.h"
+#include "technique.h"
+
+namespace atn {{
+
+class {class_name} : public Technique {{
+ public:
+  {class_name}(BoardPtr);
+
+ private:
+  void find_next_move();
+}};
+
+}}  // namespace atn
