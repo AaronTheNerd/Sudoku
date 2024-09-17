@@ -32,10 +32,10 @@ def add_to_CMakeLists(technique: str, dir: str) -> bool:
     cmake_content = ""
     with open(cmake_filename, "r") as cmake_file:
         cmake_content = cmake_file.read()
+    source_files_set_regex = r"(?s)set\(source_files(.*?)\)"
+    replacement = f"set(source_files\\1  {source_file(technique)}\n)"
+    cmake_content = re.sub(source_files_set_regex, replacement, cmake_content)
     with open(cmake_filename, "w") as cmake_file:
-        source_files_set_regex = r"(?s)set\(source_files(.*?)\)"
-        replacement = f"set(source_files\\1  {source_file(technique)}\n)"
-        cmake_content = re.sub(source_files_set_regex, replacement, cmake_content)
         cmake_file.write(cmake_content)
     return True
 
@@ -44,10 +44,10 @@ def add_to_enum(technique: str, dir: str) -> bool:
     enum_content = ""
     with open(enum_filename, "r") as enum_file:
         enum_content = enum_file.read()
+    enum_regex = r"(?s)enum class TechniqueEnum \{(.*?)\n\};"
+    replacement = f"enum class TechniqueEnum {{\\1,\n  {constant_case(technique)}\n}};"
+    enum_content = re.sub(enum_regex, replacement, enum_content)
     with open(enum_filename, "w") as enum_file:
-        enum_regex = r"(?s)enum class TechniqueEnum \{(.*?)\n\};"
-        replacement = f"enum class TechniqueEnum {{\\1,\n  {constant_case(technique)}\n}};"
-        enum_content = re.sub(enum_regex, replacement, enum_content)
         enum_file.write(enum_content)
     return True
 
