@@ -46,7 +46,7 @@ atn::CellGroup atn::Board::box(BoxIndex box_x, BoxIndex box_y) const {
   for (BoxIndex y{0}; y < 3; ++y) {
     for (BoxIndex x{0}; x < 3; ++x) {
       group.push_back(this->get(
-          {3 * box_x.value() + x.value(), 3 * box_y.value() + y.value()}));
+          {Index::from_boxes(box_x, x), Index::from_boxes(box_y, y)}));
     }
   }
   return group;
