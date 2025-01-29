@@ -9,8 +9,8 @@ namespace {
 
 bool valid_cell_group(atn::CellGroup group) {
   std::unordered_set<atn::Value, atn::ValueHash> set{};
-  for (auto it = group.begin(); it != group.end(); ++it) {
-    atn::CellPtr cell = *it;
+  for (uint index{0}; index < 9u; ++index) {
+    atn::CellPtr cell = group[index];
     if (!cell->is_set()) continue;
     atn::Value value = cell->get();
     if (set.contains(value)) return false;
