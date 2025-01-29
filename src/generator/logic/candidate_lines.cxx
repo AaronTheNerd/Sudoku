@@ -43,7 +43,7 @@ atn::CandidateLines::map_options_to_cells(atn::CellGroup box) const {
     CellPtr cell = *it;
     for (uint value{1}; value <= 9; ++value) {
       if (cell->has_option(value)) {
-        option_cells_map.at(value).push_back(cell);
+        option_cells_map.at(value).insert(cell);
       }
     }
   }
@@ -71,16 +71,13 @@ atn::LineTestEnum atn::CandidateLines::test_line(atn::CellGroup cells) const {
 atn::CellGroup atn::CandidateLines::find_affected_cells(
     atn::LineTestEnum line, atn::CellGroup cells, atn::Value value) const {
   auto cell_group = this->get_cell_group(line, cells);
+  cell_group = this->remove_cells(cell_group, cells);
   CellGroup affected_cells;
-  std::copy_if(
-      cell_group.begin(), cell_group.end(), std::back_inserter(affected_cells),
-      [value, cells](CellPtr cell) {
-        return cell->has_option(value) &&
-               std::find_if(cells.begin(), cells.end(),
-                            [cell](CellPtr test_cell) {
-                              return cell->position() == test_cell->position();
-                            }) == cells.end();
-      });
+  for (CellPtr cell : cell_group) {
+    if (cell->has_option(value)) {
+      affected_cells.insert(cell);
+    }
+  }
   return affected_cells;
 }
 
@@ -94,6 +91,13 @@ atn::CellGroup atn::CandidateLines::get_cell_group(atn::LineTestEnum line,
     return this->_board->row(pos.y());
   }
   throw;
+}
+
+atn::CellGroup atn::CandidateLines::remove_cells(atn::CellGroup group, atn::CellGroup cells) const {
+  for (auto cell : cells) {
+    group.erase(cell);
+  }
+  return group;
 }
 
 atn::NextMove atn::CandidateLines::calculate_changes(atn::CellGroup cells,

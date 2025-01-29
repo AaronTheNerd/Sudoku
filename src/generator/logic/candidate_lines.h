@@ -23,6 +23,7 @@ class CandidateLines : public Technique {
   LineTestEnum test_line(CellGroup) const;
   CellGroup find_affected_cells(LineTestEnum, CellGroup, Value) const;
   CellGroup get_cell_group(LineTestEnum, CellGroup) const;
+  CellGroup remove_cells(CellGroup, CellGroup) const;
   NextMove calculate_changes(CellGroup, Value) const;
 };
 

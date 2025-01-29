@@ -1,5 +1,6 @@
 set(source_files
   board.cxx
+  cell_group.cxx
   cell.cxx
   index.cxx
   options.cxx
