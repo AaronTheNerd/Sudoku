@@ -2,9 +2,9 @@ dir="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 cd $dir/../build
 cmake --build . --target clean
 cmake --build . --target all
-lcov -c -i -d .. -o base.info
+lcov -c -i --ignore-errors mismatch -d .. -o base.info
 ./test/sudoku_test
-lcov -c -d .. -o test.info
+lcov -c --ignore-errors mismatch -d .. -o test.info
 lcov -a base.info -a test.info -o total.info
 lcov --remove total.info -o filtered.info '/usr/*' '*build/_deps*' '*src/test/*' '*src/main.cxx'
 genhtml filtered.info -o ../scripts/output

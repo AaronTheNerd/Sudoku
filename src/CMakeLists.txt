@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
+set(CMAKE_CXX_COMPILER /usr/bin/g++)
 project(SudokuGenerator VERSION 0.1)
 
 if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
