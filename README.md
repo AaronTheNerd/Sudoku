@@ -22,7 +22,7 @@ to build the program.
 
 Run `ctest -T Test -T Coverage` within `build/` directory to run unit tests and view general coverage report.
 
-Run `bash coverage/coverage.sh` within `Sudoku/` directory to create a clean build, run all unit tests, and generate `gcovr` and `lcov` coverage reports.
+Run `bash coverage.sh` within `scripts/` directory to create a clean build, run all unit tests, and generate `gcovr` and `lcov` coverage reports.
 
 ## Formatting
 
