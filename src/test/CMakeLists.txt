@@ -14,6 +14,7 @@ set(source_files
   board.cxx
   candidate_lines.cxx
   cell.cxx
+  cell_group.cxx
   commands.cxx
   difficulty.cxx
   candidate_box.cxx
