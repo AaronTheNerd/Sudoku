@@ -200,4 +200,11 @@ TEST(CellGroupTest, AndOperator) {
 
   group_and = group1 && group2;
   EXPECT_EQ(group_and.size(), 2);
+  EXPECT_TRUE(group_and.includes(board->get({0, 1})));
+  EXPECT_TRUE(group_and.includes(board->get({1, 0})));
+
+  EXPECT_FALSE(group_and.includes(board->get({0, 0})));
+  EXPECT_FALSE(group_and.includes(board->get({0, 2})));
+  EXPECT_FALSE(group_and.includes(board->get({0, 3})));
+  EXPECT_FALSE(group_and.includes(board->get({1, 2})));
 }
