@@ -121,9 +121,12 @@ TEST(CellGroupTest, Erase) {
   group.insert(board->get({1, 0}));
   group.insert(board->get({0, 2}));
   EXPECT_EQ(group.size(), 4);
+  EXPECT_TRUE(group.includes(board->get({0, 1})));
+
   group.erase(board->get({0, 1}));
   EXPECT_EQ(group.size(), 3);
   EXPECT_NE(group[2], board->get({0, 1}));
+  EXPECT_FALSE(group.includes(board->get({0, 1})));
 }
 
 TEST(CellGroupTest, EraseNotContainedCell) {
