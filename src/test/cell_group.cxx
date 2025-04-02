@@ -172,6 +172,13 @@ TEST(CellGroupTest, OrOperator) {
 
   group_or = group1 || group2;
   EXPECT_EQ(group_or.size(), 6);
+
+  EXPECT_TRUE(group_or.includes(board->get({0, 0})));
+  EXPECT_TRUE(group_or.includes(board->get({0, 1})));
+  EXPECT_TRUE(group_or.includes(board->get({1, 0})));
+  EXPECT_TRUE(group_or.includes(board->get({0, 2})));
+  EXPECT_TRUE(group_or.includes(board->get({0, 3})));
+  EXPECT_TRUE(group_or.includes(board->get({1, 2})));
 }
 
 TEST(CellGroupTest, AndOperator) {
